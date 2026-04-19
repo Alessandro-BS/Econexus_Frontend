@@ -11,7 +11,7 @@ const navItems = [
   { path: '/ventas', icon: 'bi-cash-stack', label: 'Ventas' },
 ];
 
-function Sidebar({ isOpen, onClose }) {
+function Sidebar({ isOpen, onClose, onLogout }) {
   return (
     <aside className={`eco-sidebar ${isOpen ? 'sidebar-open' : ''}`} id="sidebar">
       {/* Botón cerrar — solo visible en móvil */}
@@ -52,7 +52,7 @@ function Sidebar({ isOpen, onClose }) {
 
       {/* Cerrar Sesión — abajo */}
       <div className="sidebar-footer">
-        <button className="sidebar-logout-btn" id="btn-logout">
+        <button className="sidebar-logout-btn" id="btn-logout" onClick={onLogout}>
           <i className="bi bi-box-arrow-left sidebar-nav-icon"></i>
           <span className="sidebar-nav-label">Cerrar Sesión</span>
         </button>
