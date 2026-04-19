@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50" fill="none">
+  <rect width="200" height="50" rx="8" fill="transparent"/>
+  <circle cx="25" cy="25" r="18" fill="#4CAF50" opacity="0.9"/>
+  <path d="M18 25 C18 20, 22 16, 25 16 C28 16, 30 18, 30 20 C30 22, 28 24, 25 24 C22 24, 20 22, 20 25 C20 28, 22 32, 25 32 C28 32, 32 28, 32 25" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <text x="52" y="21" font-family="Inter, sans-serif" font-size="16" font-weight="700" fill="white">ECO</text>
+  <text x="52" y="38" font-family="Inter, sans-serif" font-size="16" font-weight="300" fill="rgba(255,255,255,0.85)">NEXUS</text>
+</svg>

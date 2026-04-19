@@ -1,111 +1,219 @@
+/* =====================================================
+   ECONEXUS - Sistema de Gestión de Saneamiento Ambiental
+   Variables globales y estilos base
+   ===================================================== */
+
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  /* — Colores principales — */
+  --eco-green-900: #1B5E20;
+  --eco-green-800: #2E7D32;
+  --eco-green-700: #388E3C;
+  --eco-green-600: #43A047;
+  --eco-green-500: #4CAF50;
+  --eco-green-100: #E8F5E9;
+  --eco-green-50: #F1F8E9;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  /* — Colores de acento — */
+  --eco-amber: #FF8F00;
+  --eco-amber-light: #FFF8E1;
+  --eco-blue: #1565C0;
+  --eco-blue-light: #E3F2FD;
+  --eco-red: #C62828;
+  --eco-red-light: #FFEBEE;
+  --eco-teal: #00897B;
+  --eco-teal-light: #E0F2F1;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* — Colores neutros — */
+  --eco-bg: #F4F6F9;
+  --eco-white: #FFFFFF;
+  --eco-gray-50: #FAFAFA;
+  --eco-gray-100: #F5F5F5;
+  --eco-gray-200: #EEEEEE;
+  --eco-gray-300: #E0E0E0;
+  --eco-gray-400: #BDBDBD;
+  --eco-gray-500: #9E9E9E;
+  --eco-gray-600: #757575;
+  --eco-gray-700: #616161;
+  --eco-gray-800: #424242;
+  --eco-gray-900: #212121;
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+  /* — Sombras — */
+  --eco-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --eco-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --eco-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --eco-shadow-xl: 0 12px 40px rgba(0, 0, 0, 0.15);
+
+  /* — Bordes — */
+  --eco-radius-sm: 6px;
+  --eco-radius-md: 10px;
+  --eco-radius-lg: 16px;
+  --eco-radius-xl: 24px;
+
+  /* — Transiciones — */
+  --eco-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --eco-transition-fast: all 0.15s ease;
+
+  /* — Sidebar — */
+  --sidebar-width: 260px;
+  --sidebar-collapsed: 72px;
+  --topbar-height: 64px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+/* — Reset & Base — */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
+  padding: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--eco-gray-800);
+  background: var(--eco-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
+  min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
 }
 
 h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
-
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 700;
+  color: var(--eco-gray-900);
   margin: 0;
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+/* — Scrollbar personalizada — */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--eco-gray-300);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--eco-gray-400);
+}
+
+/* — Utilidades — */
+.eco-badge-active {
+  background: var(--eco-green-100) !important;
+  color: var(--eco-green-800) !important;
+  font-weight: 600;
+  font-size: 0.75rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.eco-badge-inactive {
+  background: rgba(230, 81, 0, 0.12) !important;
+  color: rgb(230, 81, 0) !important;
+  font-weight: 600;
+  font-size: 0.75rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+/* — Animación de entrada — */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes countUp {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease forwards;
+}
+
+/* =====================================================
+   Layout Structure — App wrapper
+   ===================================================== */
+
+.eco-app-layout {
+  display: flex;
+  min-height: 100vh;
+  background: var(--eco-bg);
+}
+
+.eco-main-wrapper {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.eco-main-content {
+  flex: 1;
+  padding: 28px 32px;
+  margin-top: var(--topbar-height);
+  overflow-y: auto;
 }
