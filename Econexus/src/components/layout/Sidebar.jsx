@@ -11,9 +11,14 @@ const navItems = [
   { path: '/ventas', icon: 'bi-cash-stack', label: 'Ventas' },
 ];
 
-function Sidebar() {
+function Sidebar({ isOpen, onClose }) {
   return (
-    <aside className="eco-sidebar" id="sidebar">
+    <aside className={`eco-sidebar ${isOpen ? 'sidebar-open' : ''}`} id="sidebar">
+      {/* Botón cerrar — solo visible en móvil */}
+      <button className="sidebar-close-btn" onClick={onClose} aria-label="Cerrar menú">
+        <i className="bi bi-x-lg"></i>
+      </button>
+
       {/* Logo */}
       <div className="sidebar-logo-wrapper">
         <div className="sidebar-logo-container">
@@ -35,6 +40,7 @@ function Sidebar() {
                 className={({ isActive }) =>
                   `sidebar-nav-link ${isActive ? 'active' : ''}`
                 }
+                onClick={onClose}
               >
                 <i className={`bi ${item.icon} sidebar-nav-icon`}></i>
                 <span className="sidebar-nav-label">{item.label}</span>

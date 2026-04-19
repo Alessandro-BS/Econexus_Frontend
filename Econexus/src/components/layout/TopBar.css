@@ -109,3 +109,78 @@
   transform: scale(1.08);
   box-shadow: 0 4px 12px rgba(46, 125, 50, 0.35);
 }
+
+/* — Botón hamburguesa (solo móvil) — */
+.topbar-hamburger {
+  display: none;
+}
+
+/* =====================================================
+   Responsive — TopBar
+   ===================================================== */
+
+@media (max-width: 768px) {
+  .eco-topbar {
+    left: 0;
+    padding: 0 16px;
+  }
+
+  .topbar-hamburger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: var(--eco-radius-md);
+    background: var(--eco-green-100);
+    color: var(--eco-green-800);
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: var(--eco-transition-fast);
+    flex-shrink: 0;
+  }
+
+  .topbar-hamburger:hover {
+    background: var(--eco-green-500);
+    color: #fff;
+  }
+
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .topbar-greeting {
+    font-size: 0.95rem;
+  }
+
+  .topbar-greeting-hi {
+    display: none;
+  }
+
+  .topbar-search-input {
+    width: 140px;
+    font-size: 0.8rem;
+    padding: 7px 12px 7px 36px;
+  }
+
+  .topbar-search-input:focus {
+    width: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .topbar-search {
+    display: none;
+  }
+
+  .topbar-greeting-hi {
+    display: none;
+  }
+
+  .topbar-greeting-name {
+    font-size: 0.9rem;
+  }
+}
