@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import logoPlaceholder from '../../assets/econexus-sin-fondo.png';
+import LogoutModal from '../auth/LogoutModal';
 import './Sidebar.css';
 
 const navItems = [
@@ -12,52 +14,72 @@ const navItems = [
 ];
 
 function Sidebar({ isOpen, onClose, onLogout }) {
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+
+  const handleLogoutClick = () => {
+    setShowLogoutModal(true);
+  };
+
+  const handleConfirmLogout = () => {
+    setShowLogoutModal(false);
+    onLogout();
+  };
+
   return (
-    <aside className={`eco-sidebar ${isOpen ? 'sidebar-open' : ''}`} id="sidebar">
-      {/* Botón cerrar — solo visible en móvil */}
-      <button className="sidebar-close-btn" onClick={onClose} aria-label="Cerrar menú">
-        <i className="bi bi-x-lg"></i>
-      </button>
-
-      {/* Logo */}
-      <div className="sidebar-logo-wrapper">
-        <div className="sidebar-logo-container">
-          <img
-            src={logoPlaceholder}
-            alt="Logo Econexus"
-            className="sidebar-logo"
-          />
-        </div>
-      </div>
-
-      {/* Navegación */}
-      <nav className="sidebar-nav">
-        <ul className="sidebar-nav-list">
-          {navItems.map((item) => (
-            <li key={item.path} className="sidebar-nav-item">
-              <NavLink
-                to={item.path}
-                className={({ isActive }) =>
-                  `sidebar-nav-link ${isActive ? 'active' : ''}`
-                }
-                onClick={onClose}
-              >
-                <i className={`bi ${item.icon} sidebar-nav-icon`}></i>
-                <span className="sidebar-nav-label">{item.label}</span>
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-      </nav>
-
-      {/* Cerrar Sesión — abajo */}
-      <div className="sidebar-footer">
-        <button className="sidebar-logout-btn" id="btn-logout" onClick={onLogout}>
-          <i className="bi bi-box-arrow-left sidebar-nav-icon"></i>
-          <span className="sidebar-nav-label">Cerrar Sesión</span>
+    <>
+      <aside className={`eco-sidebar ${isOpen ? 'sidebar-open' : ''}`} id="sidebar">
+        {/* Botón cerrar — solo visible en móvil */}
+        <button className="sidebar-close-btn" onClick={onClose} aria-label="Cerrar menú">
+          <i className="bi bi-x-lg"></i>
         </button>
-      </div>
-    </aside>
+
+        {/* Logo */}
+        <div className="sidebar-logo-wrapper">
+          <div className="sidebar-logo-container">
+            <img
+              src={logoPlaceholder}
+              alt="Logo Econexus"
+              className="sidebar-logo"
+            />
+          </div>
+        </div>
+
+        {/* Navegación */}
+        <nav className="sidebar-nav">
+          <ul className="sidebar-nav-list">
+            {navItems.map((item) => (
+              <li key={item.path} className="sidebar-nav-item">
+                <NavLink
+                  to={item.path}
+                  className={({ isActive }) =>
+                    `sidebar-nav-link ${isActive ? 'active' : ''}`
+                  }
+                  onClick={onClose}
+                >
+                  <i className={`bi ${item.icon} sidebar-nav-icon`}></i>
+                  <span className="sidebar-nav-label">{item.label}</span>
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        {/* Cerrar Sesión — abajo */}
+        <div className="sidebar-footer">
+          <button className="sidebar-logout-btn" id="btn-logout" onClick={handleLogoutClick}>
+            <i className="bi bi-box-arrow-left sidebar-nav-icon"></i>
+            <span className="sidebar-nav-label">Cerrar Sesión</span>
+          </button>
+        </div>
+      </aside>
+
+      {/* Modal de confirmación de logout */}
+      <LogoutModal
+        show={showLogoutModal}
+        onClose={() => setShowLogoutModal(false)}
+        onConfirm={handleConfirmLogout}
+      />
+    </>
   );
 }
 
