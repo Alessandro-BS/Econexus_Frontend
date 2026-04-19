@@ -1,0 +1,513 @@
+/* =====================================================
+   LoginPage — Diseño idéntico al modelo proporcionado
+   Fondo claro con hojas decorativas + tarjeta login
+   ===================================================== */
+
+.login-wrapper {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: linear-gradient(135deg, #f0f7f0 0%, #e8f5e9 30%, #f5faf5 60%, #edf7ee 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* =====================================================
+   Patrón de circuito de fondo (líneas tecnológicas)
+   ===================================================== */
+.login-circuit-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.12;
+}
+
+.login-circuit-pattern svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* =====================================================
+   Hojas decorativas en las esquinas
+   ===================================================== */
+.login-leaf {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.login-leaf svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 2px 8px rgba(46, 125, 50, 0.15));
+}
+
+.login-leaf--top-right {
+  top: -10px;
+  right: -10px;
+  width: 200px;
+  height: 200px;
+  transform: rotate(0deg);
+}
+
+.login-leaf--top-left {
+  top: 20px;
+  left: 60px;
+  width: 80px;
+  height: 80px;
+  transform: rotate(-30deg);
+  opacity: 0.5;
+}
+
+.login-leaf--bottom-left {
+  bottom: 20px;
+  left: 30px;
+  width: 120px;
+  height: 120px;
+  transform: rotate(20deg) scaleX(-1);
+  opacity: 0.6;
+}
+
+.login-leaf--mid-left {
+  top: 40%;
+  left: -20px;
+  width: 100px;
+  height: 100px;
+  transform: rotate(45deg);
+  opacity: 0.35;
+}
+
+.login-leaf--bottom-right {
+  bottom: 60px;
+  right: 40px;
+  width: 90px;
+  height: 90px;
+  transform: rotate(-15deg);
+  opacity: 0.4;
+}
+
+.login-leaf--top-center {
+  top: 10px;
+  right: 35%;
+  width: 70px;
+  height: 70px;
+  transform: rotate(25deg);
+  opacity: 0.45;
+}
+
+/* =====================================================
+   Panel Izquierdo — Contenido (texto + ícono)
+   ===================================================== */
+.login-left-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  padding: 40px 50px;
+}
+
+.login-left-content {
+  text-align: center;
+  max-width: 420px;
+}
+
+.login-system-title {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #1a3a1a;
+  line-height: 1.2;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Ícono central (engranaje con hojas) */
+.login-center-icon {
+  width: 180px;
+  height: 180px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.login-center-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Contenedor del logo */
+.login-logo-wrapper {
+  width: 180px;
+  height: 180px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 24px;
+  padding: 16px;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(46, 125, 50, 0.1);
+  box-shadow: 0 4px 20px rgba(46, 125, 50, 0.08);
+}
+
+.login-logo-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* =====================================================
+   Panel Derecho — Tarjeta de Login
+   ===================================================== */
+.login-right-panel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  padding: 40px;
+}
+
+.login-card {
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 44px 40px 36px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow:
+    0 8px 40px rgba(0, 0, 0, 0.08),
+    0 2px 8px rgba(0, 0, 0, 0.04);
+  position: relative;
+  animation: cardFadeIn 0.5s ease forwards;
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Título de la tarjeta */
+.login-card-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  text-align: center;
+  margin-bottom: 32px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* =====================================================
+   Campos de entrada — estilo del modelo
+   ===================================================== */
+.login-field {
+  margin-bottom: 18px;
+  position: relative;
+}
+
+.login-field-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid #d0d5dd;
+  border-radius: 50px;
+  padding: 0 20px;
+  background: #FFFFFF;
+  transition: all 0.25s ease;
+  height: 50px;
+}
+
+.login-field-wrapper:focus-within {
+  border-color: #2E7D32;
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+}
+
+.login-field-icon {
+  color: #6b7280;
+  font-size: 1.1rem;
+  margin-right: 12px;
+  flex-shrink: 0;
+  transition: color 0.25s ease;
+}
+
+.login-field-wrapper:focus-within .login-field-icon {
+  color: #2E7D32;
+}
+
+.login-field-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 0.92rem;
+  font-family: 'Inter', sans-serif;
+  color: #333;
+  background: transparent;
+  padding: 0;
+  height: 100%;
+}
+
+.login-field-input::placeholder {
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+.login-password-toggle {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 4px;
+  font-size: 1.05rem;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+}
+
+.login-password-toggle:hover {
+  color: #2E7D32;
+}
+
+/* =====================================================
+   Botón Iniciar Sesión — verde redondeado
+   ===================================================== */
+.login-submit-btn {
+  width: 100%;
+  padding: 14px 24px;
+  background: linear-gradient(135deg, #2E7D32 0%, #388E3C 50%, #43A047 100%);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-top: 26px;
+  box-shadow: 0 4px 16px rgba(46, 125, 50, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-submit-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  transition: left 0.5s ease;
+}
+
+.login-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(46, 125, 50, 0.4);
+  background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #388E3C 100%);
+}
+
+.login-submit-btn:hover::before {
+  left: 100%;
+}
+
+.login-submit-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(46, 125, 50, 0.3);
+}
+
+.login-submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.login-submit-btn .spinner-border {
+  width: 18px;
+  height: 18px;
+  border-width: 2px;
+}
+
+/* =====================================================
+   Links inferiores — ¿Olvidó su contraseña? / Solicitar Acceso
+   ===================================================== */
+.login-footer-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 22px;
+  padding-top: 4px;
+}
+
+.login-footer-link {
+  font-size: 0.82rem;
+  color: #6b7280;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  text-decoration: none;
+}
+
+.login-footer-link:hover {
+  color: #2E7D32;
+}
+
+/* =====================================================
+   Mensaje de error
+   ===================================================== */
+.login-error-alert {
+  background: linear-gradient(135deg, #FFEBEE, #FFCDD2);
+  border: 1px solid rgba(198, 40, 40, 0.2);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: shakeError 0.4s ease;
+}
+
+.login-error-icon {
+  color: #C62828;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.login-error-text {
+  color: #C62828;
+  font-size: 0.84rem;
+  font-weight: 500;
+}
+
+@keyframes shakeError {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+/* =====================================================
+   Responsive
+   ===================================================== */
+
+@media (max-width: 992px) {
+  .login-left-panel {
+    padding: 32px 30px;
+  }
+
+  .login-right-panel {
+    padding: 32px 24px;
+  }
+
+  .login-system-title {
+    font-size: 1.6rem;
+  }
+
+  .login-logo-wrapper {
+    width: 140px;
+    height: 140px;
+  }
+}
+
+@media (max-width: 768px) {
+  .login-wrapper {
+    flex-direction: column;
+  }
+
+  .login-left-panel {
+    padding: 36px 24px 20px;
+  }
+
+  .login-system-title {
+    font-size: 1.35rem;
+    margin-bottom: 24px;
+  }
+
+  .login-logo-wrapper {
+    width: 120px;
+    height: 120px;
+  }
+
+  .login-right-panel {
+    padding: 20px 20px 36px;
+  }
+
+  .login-card {
+    padding: 32px 28px 28px;
+    border-radius: 16px;
+  }
+
+  .login-card-title {
+    font-size: 1.15rem;
+    margin-bottom: 24px;
+  }
+
+  .login-leaf--top-right {
+    width: 120px;
+    height: 120px;
+  }
+
+  .login-leaf--bottom-left {
+    width: 80px;
+    height: 80px;
+  }
+
+  .login-leaf--top-left,
+  .login-leaf--mid-left,
+  .login-leaf--bottom-right,
+  .login-leaf--top-center {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 28px 22px 24px;
+  }
+
+  .login-field-wrapper {
+    height: 46px;
+    padding: 0 16px;
+  }
+
+  .login-submit-btn {
+    padding: 12px 20px;
+    font-size: 0.88rem;
+  }
+
+  .login-footer-links {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+}

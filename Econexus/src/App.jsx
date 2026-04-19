@@ -4,12 +4,27 @@ import Sidebar from './components/layout/Sidebar';
 import TopBar from './components/layout/TopBar';
 import ClientesPage from './components/clientes/ClientesPage';
 import PlaceholderPage from './components/common/PlaceholderPage';
+import LoginPage from './components/auth/LoginPage';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const toggleSidebar = () => setSidebarOpen((prev) => !prev);
   const closeSidebar = () => setSidebarOpen(false);
+
+  const handleLogin = (status) => {
+    setIsAuthenticated(status);
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+  };
+
+  // Si no está autenticado, mostrar solo la página de Login
+  if (!isAuthenticated) {
+    return <LoginPage onLogin={handleLogin} />;
+  }
 
   return (
     <div className="eco-app-layout">
@@ -19,7 +34,7 @@ function App() {
       )}
 
       {/* Sidebar */}
-      <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} />
+      <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} onLogout={handleLogout} />
 
       {/* Contenido principal */}
       <div className="eco-main-wrapper">
