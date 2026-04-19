@@ -8,17 +8,21 @@ import LoginPage from './components/auth/LoginPage';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    () => localStorage.getItem('eco_authenticated') === 'true'
+  );
 
   const toggleSidebar = () => setSidebarOpen((prev) => !prev);
   const closeSidebar = () => setSidebarOpen(false);
 
   const handleLogin = (status) => {
     setIsAuthenticated(status);
+    localStorage.setItem('eco_authenticated', 'true');
   };
 
   const handleLogout = () => {
     setIsAuthenticated(false);
+    localStorage.removeItem('eco_authenticated');
   };
 
   // Si no está autenticado, mostrar solo la página de Login
