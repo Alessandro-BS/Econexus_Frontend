@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import Sidebar from './components/layout/Sidebar';
 import TopBar from './components/layout/TopBar';
 import ClientesPage from './components/clientes/ClientesPage';
+import VentasPage from './components/ventas/VentasPage';
 import PlaceholderPage from './components/common/PlaceholderPage';
 import LoginPage from './components/auth/LoginPage';
 
@@ -51,7 +52,7 @@ function App() {
             <Route path="/proveedores" element={<PlaceholderPage section="proveedores" />} />
             <Route path="/reportes" element={<PlaceholderPage section="reportes" />} />
             <Route path="/normativas" element={<PlaceholderPage section="normativas" />} />
-            <Route path="/ventas" element={<PlaceholderPage section="ventas" />} />
+            <Route path="/ventas" element={<VentasPage />} />
             <Route path="*" element={<Navigate to="/clientes" replace />} />
           </Routes>
         </main>

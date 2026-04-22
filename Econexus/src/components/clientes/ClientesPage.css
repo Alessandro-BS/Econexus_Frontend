@@ -686,6 +686,7 @@
 }
 
 @media (max-width: 480px) {
+
   /* Ocultar también RUC y Estado en pantallas muy pequeñas */
   .clientes-table thead th:nth-child(3),
   .clientes-table tbody td:nth-child(3),
