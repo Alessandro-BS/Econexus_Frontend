@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import Sidebar from './components/layout/Sidebar';
 import TopBar from './components/layout/TopBar';
 import ClientesPage from './components/clientes/ClientesPage';
+import ProveedoresPage from './components/proveedores/ProveedoresPage';
 import VentasPage from './components/ventas/VentasPage';
 import PlaceholderPage from './components/common/PlaceholderPage';
 import LoginPage from './components/auth/LoginPage';
@@ -49,7 +50,6 @@ function App() {
                 <div className="sidebar-overlay" onClick={closeSidebar}></div>
               )}
 
-              {/* Sidebar */}
               <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} onLogout={handleLogout} />
 
               {/* Contenido principal */}
@@ -57,9 +57,10 @@ function App() {
                 <TopBar onToggleSidebar={toggleSidebar} />
                 <main className="eco-main-content">
                   <Routes>
+                    <Route path="/" element={<Navigate to="/clientes" replace />} />
                     <Route path="/clientes" element={<ClientesPage />} />
                     <Route path="/dashboard" element={<PlaceholderPage section="dashboard" />} />
-                    <Route path="/proveedores" element={<PlaceholderPage section="proveedores" />} />
+                    <Route path="/proveedores" element={<ProveedoresPage />} />
                     <Route path="/reportes" element={<PlaceholderPage section="reportes" />} />
                     <Route path="/normativas" element={<PlaceholderPage section="normativas" />} />
                     <Route path="/ventas" element={<VentasPage />} />
@@ -71,8 +72,9 @@ function App() {
           ) : (
             <Navigate to="/login" replace />
           )
-        } 
+        }
       />
+
     </Routes>
   );
 }
