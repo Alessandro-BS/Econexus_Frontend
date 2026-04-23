@@ -19,7 +19,7 @@ function VentasPage() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showPdfModal, setShowPdfModal] = useState(false);
-  
+
   // Elemento seleccionado
   const [selectedVenta, setSelectedVenta] = useState(null);
   const [isViewOnly, setIsViewOnly] = useState(false);
@@ -77,7 +77,7 @@ function VentasPage() {
       <div className="section-header animate-fade-in-up">
         <div className="section-header-left">
           <h1 className="section-title">
-            <i className="bi bi-cart-check-fill section-title-icon"></i>
+            <i className="bi bi-cash-coin section-title-icon"></i>
             Gestión de Ventas
           </h1>
           <p className="section-subtitle">
