@@ -7,8 +7,8 @@ function VentaPdfModal({ show, venta, onClose }) {
   return (
     <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.7)' }}>
       <div className="modal-dialog modal-xl modal-dialog-centered">
-        <div className="modal-content animate-fade-in-up" style={{ animationDuration: '0.3s' }}>
-          <div className="modal-header modal-header-custom bg-danger">
+        <div className="modal-content animate-fade-in-up eco-modal" style={{ animationDuration: '0.3s' }}>
+          <div className="modal-header eco-modal-header eco-modal-header-danger">
             <h5 className="modal-title text-white">
               <i className="bi bi-file-pdf-fill me-2"></i>
               PDF Adjunto: {venta.numero_orden}
@@ -35,7 +35,7 @@ function VentaPdfModal({ show, venta, onClose }) {
               </div>
             )}
           </div>
-          <div className="modal-footer">
+          <div className="modal-footer eco-modal-footer">
             <button type="button" className="btn btn-secondary" onClick={onClose}>
               Cerrar
             </button>

@@ -72,8 +72,8 @@ function VentaModal({ show, onClose, onSave, clientes }) {
   return (
     <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
       <div className="modal-dialog modal-lg modal-dialog-centered">
-        <div className="modal-content animate-fade-in-up" style={{ animationDuration: '0.3s' }}>
-          <div className="modal-header modal-header-custom">
+        <div className="modal-content animate-fade-in-up eco-modal" style={{ animationDuration: '0.3s' }}>
+          <div className="modal-header eco-modal-header">
             <h5 className="modal-title text-white">
               <i className="bi bi-file-earmark-plus-fill me-2"></i>
               Generar Orden de Servicio
@@ -81,15 +81,15 @@ function VentaModal({ show, onClose, onSave, clientes }) {
             <button type="button" className="btn-close btn-close-white" onClick={onClose} aria-label="Close"></button>
           </div>
           <form onSubmit={handleSubmit}>
-            <div className="modal-body modal-body-custom">
+            <div className="modal-body eco-modal-body">
               <div className="row g-3">
-                
+
                 {/* Fecha Emisión */}
                 <div className="col-md-6">
-                  <label className="form-label fw-bold">Fecha de Emisión <span className="text-danger">*</span></label>
+                  <label className="eco-label">Fecha de Emisión <span className="text-danger">*</span></label>
                   <input
                     type="date"
-                    className="form-control"
+                    className="form-control eco-input"
                     name="fecha_emision"
                     value={formData.fecha_emision}
                     onChange={handleChange}
@@ -99,9 +99,9 @@ function VentaModal({ show, onClose, onSave, clientes }) {
 
                 {/* Cliente */}
                 <div className="col-md-6">
-                  <label className="form-label fw-bold">Cliente <span className="text-danger">*</span></label>
+                  <label className="eco-label">Cliente <span className="text-danger">*</span></label>
                   <select
-                    className="form-select"
+                    className="form-select eco-input"
                     name="cliente_id"
                     value={formData.cliente_id}
                     onChange={handleChange}
@@ -116,18 +116,18 @@ function VentaModal({ show, onClose, onSave, clientes }) {
 
                 {/* Monto Total */}
                 <div className="col-md-6">
-                  <label className="form-label fw-bold">Monto Total (S/.) <span className="text-danger">*</span></label>
+                  <label className="eco-label">Monto Total (S/.) <span className="text-danger">*</span></label>
                   <div className="input-group">
-                    <span className="input-group-text">S/.</span>
+                    <span className="input-group-text eco-input border-end-0 bg-light">S/.</span>
                     <input
                       type="number"
                       step="0.01"
                       min="0"
-                      className="form-control"
+                      className="form-control eco-input border-start-0"
                       name="monto_total"
                       value={formData.monto_total}
                       onChange={handleChange}
-                      placeholder="Ej. 1500.00"
+                      placeholder=""
                       required
                     />
                   </div>
@@ -135,9 +135,9 @@ function VentaModal({ show, onClose, onSave, clientes }) {
 
                 {/* Estado Pago */}
                 <div className="col-md-6">
-                  <label className="form-label fw-bold">Estado de Pago <span className="text-danger">*</span></label>
+                  <label className="eco-label">Estado de Pago <span className="text-danger">*</span></label>
                   <select
-                    className="form-select"
+                    className="form-select eco-input"
                     name="estado_pago"
                     value={formData.estado_pago}
                     onChange={handleChange}
@@ -151,10 +151,10 @@ function VentaModal({ show, onClose, onSave, clientes }) {
 
                 {/* Adjuntar PDF */}
                 <div className="col-12">
-                  <label className="form-label fw-bold">Adjuntar PDF de Orden</label>
+                  <label className="eco-label">Adjuntar PDF de Orden</label>
                   <input
                     type="file"
-                    className="form-control"
+                    className="form-control eco-input"
                     accept=".pdf"
                     onChange={handleFileChange}
                   />
@@ -163,11 +163,11 @@ function VentaModal({ show, onClose, onSave, clientes }) {
 
               </div>
             </div>
-            <div className="modal-footer modal-footer-custom">
-              <button type="button" className="btn btn-outline-secondary px-4" onClick={onClose}>
+            <div className="modal-footer eco-modal-footer">
+              <button type="button" className="btn btn-outline-secondary eco-btn-cancel px-4" onClick={onClose}>
                 Cancelar
               </button>
-              <button type="submit" className="btn eco-btn-primary px-4">
+              <button type="submit" className="btn eco-btn-save px-4">
                 <i className="bi bi-save me-2"></i>
                 Generar OS
               </button>
