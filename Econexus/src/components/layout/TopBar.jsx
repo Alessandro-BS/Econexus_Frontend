@@ -2,19 +2,30 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './TopBar.css';
 
-function TopBar({ onToggleSidebar }) {
+function TopBar({ onToggleSidebar, onLogout }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState({ clientes: [], proveedores: [], ventas: [] });
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [showSearchDropdown, setShowSearchDropdown] = useState(false);
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   
   const navigate = useNavigate();
   const searchRef = useRef(null);
+  const profileRef = useRef(null);
+
+  // Usuario simulado (podría venir de un contexto o localStorage)
+  const user = {
+    nombre: 'Administrador',
+    rol: 'ADMINISTRADOR'
+  };
 
   // Cierra el dropdown al hacer clic afuera
   useEffect(() => {
     function handleClickOutside(event) {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
-        setShowDropdown(false);
+        setShowSearchDropdown(false);
+      }
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setShowProfileDropdown(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -56,15 +67,15 @@ function TopBar({ onToggleSidebar }) {
         proveedores: filteredProveedores,
         ventas: filteredVentas
       });
-      setShowDropdown(true);
+      setShowSearchDropdown(true);
     } else {
-      setShowDropdown(false);
+      setShowSearchDropdown(false);
     }
   };
 
   const handleResultClick = (path) => {
     navigate(path);
-    setShowDropdown(false);
+    setShowSearchDropdown(false);
     setSearchTerm('');
   };
 
@@ -83,7 +94,7 @@ function TopBar({ onToggleSidebar }) {
 
         <h2 className="topbar-greeting">
           <span className="topbar-greeting-hi">Bienvenido,</span>{' '}
-          <span className="topbar-greeting-name">Encargado</span>
+          <span className="topbar-greeting-name">{user.nombre}</span>
         </h2>
       </div>
 
@@ -97,11 +108,11 @@ function TopBar({ onToggleSidebar }) {
             id="global-search"
             value={searchTerm}
             onChange={handleSearchChange}
-            onFocus={() => { if (searchTerm.trim().length > 0) setShowDropdown(true); }}
+            onFocus={() => { if (searchTerm.trim().length > 0) setShowSearchDropdown(true); }}
           />
           
           {/* Dropdown de resultados */}
-          {showDropdown && (results.clientes.length > 0 || results.proveedores.length > 0 || results.ventas.length > 0) && (
+          {showSearchDropdown && (results.clientes.length > 0 || results.proveedores.length > 0 || results.ventas.length > 0) && (
             <div className="search-dropdown">
               {results.clientes.length > 0 && (
                 <div className="search-category">
@@ -146,7 +157,7 @@ function TopBar({ onToggleSidebar }) {
               )}
             </div>
           )}
-          {showDropdown && searchTerm.trim().length > 0 && 
+          {showSearchDropdown && searchTerm.trim().length > 0 && 
            results.clientes.length === 0 && 
            results.proveedores.length === 0 && 
            results.ventas.length === 0 && (
@@ -157,10 +168,39 @@ function TopBar({ onToggleSidebar }) {
              </div>
           )}
         </div>
-        <div className="topbar-user-info">
-          <div className="topbar-avatar">
+        <div className="topbar-user-info" ref={profileRef}>
+          <div 
+            className="topbar-avatar" 
+            onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+          >
             <i className="bi bi-person-fill"></i>
           </div>
+          
+          {/* Dropdown de perfil */}
+          {showProfileDropdown && (
+            <div className="profile-dropdown">
+              <div className="profile-dropdown-header">
+                <div className="profile-dropdown-avatar">
+                  <i className="bi bi-person-fill"></i>
+                </div>
+                <div className="profile-dropdown-info">
+                  <span className="profile-name">{user.nombre}</span>
+                  <span className="profile-role">{user.rol}</span>
+                </div>
+              </div>
+              <div className="profile-dropdown-divider"></div>
+              <button 
+                className="profile-dropdown-item text-danger" 
+                onClick={() => {
+                  setShowProfileDropdown(false);
+                  if(onLogout) onLogout();
+                }}
+              >
+                <i className="bi bi-box-arrow-right"></i>
+                Cerrar Sesión
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </header>

@@ -54,7 +54,7 @@ function App() {
 
               {/* Contenido principal */}
               <div className="eco-main-wrapper">
-                <TopBar onToggleSidebar={toggleSidebar} />
+                <TopBar onToggleSidebar={toggleSidebar} onLogout={handleLogout} />
                 <main className="eco-main-content">
                   <Routes>
                     <Route path="/" element={<Navigate to="/clientes" replace />} />
