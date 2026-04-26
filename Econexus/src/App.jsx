@@ -7,6 +7,7 @@ import ProveedoresPage from './components/proveedores/ProveedoresPage';
 import VentasPage from './components/ventas/VentasPage';
 import PlaceholderPage from './components/common/PlaceholderPage';
 import LoginPage from './components/auth/LoginPage';
+import DashboardPage from './components/dashboard/DashboardPage';
 import LandingPage from './components/public/LandingPage';
 
 function App() {
@@ -36,7 +37,7 @@ function App() {
       {/* Ruta de Login (redirecciona si ya está autenticado) */}
       <Route 
         path="/login" 
-        element={!isAuthenticated ? <LoginPage onLogin={handleLogin} /> : <Navigate to="/clientes" replace />} 
+        element={!isAuthenticated ? <LoginPage onLogin={handleLogin} /> : <Navigate to="/dashboard" replace />} 
       />
 
       {/* Rutas privadas */}
@@ -57,9 +58,9 @@ function App() {
                 <TopBar onToggleSidebar={toggleSidebar} onLogout={handleLogout} />
                 <main className="eco-main-content">
                   <Routes>
-                    <Route path="/" element={<Navigate to="/clientes" replace />} />
+                    <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                    <Route path="/dashboard" element={<DashboardPage />} />
                     <Route path="/clientes" element={<ClientesPage />} />
-                    <Route path="/dashboard" element={<PlaceholderPage section="dashboard" />} />
                     <Route path="/proveedores" element={<ProveedoresPage />} />
                     <Route path="/reportes" element={<PlaceholderPage section="reportes" />} />
                     <Route path="/normativas" element={<PlaceholderPage section="normativas" />} />
@@ -74,6 +75,7 @@ function App() {
           )
         }
       />
+      
 
     </Routes>
   );
