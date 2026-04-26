@@ -8,6 +8,7 @@ const navItems = [
   { path: '/dashboard', icon: 'bi-grid-1x2-fill', label: 'Dashboard' },
   { path: '/clientes', icon: 'bi-people-fill', label: 'Clientes' },
   { path: '/proveedores', icon: 'bi-truck', label: 'Proveedores' },
+  { path: '/usuarios', icon: 'bi-person-badge', label: 'Usuarios' },
   { path: '/reportes', icon: 'bi-clipboard2-data-fill', label: 'Reportes' },
   { path: '/normativas', icon: 'bi-journal-bookmark-fill', label: 'Normativas' },
   { path: '/ventas', icon: 'bi-cash-stack', label: 'Ventas' },
