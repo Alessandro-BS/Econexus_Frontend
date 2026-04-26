@@ -7,16 +7,19 @@ function TopBar({ onToggleSidebar, onLogout }) {
   const [results, setResults] = useState({ clientes: [], proveedores: [], ventas: [] });
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
   
   const navigate = useNavigate();
   const searchRef = useRef(null);
   const profileRef = useRef(null);
 
-  // Usuario simulado (podría venir de un contexto o localStorage)
-  const user = {
-    nombre: 'Administrador',
-    rol: 'ADMINISTRADOR'
-  };
+  // Obtener usuario actual de localStorage
+  useEffect(() => {
+    const userFromStorage = localStorage.getItem('eco_current_user');
+    if (userFromStorage) {
+      setCurrentUser(JSON.parse(userFromStorage));
+    }
+  }, []);
 
   // Cierra el dropdown al hacer clic afuera
   useEffect(() => {
@@ -94,7 +97,9 @@ function TopBar({ onToggleSidebar, onLogout }) {
 
         <h2 className="topbar-greeting">
           <span className="topbar-greeting-hi">Bienvenido,</span>{' '}
-          <span className="topbar-greeting-name">{user.nombre}</span>
+          <span className="topbar-greeting-name">
+            {currentUser ? currentUser.nombre_completo.split(' ')[0] : 'Usuario'}
+          </span>
         </h2>
       </div>
 
@@ -184,8 +189,12 @@ function TopBar({ onToggleSidebar, onLogout }) {
                   <i className="bi bi-person-fill"></i>
                 </div>
                 <div className="profile-dropdown-info">
-                  <span className="profile-name">{user.nombre}</span>
-                  <span className="profile-role">{user.rol}</span>
+                  <span className="profile-name">
+                    {currentUser ? currentUser.nombre_completo : 'Usuario'}
+                  </span>
+                  <span className="profile-role">
+                    {currentUser ? currentUser.rol : 'VISITANTE'}
+                  </span>
                 </div>
               </div>
               <div className="profile-dropdown-divider"></div>
