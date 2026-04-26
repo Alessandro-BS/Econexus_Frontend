@@ -89,6 +89,104 @@
   color: var(--eco-gray-400);
 }
 
+/* — Search Dropdown — */
+.search-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  margin-top: 8px;
+  background: var(--eco-white);
+  border: 1px solid var(--eco-gray-200);
+  border-radius: var(--eco-radius-md, 8px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  z-index: 1000;
+  animation: slideDownSearch 0.2s ease forwards;
+}
+
+@keyframes slideDownSearch {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.search-category {
+  border-bottom: 1px solid var(--eco-gray-100);
+}
+
+.search-category:last-child {
+  border-bottom: none;
+}
+
+.search-category-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--eco-gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 8px 16px;
+  margin: 0;
+  background: var(--eco-gray-50);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.search-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.search-list li {
+  padding: 10px 16px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  transition: var(--eco-transition-fast, 0.2s);
+}
+
+.search-list li:hover {
+  background: var(--eco-green-50, #f1f8e9);
+}
+
+.search-item-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--eco-gray-800);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-item-sub {
+  font-size: 0.75rem;
+  color: var(--eco-gray-500);
+}
+
+.search-no-results {
+  padding: 16px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--eco-gray-500);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.search-no-results i {
+  font-size: 1.2rem;
+  color: var(--eco-gray-400);
+}
+
 /* — Avatar — */
 .topbar-avatar {
   width: 38px;
@@ -108,6 +206,108 @@
 .topbar-avatar:hover {
   transform: scale(1.08);
   box-shadow: 0 4px 12px rgba(46, 125, 50, 0.35);
+}
+
+.topbar-user-info {
+  position: relative;
+}
+
+/* — Profile Dropdown — */
+.profile-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 10px;
+  width: 220px;
+  background: var(--eco-white);
+  border: 1px solid var(--eco-gray-200);
+  border-radius: var(--eco-radius-md, 8px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  z-index: 1000;
+  animation: slideDownSearch 0.2s ease forwards;
+}
+
+.profile-dropdown-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: var(--eco-gray-50);
+}
+
+.profile-dropdown-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--eco-green-500), var(--eco-green-700));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.profile-dropdown-info {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.profile-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--eco-gray-800);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profile-role {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--eco-gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.profile-dropdown-divider {
+  height: 1px;
+  background: var(--eco-gray-200);
+  margin: 0;
+}
+
+.profile-dropdown-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: transparent;
+  border: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--eco-gray-700);
+  cursor: pointer;
+  transition: var(--eco-transition-fast, 0.2s);
+  text-align: left;
+}
+
+.profile-dropdown-item i {
+  font-size: 1rem;
+}
+
+.profile-dropdown-item:hover {
+  background: var(--eco-gray-50);
+}
+
+.profile-dropdown-item.text-danger {
+  color: #d32f2f;
+}
+
+.profile-dropdown-item.text-danger:hover {
+  background: #ffebee;
 }
 
 /* — Botón hamburguesa (solo móvil) — */

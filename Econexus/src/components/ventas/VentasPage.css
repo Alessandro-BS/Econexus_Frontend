@@ -1,10 +1,12 @@
 /* =====================================================
-   ClientesPage — Estilos de la sección de clientes
+   VentasPage — Estilos de la sección de ventas
    ===================================================== */
 
 /* — Contenedor de la página — */
-.clientes-page {
+.ventas-page {
   padding: 0;
+  width: 100%;
+  display: block;
 }
 
 /* — Header de sección — */
@@ -15,6 +17,7 @@
   margin-bottom: 28px;
   flex-wrap: wrap;
   gap: 16px;
+  width: 100%;
 }
 
 .section-title {
@@ -75,6 +78,7 @@
   box-shadow: var(--eco-shadow-sm);
   transition: var(--eco-transition);
   overflow: hidden;
+  width: 100%;
 }
 
 .kpi-card:hover {
@@ -87,6 +91,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 24px 28px;
+  width: 400px;
 }
 
 .kpi-info {
@@ -121,11 +126,12 @@
 }
 
 /* — Tabla — */
-.clientes-table-wrapper {
+.ventas-table-wrapper {
   background: var(--eco-white);
   border-radius: var(--eco-radius-lg);
   box-shadow: var(--eco-shadow-sm);
   overflow: hidden;
+  width: 100%;
 }
 
 /* Barra de búsqueda de la tabla */
@@ -199,12 +205,13 @@
 }
 
 /* Tabla */
-.clientes-table {
+.ventas-table {
   margin: 0;
   font-size: 0.85rem;
+  width: 100%;
 }
 
-.clientes-table thead th {
+.ventas-table thead th {
   background: var(--eco-gray-50);
   border-bottom: 2px solid var(--eco-gray-200);
   padding: 14px 16px;
@@ -216,18 +223,18 @@
   white-space: nowrap;
 }
 
-.clientes-table tbody td {
+.ventas-table tbody td {
   padding: 14px 16px;
   vertical-align: middle;
   border-bottom: 1px solid var(--eco-gray-100);
   color: var(--eco-gray-700);
 }
 
-.clientes-table tbody tr {
+.ventas-table tbody tr {
   transition: var(--eco-transition-fast);
 }
 
-.clientes-table tbody tr:hover {
+.ventas-table tbody tr:hover {
   background: var(--eco-green-50) !important;
 }
 
@@ -257,9 +264,9 @@
   margin-top: 2px;
 }
 
-.ruc-code {
-  background: var(--eco-gray-100);
-  color: var(--eco-gray-700);
+.orden-code {
+  background: var(--eco-blue-light);
+  color: var(--eco-blue);
   padding: 3px 8px;
   border-radius: 4px;
   font-size: 0.8rem;
@@ -268,20 +275,40 @@
   letter-spacing: 0.5px;
 }
 
-.phone-text {
-  color: var(--eco-gray-600);
-  font-size: 0.83rem;
+.monto-text {
+  font-weight: 700;
+  color: var(--eco-gray-900);
 }
 
-.email-link {
-  color: var(--eco-blue);
-  font-size: 0.83rem;
-  transition: var(--eco-transition-fast);
+/* Badges de estado de pago */
+.eco-badge-pagado {
+  background: var(--eco-green-100) !important;
+  color: var(--eco-green-800) !important;
+  font-weight: 600;
+  font-size: 0.75rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: inline-block;
 }
 
-.email-link:hover {
-  color: var(--eco-green-700);
-  text-decoration: underline;
+.eco-badge-pendiente {
+  background: rgba(230, 81, 0, 0.12) !important;
+  color: rgb(230, 81, 0) !important;
+  font-weight: 600;
+  font-size: 0.75rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+.eco-badge-anulado {
+  background: var(--eco-red-light) !important;
+  color: var(--eco-red) !important;
+  font-weight: 600;
+  font-size: 0.75rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: inline-block;
 }
 
 /* Botones de acción */
@@ -304,6 +331,18 @@
   transition: var(--eco-transition);
 }
 
+.btn-action-view {
+  background: var(--eco-green-100);
+  color: var(--eco-green-700);
+}
+
+.btn-action-view:hover {
+  background: var(--eco-green-700);
+  color: #fff;
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(46, 125, 50, 0.3);
+}
+
 .btn-action-edit {
   background: var(--eco-blue-light);
   color: var(--eco-blue);
@@ -316,16 +355,23 @@
   box-shadow: 0 4px 8px rgba(21, 101, 192, 0.3);
 }
 
-.btn-action-delete {
+.btn-action-pdf {
   background: var(--eco-red-light);
   color: var(--eco-red);
 }
 
-.btn-action-delete:hover {
+.btn-action-pdf:hover {
   background: var(--eco-red);
   color: #fff;
   transform: scale(1.1);
   box-shadow: 0 4px 8px rgba(198, 40, 40, 0.3);
+}
+
+.btn-action-pdf:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 /* Empty state */
@@ -516,78 +562,32 @@
   color: #fff;
 }
 
-/* Delete modal */
-.delete-warning-icon {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: var(--eco-red-light);
+/* Visor de PDF (Simulado) */
+.pdf-viewer-container {
+  width: 100%;
+  height: 500px;
+  background-color: #525659;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto;
-  font-size: 2rem;
-  color: var(--eco-red);
+  border-radius: 4px;
 }
 
-.delete-message {
-  font-size: 1rem;
-  color: var(--eco-gray-700);
+.pdf-viewer-container object,
+.pdf-viewer-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
 }
 
-.delete-client-name {
-  font-size: 1.1rem;
-  color: var(--eco-gray-900);
-}
-
-.delete-sub-message {
-  margin-bottom: 0;
-}
-
-/* =====================================================
-   Placeholder Page
-   ===================================================== */
-
-.placeholder-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 60vh;
+.pdf-no-data {
+  color: white;
   text-align: center;
-}
-
-.placeholder-icon {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background: var(--eco-green-100);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 24px;
-}
-
-.placeholder-icon i {
-  font-size: 2.5rem;
-  color: var(--eco-green-700);
-}
-
-.placeholder-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--eco-gray-900);
-  margin-bottom: 8px;
-}
-
-.placeholder-text {
-  color: var(--eco-gray-500);
-  font-size: 0.95rem;
-  max-width: 400px;
+  padding: 2rem;
 }
 
 /* =====================================================
-   Responsive — Clientes Page
+   Responsive — Ventas Page
    ===================================================== */
 
 /* Tablet */
@@ -618,20 +618,20 @@
     padding: 12px 20px;
   }
 
-  /* Tabla: ocultar columnas menos importantes */
-  .clientes-table thead th:nth-child(5),
-  .clientes-table tbody td:nth-child(5),
-  .clientes-table thead th:nth-child(6),
-  .clientes-table tbody td:nth-child(6) {
+  /* Ocultar algunas columnas en móvil para ventas */
+  .ventas-table thead th:nth-child(4),
+  .ventas-table tbody td:nth-child(4),
+  .ventas-table thead th:nth-child(5),
+  .ventas-table tbody td:nth-child(5) {
     display: none;
   }
 
-  .clientes-table thead th {
+  .ventas-table thead th {
     font-size: 0.7rem;
     padding: 10px 8px;
   }
 
-  .clientes-table tbody td {
+  .ventas-table tbody td {
     padding: 10px 8px;
     font-size: 0.8rem;
   }
@@ -687,11 +687,9 @@
 
 @media (max-width: 480px) {
 
-  /* Ocultar también RUC y Estado en pantallas muy pequeñas */
-  .clientes-table thead th:nth-child(3),
-  .clientes-table tbody td:nth-child(3),
-  .clientes-table thead th:nth-child(7),
-  .clientes-table tbody td:nth-child(7) {
+  /* Ocultar columnas adicionales */
+  .ventas-table thead th:nth-child(3),
+  .ventas-table tbody td:nth-child(3) {
     display: none;
   }
 
