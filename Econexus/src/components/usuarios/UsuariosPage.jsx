@@ -79,7 +79,7 @@ function UsuariosPage() {
           </p>
         </div>
         <button
-          className="btn btn-success btn-lg add-button animate-bounce"
+          className="btn btn-success btn-lg add-button"
           onClick={handleOpenCreate}
           title="Agregar nuevo usuario"
         >
