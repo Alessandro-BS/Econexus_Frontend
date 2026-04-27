@@ -66,20 +66,24 @@ function KPICard({ kpi, delay }) {
       ref={cardRef}
       className="kpi-card"
       style={{
-        borderColor: kpi.borderColor,
-        backgroundColor: kpi.bgColor,
+        borderLeftColor: kpi.borderColor,
       }}
     >
       <div className="kpi-card-body">
-        <div className="kpi-header">
+        <div className="kpi-info">
           <span className="kpi-label">{kpi.label}</span>
-          <i
-            className={`bi ${kpi.icon} kpi-icon`}
-            style={{ color: kpi.color }}
-          ></i>
+          <span className="kpi-value" style={{ color: kpi.color }}>
+            {kpi.value}
+          </span>
         </div>
-        <div className="kpi-value" style={{ color: kpi.color }}>
-          {kpi.value}
+        <div
+          className="kpi-icon-wrapper"
+          style={{ backgroundColor: kpi.bgColor }}
+        >
+          <i
+            className={`bi ${kpi.icon}`}
+            style={{ color: kpi.color, fontSize: '1.6rem' }}
+          ></i>
         </div>
       </div>
     </div>

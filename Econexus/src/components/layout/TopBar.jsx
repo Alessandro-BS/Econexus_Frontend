@@ -4,7 +4,7 @@ import './TopBar.css';
 
 function TopBar({ onToggleSidebar, onLogout }) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [results, setResults] = useState({ clientes: [], proveedores: [], ventas: [] });
+  const [results, setResults] = useState({ clientes: [], proveedores: [], ventas: [], usuarios: [] });
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
@@ -46,6 +46,7 @@ function TopBar({ onToggleSidebar, onLogout }) {
       const clientes = JSON.parse(localStorage.getItem('eco_clientes')) || [];
       const proveedores = JSON.parse(localStorage.getItem('econexus_proveedores')) || [];
       const ventas = JSON.parse(localStorage.getItem('eco_ventas')) || [];
+      const usuarios = JSON.parse(localStorage.getItem('eco_usuarios')) || [];
       
       // Filtrar resultados por coincidencias en varios campos
       const filteredClientes = clientes.filter(c => 
@@ -64,11 +65,18 @@ function TopBar({ onToggleSidebar, onLogout }) {
         (v.numero_orden && v.numero_orden.toLowerCase().includes(termLower)) ||
         (v.cliente_nombre && v.cliente_nombre.toLowerCase().includes(termLower))
       ).slice(0, 3);
+
+      const filteredUsuarios = usuarios.filter(u => 
+        (u.nombre_completo && u.nombre_completo.toLowerCase().includes(termLower)) ||
+        (u.email && u.email.toLowerCase().includes(termLower)) ||
+        (u.rol && u.rol.toLowerCase().includes(termLower))
+      ).slice(0, 3);
       
       setResults({
         clientes: filteredClientes,
         proveedores: filteredProveedores,
-        ventas: filteredVentas
+        ventas: filteredVentas,
+        usuarios: filteredUsuarios
       });
       setShowSearchDropdown(true);
     } else {
@@ -117,7 +125,7 @@ function TopBar({ onToggleSidebar, onLogout }) {
           />
           
           {/* Dropdown de resultados */}
-          {showSearchDropdown && (results.clientes.length > 0 || results.proveedores.length > 0 || results.ventas.length > 0) && (
+          {showSearchDropdown && (results.clientes.length > 0 || results.proveedores.length > 0 || results.ventas.length > 0 || results.usuarios.length > 0) && (
             <div className="search-dropdown">
               {results.clientes.length > 0 && (
                 <div className="search-category">
@@ -160,12 +168,27 @@ function TopBar({ onToggleSidebar, onLogout }) {
                   </ul>
                 </div>
               )}
+
+              {results.usuarios.length > 0 && (
+                <div className="search-category">
+                  <h4 className="search-category-title"><i className="bi bi-person-badge"></i> Usuarios</h4>
+                  <ul className="search-list">
+                    {results.usuarios.map(u => (
+                      <li key={`u-${u.id}`} onClick={() => handleResultClick('/usuarios')}>
+                        <span className="search-item-title">{u.nombre_completo}</span>
+                        <span className="search-item-sub">{u.email}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           )}
           {showSearchDropdown && searchTerm.trim().length > 0 && 
            results.clientes.length === 0 && 
            results.proveedores.length === 0 && 
-           results.ventas.length === 0 && (
+           results.ventas.length === 0 && 
+           results.usuarios.length === 0 && (
              <div className="search-dropdown">
                <div className="search-no-results">
                  <i className="bi bi-info-circle"></i> No se encontraron resultados
