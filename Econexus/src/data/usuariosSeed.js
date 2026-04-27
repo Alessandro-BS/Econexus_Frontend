@@ -1,57 +1,54 @@
-/**
- * Datos semilla de usuarios para inicializar localStorage.
- * Estructura alineada con la tabla `usuarios` de la BD MySQL.
- */
+
 const usuariosSeed = [
   {
     id: 1,
-    nombre_completo: 'Juan Rodríguez García',
-    email: 'jrodriguez@econexus.com.pe',
-    telefono: '01-9876543',
+    nombre_completo: 'Fabrizio Alessandro Bustamante Soria',
+    email: 'fbustamante@econexus.com.pe',
+    telefono: '937844522',
     rol: 'ADMIN',
     estado: 'ACTIVO',
-    fecha_creacion: '2025-01-15',
-    password: '123456' // Solo para test, en producción no guardar passwords en localStorage
+    fecha_creacion: '2026-04-25',
+    password: 'bustamante123'
   },
   {
     id: 2,
-    nombre_completo: 'María López Martínez',
-    email: 'mlopez@econexus.com.pe',
-    telefono: '01-8765432',
+    nombre_completo: 'Shayuri Kiara Garcia Ortega',
+    email: 'sgarcia@econexus.com.pe',
+    telefono: '972173803',
     rol: 'SUPERVISOR',
     estado: 'ACTIVO',
-    fecha_creacion: '2025-02-10',
-    password: '123456'
+    fecha_creacion: '2026-04-25',
+    password: 'garcia123'
   },
   {
     id: 3,
-    nombre_completo: 'Roberto Pérez Soto',
-    email: 'rperez@econexus.com.pe',
-    telefono: '01-7654321',
+    nombre_completo: 'Walter Isaac Mantari Licapa',
+    email: 'wmantari@econexus.com.pe',
+    telefono: '934075905',
     rol: 'OPERADOR',
     estado: 'ACTIVO',
-    fecha_creacion: '2025-02-20',
-    password: '123456'
+    fecha_creacion: '2026-04-25',
+    password: 'mantari123'
   },
   {
     id: 4,
-    nombre_completo: 'Laura Castillo Flores',
-    email: 'lcastillo@econexus.com.pe',
-    telefono: '01-6543210',
+    nombre_completo: 'Jean Pool Jaramillo Quispe',
+    email: 'jjaramillo@econexus.com.pe',
+    telefono: '922744558',
     rol: 'SUPERVISOR',
-    estado: 'INACTIVO',
-    fecha_creacion: '2025-03-05',
-    password: '123456'
+    estado: 'ACTIVO',
+    fecha_creacion: '2026-04-25',
+    password: 'jaramillo123'
   },
   {
     id: 5,
-    nombre_completo: 'Carlos Hernández Ruiz',
-    email: 'chernandez@econexus.com.pe',
-    telefono: '01-5432109',
+    nombre_completo: 'Frank Erick Campomanes Vergara',
+    email: 'fcampomanes@econexus.com.pe',
+    telefono: '926577602',
     rol: 'OPERADOR',
-    estado: 'ACTIVO',
-    fecha_creacion: '2025-03-12',
-    password: '123456'
+    estado: 'INACTIVO',
+    fecha_creacion: '2026-04-25',
+    password: 'campomanes123'
   }
 ];
 
