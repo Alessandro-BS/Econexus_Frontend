@@ -7,6 +7,7 @@ import ProveedoresPage from './components/proveedores/ProveedoresPage';
 import VentasPage from './components/ventas/VentasPage';
 import UsuariosPage from './components/usuarios/UsuariosPage';
 import NormativasPage from './components/normativas/NormativasPage';
+import ReportesPage from './components/reportes/ReportesPage';
 import PlaceholderPage from './components/common/PlaceholderPage';
 import LoginPage from './components/auth/LoginPage';
 import DashboardPage from './components/dashboard/DashboardPage';
@@ -64,7 +65,7 @@ function App() {
                     <Route path="/dashboard" element={<DashboardPage />} />
                     <Route path="/clientes" element={<ClientesPage />} />
                     <Route path="/proveedores" element={<ProveedoresPage />} />
-                    <Route path="/reportes" element={<PlaceholderPage section="reportes" />} />
+                    <Route path="/reportes" element={<ReportesPage />} />
                     <Route path="/normativas" element={<NormativasPage />} />
                     <Route path="/usuarios" element={<UsuariosPage />} />
                     <Route path="/ventas" element={<VentasPage />} />

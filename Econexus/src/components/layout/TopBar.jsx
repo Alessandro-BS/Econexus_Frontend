@@ -4,7 +4,7 @@ import './TopBar.css';
 
 function TopBar({ onToggleSidebar, onLogout }) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [results, setResults] = useState({ clientes: [], proveedores: [], ventas: [], usuarios: [], normativas: [] });
+  const [results, setResults] = useState({ clientes: [], proveedores: [], ventas: [], usuarios: [], normativas: [], reportes: [] });
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
@@ -48,6 +48,7 @@ function TopBar({ onToggleSidebar, onLogout }) {
       const ventas = JSON.parse(localStorage.getItem('eco_ventas')) || [];
       const usuarios = JSON.parse(localStorage.getItem('eco_usuarios')) || [];
       const normativas = JSON.parse(localStorage.getItem('eco_normativas')) || [];
+      const reportes = JSON.parse(localStorage.getItem('eco_reportes')) || [];
       
       // Filtrar resultados por coincidencias en varios campos
       const filteredClientes = clientes.filter(c => 
@@ -80,12 +81,21 @@ function TopBar({ onToggleSidebar, onLogout }) {
         (n.estado && n.estado.toLowerCase().includes(termLower))
       ).slice(0, 3);
       
+      const filteredReportes = reportes.filter(r => 
+        (r.cliente_nombre && r.cliente_nombre.toLowerCase().includes(termLower)) ||
+        (r.tipo_servicio && r.tipo_servicio.toLowerCase().includes(termLower)) ||
+        (r.descripcion && r.descripcion.toLowerCase().includes(termLower)) ||
+        (r.estado && r.estado.toLowerCase().includes(termLower)) ||
+        (r.fecha_registro && r.fecha_registro.includes(termLower))
+      ).slice(0, 3);
+      
       setResults({
         clientes: filteredClientes,
         proveedores: filteredProveedores,
         ventas: filteredVentas,
         usuarios: filteredUsuarios,
-        normativas: filteredNormativas
+        normativas: filteredNormativas,
+        reportes: filteredReportes
       });
       setShowSearchDropdown(true);
     } else {
@@ -134,7 +144,7 @@ function TopBar({ onToggleSidebar, onLogout }) {
           />
           
           {/* Dropdown de resultados */}
-          {showSearchDropdown && (results.clientes.length > 0 || results.proveedores.length > 0 || results.ventas.length > 0 || results.usuarios.length > 0 || results.normativas.length > 0) && (
+          {showSearchDropdown && (results.clientes.length > 0 || results.proveedores.length > 0 || results.ventas.length > 0 || results.usuarios.length > 0 || results.normativas.length > 0 || results.reportes.length > 0) && (
             <div className="search-dropdown">
               {results.clientes.length > 0 && (
                 <div className="search-category">
@@ -205,6 +215,20 @@ function TopBar({ onToggleSidebar, onLogout }) {
                   </ul>
                 </div>
               )}
+
+              {results.reportes.length > 0 && (
+                <div className="search-category">
+                  <h4 className="search-category-title"><i className="bi bi-clipboard2-data-fill"></i> Reportes</h4>
+                  <ul className="search-list">
+                    {results.reportes.map(r => (
+                      <li key={`r-${r.id}`} onClick={() => handleResultClick('/reportes')}>
+                        <span className="search-item-title">{r.cliente_nombre}</span>
+                        <span className="search-item-sub">{r.tipo_servicio} - {r.estado}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           )}
           {showSearchDropdown && searchTerm.trim().length > 0 && 
@@ -212,7 +236,8 @@ function TopBar({ onToggleSidebar, onLogout }) {
            results.proveedores.length === 0 && 
            results.ventas.length === 0 && 
            results.usuarios.length === 0 && 
-           results.normativas.length === 0 && (
+           results.normativas.length === 0 &&
+           results.reportes.length === 0 && (
              <div className="search-dropdown">
                <div className="search-no-results">
                  <i className="bi bi-info-circle"></i> No se encontraron resultados
