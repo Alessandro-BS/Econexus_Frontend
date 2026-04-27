@@ -7,6 +7,7 @@ const LOCAL_STORAGE_USUARIOS_KEY = 'eco_usuarios';
 
 const isValidUsuariosData = (data) =>
   Array.isArray(data) &&
+  data.length > 0 &&
   data.every(
     (u) =>
       u &&
@@ -157,11 +158,28 @@ function LoginPage({ onLogin }) {
 
       const terminoBusqueda = usuario.trim().toLowerCase();
 
-      const usuarioEncontrado = usuariosGuardados.find((u) => {
+      let usuarioEncontrado = usuariosGuardados.find((u) => {
         const emailMatch = u.email?.toLowerCase() === terminoBusqueda;
+        const usernameMatch = u.email?.split('@')[0].toLowerCase() === terminoBusqueda;
         const nombreMatch = u.nombre_completo?.toLowerCase() === terminoBusqueda;
-        return emailMatch || nombreMatch;
+        return emailMatch || usernameMatch || nombreMatch;
       });
+
+      // Fallback: Si no está en localStorage (quizás fue borrado), buscamos en la semilla
+      if (!usuarioEncontrado) {
+        usuarioEncontrado = usuariosSeed.find((u) => {
+          const emailMatch = u.email?.toLowerCase() === terminoBusqueda;
+          const usernameMatch = u.email?.split('@')[0].toLowerCase() === terminoBusqueda;
+          const nombreMatch = u.nombre_completo?.toLowerCase() === terminoBusqueda;
+          return emailMatch || usernameMatch || nombreMatch;
+        });
+
+        // Si existe en la semilla pero fue borrado, lo restauramos
+        if (usuarioEncontrado) {
+          usuariosGuardados.push(usuarioEncontrado);
+          localStorage.setItem(LOCAL_STORAGE_USUARIOS_KEY, JSON.stringify(usuariosGuardados));
+        }
+      }
 
       if (usuarioEncontrado) {
         if (usuarioEncontrado.password !== contrasena) {

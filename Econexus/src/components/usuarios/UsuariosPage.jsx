@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import usuariosSeed from '../../data/usuariosSeed';
 import UsuarioKPIs from './UsuarioKPIs';
@@ -13,6 +13,22 @@ import './UsuariosPage.css';
  */
 function UsuariosPage() {
   const [usuarios, setUsuarios] = useLocalStorage('eco_usuarios', usuariosSeed);
+
+  // Restaurar automáticamente los usuarios semilla si faltan
+  useEffect(() => {
+    if (usuarios) {
+      const missingUsers = usuariosSeed.filter(
+        (seedUser) => !usuarios.some((u) => u.id === seedUser.id || u.email === seedUser.email)
+      );
+      if (missingUsers.length > 0) {
+        setUsuarios((prev) => {
+          const newUsers = [...prev, ...missingUsers];
+          // Ordenamos por id para que se vean bien
+          return newUsers.sort((a, b) => a.id - b.id);
+        });
+      }
+    }
+  }, []);
 
   // Estado de modales
   const [showModal, setShowModal] = useState(false);

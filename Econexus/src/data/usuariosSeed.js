@@ -8,7 +8,7 @@ const usuariosSeed = [
     rol: 'ADMIN',
     estado: 'ACTIVO',
     fecha_creacion: '2026-04-25',
-    password: 'bustamante123' 
+    password: 'bustamante123'
   },
   {
     id: 2,
