@@ -4,7 +4,7 @@ import './TopBar.css';
 
 function TopBar({ onToggleSidebar, onLogout }) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [results, setResults] = useState({ clientes: [], proveedores: [], ventas: [], usuarios: [] });
+  const [results, setResults] = useState({ clientes: [], proveedores: [], ventas: [], usuarios: [], normativas: [] });
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
@@ -47,6 +47,7 @@ function TopBar({ onToggleSidebar, onLogout }) {
       const proveedores = JSON.parse(localStorage.getItem('econexus_proveedores')) || [];
       const ventas = JSON.parse(localStorage.getItem('eco_ventas')) || [];
       const usuarios = JSON.parse(localStorage.getItem('eco_usuarios')) || [];
+      const normativas = JSON.parse(localStorage.getItem('eco_normativas')) || [];
       
       // Filtrar resultados por coincidencias en varios campos
       const filteredClientes = clientes.filter(c => 
@@ -71,12 +72,20 @@ function TopBar({ onToggleSidebar, onLogout }) {
         (u.email && u.email.toLowerCase().includes(termLower)) ||
         (u.rol && u.rol.toLowerCase().includes(termLower))
       ).slice(0, 3);
+
+      const filteredNormativas = normativas.filter(n =>
+        (n.codigo && n.codigo.toLowerCase().includes(termLower)) ||
+        (n.titulo && n.titulo.toLowerCase().includes(termLower)) ||
+        (n.entidad_emisora && n.entidad_emisora.toLowerCase().includes(termLower)) ||
+        (n.estado && n.estado.toLowerCase().includes(termLower))
+      ).slice(0, 3);
       
       setResults({
         clientes: filteredClientes,
         proveedores: filteredProveedores,
         ventas: filteredVentas,
-        usuarios: filteredUsuarios
+        usuarios: filteredUsuarios,
+        normativas: filteredNormativas
       });
       setShowSearchDropdown(true);
     } else {
@@ -125,7 +134,7 @@ function TopBar({ onToggleSidebar, onLogout }) {
           />
           
           {/* Dropdown de resultados */}
-          {showSearchDropdown && (results.clientes.length > 0 || results.proveedores.length > 0 || results.ventas.length > 0 || results.usuarios.length > 0) && (
+          {showSearchDropdown && (results.clientes.length > 0 || results.proveedores.length > 0 || results.ventas.length > 0 || results.usuarios.length > 0 || results.normativas.length > 0) && (
             <div className="search-dropdown">
               {results.clientes.length > 0 && (
                 <div className="search-category">
@@ -182,13 +191,28 @@ function TopBar({ onToggleSidebar, onLogout }) {
                   </ul>
                 </div>
               )}
+
+              {results.normativas.length > 0 && (
+                <div className="search-category">
+                  <h4 className="search-category-title"><i className="bi bi-journal-bookmark-fill"></i> Normativas</h4>
+                  <ul className="search-list">
+                    {results.normativas.map(n => (
+                      <li key={`n-${n.id}`} onClick={() => handleResultClick('/normativas')}>
+                        <span className="search-item-title">{n.codigo}</span>
+                        <span className="search-item-sub">{n.titulo}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           )}
           {showSearchDropdown && searchTerm.trim().length > 0 && 
            results.clientes.length === 0 && 
            results.proveedores.length === 0 && 
            results.ventas.length === 0 && 
-           results.usuarios.length === 0 && (
+           results.usuarios.length === 0 && 
+           results.normativas.length === 0 && (
              <div className="search-dropdown">
                <div className="search-no-results">
                  <i className="bi bi-info-circle"></i> No se encontraron resultados
