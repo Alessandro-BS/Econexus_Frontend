@@ -5,6 +5,7 @@ import TopBar from './components/layout/TopBar';
 import ClientesPage from './components/clientes/ClientesPage';
 import ProveedoresPage from './components/proveedores/ProveedoresPage';
 import VentasPage from './components/ventas/VentasPage';
+import UsuariosPage from './components/usuarios/UsuariosPage';
 import PlaceholderPage from './components/common/PlaceholderPage';
 import LoginPage from './components/auth/LoginPage';
 import DashboardPage from './components/dashboard/DashboardPage';
@@ -64,6 +65,7 @@ function App() {
                     <Route path="/proveedores" element={<ProveedoresPage />} />
                     <Route path="/reportes" element={<PlaceholderPage section="reportes" />} />
                     <Route path="/normativas" element={<PlaceholderPage section="normativas" />} />
+                    <Route path="/usuarios" element={<UsuariosPage />} />
                     <Route path="/ventas" element={<VentasPage />} />
                     <Route path="*" element={<Navigate to="/clientes" replace />} />
                   </Routes>
