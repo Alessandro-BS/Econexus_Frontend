@@ -7,7 +7,7 @@ function ReporteDeleteModal({ show, reporte, onClose, onConfirm }) {
     <div
       className="modal fade show d-block"
       tabIndex="-1"
-      style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+      style={{ backgroundColor: 'rgba(41, 37, 37, 0.5)' }}
     >
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content eco-modal">
