@@ -1,16 +1,83 @@
-# React + Vite
+# Econexus - Sistema de Gestión de Saneamiento Ambiental 🌱
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Econexus es una plataforma integral desarrollada en **React + Vite** diseñada para administrar, monitorear y optimizar los procesos de una empresa enfocada en servicios de saneamiento ambiental (Fumigación, Desinsectación, Manejo de Residuos Sólidos y Líquidos).
 
-Currently, two official plugins are available:
+## 🚀 Tecnologías y Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Frontend Core:** React 18, Vite
+- **Enrutamiento:** React Router DOM v6
+- **Estilos y UI:** CSS Vanilla (Custom Properties, BEM-like), Bootstrap 5 (Grid & Modals), Bootstrap Icons
+- **Visualización de Datos:** Recharts (Gráficos interactivos)
+- **Persistencia de Datos:** `localStorage` (Implementado vía custom hook `useLocalStorage` como Mock BD)
 
-## React Compiler
+## ✨ Características Principales
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. **Dashboard Interactivo:**
+   - Panel de control general con KPIs dinámicos (Montos Cobrados, Órdenes Generadas/Pendientes, Total de Clientes).
+   - Gráficos en tiempo real (BarChart, PieChart) que reaccionan al estado global del sistema.
 
-## Expanding the ESLint configuration
+2. **Buscador Global Inteligente:**
+   - Barra de búsqueda superior (`TopBar`) que indexa y busca simultáneamente en todos los módulos (Clientes, Proveedores, Ventas, Reportes).
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+3. **Módulos CRUD Completos:**
+   Cada módulo incluye una tabla responsiva con paginación local, barra de búsqueda en tiempo real, KPIs propios de la sección y modales interactivos para las acciones de creación, edición y eliminación.
+   - 👥 **Clientes:** Gestión de hospitales, mineras y empresas generadoras de residuos.
+   - 🏭 **Proveedores:** Gestión de empresas que proveen EPPs, químicos, maquinaria y servicios logísticos.
+   - 💼 **Ventas (Órdenes):** Control de ingresos, generación de órdenes de servicio y seguimiento de pagos.
+   - 📊 **Reportes:** Trazabilidad de los servicios ejecutados, unidades de medida y estados de cumplimiento (Pendiente, En Proceso, Cumplido, Observado).
+   - 🛡️ **Usuarios:** Administración de accesos y roles del sistema.
+   - ⚖️ **Normativas:** Registro y verificación del cumplimiento legal ambiental.
+
+4. **Diseño Premium y Responsivo:**
+   - Animaciones fluidas (`animate-fade-in-up`), modales superpuestos, diseño de tarjetas con sombras suaves y una paleta de colores curada y profesional.
+   - 100% adaptable a dispositivos móviles, tablets y escritorios.
+
+## 📂 Estructura del Proyecto
+
+```text
+src/
+├── assets/            # Imágenes, SVGs y recursos estáticos
+├── components/        # Componentes agrupados por dominio
+│   ├── auth/          # Login y flujos de autenticación
+│   ├── clientes/      # Página, Tabla, Modal y KPIs de Clientes
+│   ├── dashboard/     # Página principal, Gráficos y KPIs globales
+│   ├── layout/        # Sidebar, TopBar y estructura maestra (Layout.jsx)
+│   ├── normativas/    # Gestión legal
+│   ├── proveedores/   # Gestión de suministros
+│   ├── public/        # Landing Page pública
+│   ├── reportes/      # Operaciones y trazabilidad
+│   ├── usuarios/      # Roles y accesos
+│   └── ventas/        # Órdenes de servicio
+├── data/              # Archivos "Seed" con datos iniciales (Mock Data)
+├── hooks/             # Custom hooks (ej. useLocalStorage)
+├── App.jsx            # Enrutador principal y definición de rutas (Públicas/Privadas)
+├── index.css          # Estilos globales, variables CSS y animaciones base
+└── main.jsx           # Punto de entrada de React
+```
+
+## 🛠️ Instalación y Uso
+
+1. **Clonar el repositorio:**
+   ```bash
+   git clone [URL_DEL_REPOSITORIO]
+   cd Econexus
+   ```
+
+2. **Instalar dependencias:**
+   ```bash
+   npm install
+   ```
+
+3. **Ejecutar servidor de desarrollo:**
+   ```bash
+   npm run dev
+   ```
+   *El proyecto estará disponible por defecto en `http://localhost:5173/`.*
+
+## 💾 Sobre la Base de Datos (Persistencia Local)
+Actualmente, el proyecto funciona sin un backend externo. Toda la información se persiste en la memoria del navegador usando `localStorage`. Si deseas reiniciar la base de datos a su estado original (10 registros por módulo), simplemente limpia la caché de tu navegador (Application -> Local Storage) o elimina las llaves que empiezan con `eco_` y recarga la página.
+
+## 👥 Próximos Pasos
+- Integración de los servicios y vistas con un backend real (Spring Boot).
+- Migración de `useLocalStorage` a funciones `fetch` nativas o `axios`.
+- Implementación de autenticación real basada en JWT.

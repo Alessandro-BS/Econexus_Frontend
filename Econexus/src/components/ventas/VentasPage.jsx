@@ -12,8 +12,8 @@ import './VentasPage.css';
  * Página principal de Gestión de Ventas (Órdenes de Servicio)
  */
 function VentasPage() {
-  const [ventas, setVentas] = useLocalStorage('eco_ventas', ventasSeed);
-  const [clientes] = useLocalStorage('eco_clientes', []);
+  const [ventas, setVentas] = useLocalStorage('eco_ventas_v2', ventasSeed);
+  const [clientes] = useLocalStorage('eco_clientes_v2', []);
 
   // Estados de modales
   const [showCreateModal, setShowCreateModal] = useState(false);

@@ -12,7 +12,7 @@ import './ProveedoresPage.css';
  * CRUD completo con persistencia en localStorage.
  */
 function ProveedoresPage() {
-  const [proveedores, setProveedores] = useLocalStorage('econexus_proveedores', proveedoresSeed);
+  const [proveedores, setProveedores] = useLocalStorage('eco_proveedores_v2', proveedoresSeed);
 
   // Estado de modales
   const [showModal, setShowModal] = useState(false);
