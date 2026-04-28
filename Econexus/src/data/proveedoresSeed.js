@@ -7,7 +7,7 @@ const proveedoresSeed = [
     telefono: '01-4567890',
     email: 'ventas@quimicos.com.pe',
     direccion: 'Av. Argentina 2850, Callao',
-    tipoServicio: 'INSUMOS_QUIMICOS',
+    tipoServicio: 'SOLIDO_PELIGROSO',
     estado: 'ACTIVO',
     fechaRegistro: '2024-01-15'
   },
@@ -19,7 +19,7 @@ const proveedoresSeed = [
     telefono: '01-5234560',
     email: 'contacto@epptotal.com',
     direccion: 'Jr. Huancavelica 320, Lima',
-    tipoServicio: 'EPP_Y_SEGURIDAD',
+    tipoServicio: 'LIQUIDO',
     estado: 'ACTIVO',
     fechaRegistro: '2024-02-20'
   },
@@ -31,7 +31,7 @@ const proveedoresSeed = [
     telefono: '054-234567',
     email: 'rcastaneda@maqeco.pe',
     direccion: 'Parque Industrial, Arequipa',
-    tipoServicio: 'EQUIPOS_Y_MAQUINARIA',
+    tipoServicio: 'FUMIGACION',
     estado: 'ACTIVO',
     fechaRegistro: '2024-03-10'
   },
@@ -43,7 +43,7 @@ const proveedoresSeed = [
     telefono: '01-3456789',
     email: 'ventas@cleanpro.com.pe',
     direccion: 'Av. Javier Prado 1234, Lima',
-    tipoServicio: 'PRODUCTOS_LIMPIEZA',
+    tipoServicio: 'DESINFECCION',
     estado: 'INACTIVO',
     fechaRegistro: '2023-12-05'
   },
@@ -55,7 +55,7 @@ const proveedoresSeed = [
     telefono: '044-567890',
     email: 'fdiaz@envasesperu.com',
     direccion: 'Av. Mansiche 890, Trujillo',
-    tipoServicio: 'ENVASES',
+    tipoServicio: 'DESINSECTACION',
     estado: 'ACTIVO',
     fechaRegistro: '2024-01-30'
   },
@@ -67,7 +67,7 @@ const proveedoresSeed = [
     telefono: '065-345678',
     email: 'lfernandez@solbio.pe',
     direccion: 'Jr. Próspero 567, Iquitos',
-    tipoServicio: 'INSUMOS_BIOLOGICOS',
+    tipoServicio: 'SOLIDO_NO_PELIGROSO',
     estado: 'ACTIVO',
     fechaRegistro: '2024-02-28'
   },
@@ -79,7 +79,7 @@ const proveedoresSeed = [
     telefono: '054-456789',
     email: 'jluna@combustiblesur.com.pe',
     direccion: 'Rio Seco, Arequipa',
-    tipoServicio: 'COMBUSTIBLES',
+    tipoServicio: 'SOLIDO_PELIGROSO',
     estado: 'ACTIVO',
     fechaRegistro: '2024-03-05'
   },
@@ -91,7 +91,7 @@ const proveedoresSeed = [
     telefono: '01-5678901',
     email: 'dmorales@labtest.com',
     direccion: 'Av. La Marina 2500, Lima',
-    tipoServicio: 'SERVICIOS_ANALISIS',
+    tipoServicio: 'LIQUIDO',
     estado: 'INACTIVO',
     fechaRegistro: '2023-11-20'
   },
@@ -103,7 +103,7 @@ const proveedoresSeed = [
     telefono: '072-234567',
     email: 'pgonzalez@ferreteriamega.com',
     direccion: 'Av. Salaverry 3000, Cajamarca',
-    tipoServicio: 'FERRETERIA',
+    tipoServicio: 'LIQUIDO',
     estado: 'ACTIVO',
     fechaRegistro: '2024-04-01'
   },
@@ -115,7 +115,7 @@ const proveedoresSeed = [
     telefono: '01-9876543',
     email: 'rlopez@logistico.com.pe',
     direccion: 'Av. Aviación 2080, Lima',
-    tipoServicio: 'TRANSPORTE',
+    tipoServicio: 'DESINFECCION',
     estado: 'ACTIVO',
     fechaRegistro: '2024-04-10'
   }
