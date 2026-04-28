@@ -7,9 +7,9 @@ import DashboardCharts from './DashboardCharts';
 import './DashboardPage.css'; 
 
 function DashboardPage() {
-  const [ventas] = useLocalStorage('eco_ventas', ventasSeed);
-  const [clientes] = useLocalStorage('eco_clientes', clientesSeed);
-  const [reportes] = useLocalStorage('eco_reportes', reportesSeed);
+  const [ventas] = useLocalStorage('eco_ventas_v2', ventasSeed);
+  const [clientes] = useLocalStorage('eco_clientes_v2', clientesSeed);
+  const [reportes] = useLocalStorage('eco_reportes_v3', reportesSeed);
 
   return (
     <div className="dashboard-page">

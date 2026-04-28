@@ -8,18 +8,19 @@ import {
 function DashboardCharts({ reportes = [], ventas = [] }) {
   
   const datosReportesEstado = useMemo(() => {
-    const conteo = { 'PENDIENTE': 0, 'EN_PROCESO': 0, 'CUMPLIDO': 0, 'OBSERVADO': 0 };
+    const conteo = { 'PENDIENTE': 0, 'EN PROCESO': 0, 'CUMPLIDO': 0, 'OBSERVADO': 0 };
     
     // Si reportes es válido, cuenta. Si no, no hace nada pero no explota.
     reportes.forEach(r => {
-      if (r && conteo[r.estado_cumplimiento] !== undefined) {
-        conteo[r.estado_cumplimiento]++;
+      const estado = r.estado ? r.estado.toUpperCase() : null;
+      if (estado && conteo[estado] !== undefined) {
+        conteo[estado]++;
       }
     });
 
     return [
       { name: 'Pendientes', value: conteo['PENDIENTE'], color: '#FF8042' },
-      { name: 'En Proceso', value: conteo['EN_PROCESO'], color: '#0088FE' },
+      { name: 'En Proceso', value: conteo['EN PROCESO'], color: '#0088FE' },
       { name: 'Cumplidos', value: conteo['CUMPLIDO'], color: '#00C49F' },
       { name: 'Observados', value: conteo['OBSERVADO'], color: '#FFBB28' },
     ];

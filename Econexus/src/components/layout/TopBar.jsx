@@ -43,12 +43,12 @@ function TopBar({ onToggleSidebar, onLogout }) {
       const termLower = term.toLowerCase();
       
       // Obtener datos desde localStorage (usado como mock de API global)
-      const clientes = JSON.parse(localStorage.getItem('eco_clientes')) || [];
-      const proveedores = JSON.parse(localStorage.getItem('econexus_proveedores')) || [];
-      const ventas = JSON.parse(localStorage.getItem('eco_ventas')) || [];
+      const clientes = JSON.parse(localStorage.getItem('eco_clientes_v2')) || [];
+      const proveedores = JSON.parse(localStorage.getItem('eco_proveedores_v2')) || [];
+      const ventas = JSON.parse(localStorage.getItem('eco_ventas_v2')) || [];
       const usuarios = JSON.parse(localStorage.getItem('eco_usuarios')) || [];
       const normativas = JSON.parse(localStorage.getItem('eco_normativas')) || [];
-      const reportes = JSON.parse(localStorage.getItem('eco_reportes')) || [];
+      const reportes = JSON.parse(localStorage.getItem('eco_reportes_v3')) || [];
       
       // Filtrar resultados por coincidencias en varios campos
       const filteredClientes = clientes.filter(c => 

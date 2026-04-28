@@ -12,7 +12,7 @@ import './ReportesPage.css';
  * CRUD completo con persistencia en localStorage.
  */
 function ReportesPage() {
-  const [reportes, setReportes] = useLocalStorage('eco_reportes_v2', reportesSeed);
+  const [reportes, setReportes] = useLocalStorage('eco_reportes_v3', reportesSeed);
 
   // Estado de modales
   const [showModal, setShowModal] = useState(false);

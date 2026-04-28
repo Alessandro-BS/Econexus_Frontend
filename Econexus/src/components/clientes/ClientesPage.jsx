@@ -12,7 +12,7 @@ import './ClientesPage.css';
  * CRUD completo con persistencia en localStorage.
  */
 function ClientesPage() {
-  const [clientes, setClientes] = useLocalStorage('eco_clientes', clientesSeed);
+  const [clientes, setClientes] = useLocalStorage('eco_clientes_v2', clientesSeed);
 
   // Estado de modales
   const [showModal, setShowModal] = useState(false);
