@@ -95,7 +95,7 @@ const LandingPage = () => {
                 <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sobre Econexus" className="img-fluid rounded-4 shadow-lg" />
                 <div className="experience-badge bg-success text-white p-4 rounded-circle position-absolute d-flex flex-column justify-content-center align-items-center shadow" style={{ bottom: '-30px', right: '-30px', width: '150px', height: '150px' }}>
                   <h3 className="fw-bold mb-0">15+</h3>
-                  <span className="text-center small">Años de<br/>Experiencia</span>
+                  <span className="text-center small">Años de<br />Experiencia</span>
                 </div>
               </div>
             </div>
@@ -153,7 +153,7 @@ const LandingPage = () => {
                 </div>
               </div>
             </div>
-            
+
             {/* Service 2 */}
             <div className="col-md-6 col-lg-4">
               <div className="card h-100 border-0 shadow-sm service-card transition-all">
@@ -261,11 +261,11 @@ const LandingPage = () => {
               <ul className="list-unstyled mb-0 text-white-50">
                 <li className="mb-3 d-flex align-items-start">
                   <i className="bi bi-geo-alt-fill text-success me-3 mt-1"></i>
-                  <span>Av. Principal 123, Distrito Sostenible, Lima</span>
+                  <span>Mza. C Lote. 16 Santo Domingo Etapa 12</span>
                 </li>
                 <li className="mb-3 d-flex align-items-center">
                   <i className="bi bi-telephone-fill text-success me-3"></i>
-                  <span>+51 987 654 321</span>
+                  <span>+51 984 654 112</span>
                 </li>
                 <li className="mb-3 d-flex align-items-center">
                   <i className="bi bi-envelope-fill text-success me-3"></i>
