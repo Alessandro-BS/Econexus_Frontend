@@ -26,7 +26,8 @@ function ProveedorTable({ proveedores, onEdit, onDelete, onReactivate }) {
           p.razonSocial.toLowerCase().includes(term) ||
           p.ruc.includes(term) ||
           p.contactoPrincipal.toLowerCase().includes(term) ||
-          p.email.toLowerCase().includes(term)
+          p.email.toLowerCase().includes(term) ||
+          (p.tipoServicio && p.tipoServicio.toLowerCase().includes(term))
       );
     }
 
@@ -96,7 +97,7 @@ function ProveedorTable({ proveedores, onEdit, onDelete, onReactivate }) {
             <input
               type="text"
               className="table-search-input"
-              placeholder="Buscar por razón social, RUC, contacto..."
+              placeholder="Buscar por razón social, RUC, contacto o servicio..."
               value={searchTerm}
               onChange={handleSearchChange}
               id="search-proveedores"
