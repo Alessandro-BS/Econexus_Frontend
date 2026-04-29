@@ -1,193 +1,127 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './ServiciosPage.css';
 
 const ServiciosPage = () => {
+  // Lógica para el Modal
+  const [showModal, setShowModal] = useState(false);
+  const [enviado, setEnviado] = useState(false);
+
+  const handleEnviar = (e) => {
+    e.preventDefault();
+    setEnviado(true);
+    setTimeout(() => { setShowModal(false); setEnviado(false); }, 3000);
+  };
+
   return (
     <div className="servicios-detalle bg-light">
       {/* Navegación */}
-      <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+      <nav className="navbar navbar-light bg-white shadow-sm sticky-top">
         <div className="container">
           <Link to="/" className="btn btn-sm btn-outline-success rounded-pill px-3">
-            <i className="bi bi-arrow-left me-1"></i> Volver
+            <i className="bi bi-arrow-left me-1"></i> Volver al Inicio
           </Link>
-          <span className="ms-auto fw-bold text-success border-start ps-3">División de Ingeniería Ambiental</span>
+          <span className="fw-bold text-success border-start ps-3 d-none d-md-inline">División de Ingeniería Ambiental</span>
         </div>
       </nav>
 
-      {/* Hero Section Industrial */}
-      <header className="bg-dark text-white py-5 position-relative overflow-hidden">
-        <div className="container position-relative" style={{ zIndex: 2 }}>
-          <div className="row align-items-center">
-            <div className="col-lg-8 text-start">
-              <span className="badge bg-success mb-2 px-3 py-2">OPERADORA AUTORIZADA</span>
-              <h1 className="display-4 fw-bold">Gestión Integral de Pasivos y Residuos</h1>
-              <p className="lead text-white-50">Soluciones de alta complejidad para los sectores de Minería, Salud e Industria Pesada.</p>
-            </div>
-          </div>
+      {/* Header Corregido (Icono al fondo y texto claro) */}
+      <header className="hero-industrial text-white py-5 position-relative overflow-hidden bg-dark">
+        <div className="container position-relative py-5" style={{ zIndex: 2 }}>
+          <span className="badge bg-success mb-2 px-3 py-2 text-uppercase tracking-wider">Operadora Autorizada</span>
+          <h1 className="display-3 fw-bold mb-3">Ingeniería en Gestión <br/> de Residuos y Pasivos</h1>
+          <p className="lead fs-4 opacity-75 w-75">
+            Soluciones técnicas para sectores críticos: Minería, Energía y Redes Hospitalarias.
+          </p>
         </div>
-        <div className="position-absolute top-50 start-50 translate-middle opacity-10">
-          <i className="bi bi-cone-striped display-1" style={{ fontSize: '20rem' }}></i>
+        {/* El icono ahora es realmente un fondo sutil */}
+        <div className="icon-bg-overlay">
+          <i className="bi bi-cone-striped"></i>
         </div>
       </header>
 
       <main className="container py-5">
-        {/* SECCIÓN 1: SERVICIOS POR CATEGORÍA TÉCNICA */}
+        {/* Sección de Tarjetas Técnicas (Basadas en tus datos de Admin) */}
         <div className="row g-4 mb-5">
-          <h2 className="fw-bold h3 mb-4"><i className="bi bi-gear-fill text-success me-2"></i>Líneas de Servicio Especializado</h2>
+          <h2 className="fw-bold h3 mb-4"><i className="bi bi-ui-checks-grid text-success me-2"></i>Especialidades Operativas</h2>
           
-          {/* Gestión de Residuos Peligrosos (Inspirado en tus Reportes) */}
-          <div className="col-md-6 col-xl-4">
-            <div className="card h-100 border-0 shadow-sm overflow-hidden">
-              <div className="card-body p-4">
-                <div className="d-flex align-items-center mb-3">
-                  <div className="bg-success bg-opacity-10 p-3 rounded-3 me-3">
-                    <i className="bi bi-exclamation-triangle-fill text-success fs-3"></i>
-                  </div>
-                  <h4 className="fw-bold m-0">Residuos Peligrosos</h4>
-                </div>
-                <p className="text-muted small">Manejo especializado de MATPEL (Materiales Peligrosos) con trazabilidad completa.</p>
-                <ul className="list-group list-group-flush mb-3">
-                  <li className="list-group-item bg-transparent px-0 py-1 text-secondary small border-0"><i className="bi bi-dot"></i> Aceites usados, Baterías y Filtros</li>
-                  <li className="list-group-item bg-transparent px-0 py-1 text-secondary small border-0"><i className="bi bi-dot"></i> Tierra contaminada con hidrocarburos</li>
-                  <li className="list-group-item bg-transparent px-0 py-1 text-secondary small border-0"><i className="bi bi-dot"></i> Envases químicos y lodos industriales</li>
-                </ul>
-                <div className="bg-light p-2 rounded small text-center fw-bold text-success border border-success-subtle">
-                  CAPACIDAD: HASTA 500 TN / MES
-                </div>
-              </div>
+          <div className="col-md-4">
+            <div className="card h-100 border-0 shadow-sm p-4">
+              <h5 className="fw-bold text-success"><i className="bi bi-radioactive me-2"></i>MATPEL</h5>
+              <p className="small text-muted">Gestión de Aceites, Baterías y Filtros. Servicio activo para: <strong>Minera Los Andes.</strong></p>
+              <div className="mt-auto border-top pt-2 small text-uppercase fw-bold text-secondary">Ley N° 1278</div>
             </div>
           </div>
 
-          {/* Tratamiento de Aguas (Inspirado en Alimentos Procesados Lima) */}
-          <div className="col-md-6 col-xl-4">
-            <div className="card h-100 border-0 shadow-sm overflow-hidden">
-              <div className="card-body p-4 text-white" style={{ backgroundColor: '#1a1d20' }}>
-                <div className="d-flex align-items-center mb-3">
-                  <div className="bg-primary bg-opacity-25 p-3 rounded-3 me-3">
-                    <i className="bi bi-droplet-half text-primary fs-3"></i>
-                  </div>
-                  <h4 className="fw-bold m-0 text-white">Tratamiento de Aguas</h4>
-                </div>
-                <p className="text-white-50 small">Sistemas avanzados de purificación y evacuación de lodos residuales.</p>
-                <ul className="list-group list-group-flush mb-3">
-                  <li className="list-group-item bg-transparent px-0 py-1 text-white-50 small border-0"><i className="bi bi-dot text-primary"></i> Aguas residuales domésticas e industriales</li>
-                  <li className="list-group-item bg-transparent px-0 py-1 text-white-50 small border-0"><i className="bi bi-dot text-primary"></i> Succión de pozos sépticos y trampas de grasa</li>
-                  <li className="list-group-item bg-transparent px-0 py-1 text-white-50 small border-0"><i className="bi bi-dot text-primary"></i> Cumplimiento de LMP para descarga</li>
-                </ul>
-                <div className="bg-dark p-2 rounded small text-center fw-bold text-primary border border-primary-subtle">
-                  VOLUMEN: +10,000 LITROS / JORNADA
-                </div>
-              </div>
+          <div className="col-md-4">
+            <div className="card h-100 border-0 shadow-sm p-4 bg-dark text-white">
+              <h5 className="fw-bold text-primary"><i className="bi bi-droplet-fill me-2"></i>PTAR Industrial</h5>
+              <p className="small text-white-50">Tratamiento de lodos y efluentes. Cliente principal: <strong>Alimentos Procesados Lima.</strong></p>
+              <div className="mt-auto border-top border-secondary pt-2 small text-uppercase fw-bold text-primary">D.S. 010-2019</div>
             </div>
           </div>
 
-          {/* Saneamiento y Sanidad (Inspirado en Hospitales) */}
-          <div className="col-md-6 col-xl-4">
-            <div className="card h-100 border-0 shadow-sm overflow-hidden border-top border-success border-4">
-              <div className="card-body p-4">
-                <div className="d-flex align-items-center mb-3">
-                  <div className="bg-success bg-opacity-10 p-3 rounded-3 me-3">
-                    <i className="bi bi-shield-shaded text-success fs-3"></i>
-                  </div>
-                  <h4 className="fw-bold m-0">Sanidad Hospitalaria</h4>
-                </div>
-                <p className="text-muted small">Protocolos de alta desinfección para entornos críticos de salud.</p>
-                <ul className="list-group list-group-flush mb-3">
-                  <li className="list-group-item bg-transparent px-0 py-1 text-secondary small border-0"><i className="bi bi-dot text-success"></i> Desinfección virucida y bactericida</li>
-                  <li className="list-group-item bg-transparent px-0 py-1 text-secondary small border-0"><i className="bi bi-dot text-success"></i> Desinsectación y control de plagas (Fumigación)</li>
-                  <li className="list-group-item bg-transparent px-0 py-1 text-secondary small border-0"><i className="bi bi-dot text-success"></i> Certificación inmediata según TUPA DIGESA</li>
-                </ul>
-                <div className="bg-light p-2 rounded small text-center fw-bold text-success border border-success-subtle">
-                  ESTÁNDAR: NTS N° 144-MINSA
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* SECCIÓN 2: MARCO LEGAL (Datos Reales de tu Admin) */}
-        <div className="bg-white rounded-4 shadow-sm p-4 mb-5 border border-success-subtle">
-          <div className="row align-items-center">
-            <div className="col-lg-4 border-end border-light pe-4">
-              <h3 className="fw-bold mb-3">Marco Legal y Auditoría</h3>
-              <p className="text-muted small">Nuestras operaciones están estrictamente vigiladas por las entidades fiscalizadoras del Estado Peruano.</p>
-              <div className="d-flex gap-2">
-                <span className="badge bg-light text-success border">MINAM</span>
-                <span className="badge bg-light text-success border">DIGESA</span>
-                <span className="badge bg-light text-success border">OEFA</span>
-              </div>
-            </div>
-            <div className="col-lg-8 ps-lg-4 mt-4 mt-lg-0">
-              <div className="table-responsive">
-                <table className="table table-sm table-borderless align-middle mb-0">
-                  <thead className="text-uppercase small fw-bold text-muted border-bottom">
-                    <tr>
-                      <th>Código Norma</th>
-                      <th>Descripción Oficial</th>
-                    </tr>
-                  </thead>
-                  <tbody className="small">
-                    <tr>
-                      <td className="fw-bold py-2">DS N° 014-2017-MINAM</td>
-                      <td>Ley de Gestión Integral de Residuos Sólidos</td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold py-2">NTS N° 144-MINSA/2018</td>
-                      <td>Manejo de Residuos Sólidos en Establecimientos de Salud</td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold py-2">TUPA 25</td>
-                      <td>Vigilancia Sanitaria de Desinfectantes y Plaguicidas</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* SECCIÓN 3: MÉTRICAS DE CONFIANZA */}
-        <div className="row g-4 text-center">
-          <div className="col-6 col-md-3">
-            <div className="p-3">
-              <div className="h2 fw-bold text-success mb-0">+15</div>
-              <div className="small text-muted text-uppercase tracking-wider">Años Experiencia</div>
-            </div>
-          </div>
-          <div className="col-6 col-md-3">
-            <div className="p-3 border-start border-light">
-              <div className="h2 fw-bold text-success mb-0">100%</div>
-              <div className="small text-muted text-uppercase tracking-wider">Cumplimiento Legal</div>
-            </div>
-          </div>
-          <div className="col-6 col-md-3">
-            <div className="p-3 border-start border-light">
-              <div className="h2 fw-bold text-success mb-0">+10</div>
-              <div className="small text-muted text-uppercase tracking-wider">Clientes Corporativos</div>
-            </div>
-          </div>
-          <div className="col-6 col-md-3">
-            <div className="p-3 border-start border-light">
-              <div className="h2 fw-bold text-success mb-0">24/7</div>
-              <div className="small text-muted text-uppercase tracking-wider">Soporte Técnico</div>
+          <div className="col-md-4">
+            <div className="card h-100 border-0 shadow-sm p-4">
+              <h5 className="fw-bold text-success"><i className="bi bi-hospital me-2"></i>Sanidad Hospitalaria</h5>
+              <p className="small text-muted">Alta desinfección virucida. Servicio activo para: <strong>Hospital Regional del Sur.</strong></p>
+              <div className="mt-auto border-top pt-2 small text-uppercase fw-bold text-secondary">NTS 144-MINSA</div>
             </div>
           </div>
         </div>
       </main>
 
-      {/* Footer / CTA final */}
-      <footer className="bg-success text-white py-5">
-        <div className="container text-center">
-          <h2 className="fw-bold mb-4">¿Desea programar una inspección técnica?</h2>
-          <p className="mb-4 opacity-75 mx-auto" style={{ maxWidth: '600px' }}>
-            Nuestros supervisores y operadores están listos para evaluar la gestión ambiental de su empresa y emitir los informes de cumplimiento necesarios.
-          </p>
-          <Link to="/" className="btn btn-light text-success btn-lg fw-bold rounded-pill px-5 shadow">
-            Iniciar Gestión Administrativa
-          </Link>
+      {/* Footer / Acción con Modal */}
+      <footer className="bg-success text-white py-5 border-top border-light border-5">
+        <div className="container text-center py-4">
+          <h2 className="fw-bold mb-3">¿Requiere una Inspección Técnica?</h2>
+          <p className="mb-4 fs-5 opacity-75">Nuestros supervisores (Fabrizio Bustamante / Shayuri Garcia) evaluarán su planta.</p>
+          <button 
+            onClick={() => setShowModal(true)}
+            className="btn btn-light btn-lg text-success fw-bold rounded-pill px-5 shadow-lg"
+          >
+            Agendar Visita de Campo
+          </button>
         </div>
       </footer>
+
+      {/* MODAL DE SIMULACIÓN (BOOTSTRAP) */}
+      {showModal && (
+        <div className="modal-custom-overlay">
+          <div className="modal-custom-content shadow-lg rounded-4 p-4 border-top border-success border-5">
+            {!enviado ? (
+              <>
+                <h4 className="fw-bold text-dark mb-3">Solicitud de Inspección</h4>
+                <form onSubmit={handleEnviar}>
+                  <div className="mb-3">
+                    <label className="form-label small fw-bold">Unidad Operativa Econexus</label>
+                    <select className="form-select border-success" required>
+                      <option value="">Seleccione un servicio...</option>
+                      <option>Recolección de Residuos Sólidos</option>
+                      <option>Tratamiento de Aguas Residuales</option>
+                      <option>Fumigación y Control de Plagas</option>
+                    </select>
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label small fw-bold">Empresa / Razón Social</label>
+                    <input type="text" className="form-control border-success" placeholder="Ej: Minera Los Andes" required />
+                  </div>
+                  <div className="d-flex gap-2">
+                    <button type="submit" className="btn btn-success flex-grow-1 fw-bold rounded-pill">Generar Solicitud</button>
+                    <button type="button" onClick={() => setShowModal(false)} className="btn btn-light rounded-pill">Cancelar</button>
+                  </div>
+                </form>
+              </>
+            ) : (
+              <div className="text-center py-4">
+                <i className="bi bi-check-circle-fill text-success display-1 mb-3"></i>
+                <h4 className="fw-bold">¡Solicitud Generada!</h4>
+                <p className="text-muted small">Se ha asignado al <strong>Supervisor Fabrizio Bustamante</strong> para la inspección técnica.</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
