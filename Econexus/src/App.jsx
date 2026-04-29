@@ -11,7 +11,7 @@ import ReportesPage from './components/reportes/ReportesPage';
 import PlaceholderPage from './components/common/PlaceholderPage';
 import LoginPage from './components/auth/LoginPage';
 import DashboardPage from './components/dashboard/DashboardPage';
-import LandingPage from './components/public/LandingPage';
+import LandingPage from './pages/public/LandingPage';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
