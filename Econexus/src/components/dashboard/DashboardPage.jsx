@@ -12,7 +12,7 @@ function DashboardPage() {
   const [clientes] = useLocalStorage('eco_clientes', clientesSeed);
   const [reportes] = useLocalStorage('eco_reportes', reportesSeed);
 
-  // Estado para guardar qué filtro eligió el usuario (por defecto 'todos')
+  // Estado para el filtro 
   const [filtroTiempo, setFiltroTiempo] = useState('todos');
 
   return (
@@ -26,21 +26,23 @@ function DashboardPage() {
           <p className="section-subtitle">Visualización de métricas clave y tendencias</p>
         </div>
         
-        {/* Aquí agregamos el menú desplegable (El Botón Visual) */}
-        <div className="dashboard-filters">
-          <select 
-            className="form-select eco-select" 
-            value={filtroTiempo}
-            onChange={(e) => setFiltroTiempo(e.target.value)}
-          >
-            <option value="todos">Todo el historial</option>
-            <option value="mes">Este mes</option>
-            <option value="semestre">Últimos 6 meses</option>
-          </select>
+        {/* El desplegable que querías */}
+        <div className="section-header-right">
+          <div className="search-container">
+            <i className="bi bi-calendar3 search-icon"></i>
+            <select 
+              className="form-select filter-select" 
+              value={filtroTiempo}
+              onChange={(e) => setFiltroTiempo(e.target.value)}
+            >
+              <option value="todos">Todo el historial</option>
+              <option value="mes">Este mes</option>
+              <option value="semestre">Últimos 6 meses</option>
+            </select>
+          </div>
         </div>
       </div>
 
-      {/* Le mandamos la variable 'filtroTiempo' a las tarjetas y gráficos */}
       <DashboardKPIs ventas={ventas || []} clientes={clientes || []} filtro={filtroTiempo} />
       <DashboardCharts reportes={reportes || []} ventas={ventas || []} filtro={filtroTiempo} />
     </div>

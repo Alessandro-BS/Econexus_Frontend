@@ -1,56 +1,90 @@
-/* DashboardPage.css */
 .dashboard-page {
-  padding: 1rem 0;
-  width: 100%;
+  padding: 0;
 }
 
-.kpi-card {
-  background-color: #ffffff;
-  border-radius: 12px;
-  border-left: 5px solid #ccc;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  height: 100%;
-}
-
-.kpi-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-}
-
-.kpi-card-body {
-  padding: 1.5rem;
+.section-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1.5rem;
 }
 
-.kpi-info {
-  display: flex;
-  flex-direction: column;
+.section-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--eco-gray-900);
+  margin-bottom: 4px;
 }
 
-.kpi-label {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #6c757d;
-  margin-bottom: 0.5rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.section-title-icon {
+  color: var(--eco-green-700);
 }
 
-.kpi-value {
-  font-size: 1.8rem;
-  font-weight: 700;
-  line-height: 1;
-}
-
- .kpi-icon-wrapper {
-  width: 50px;
-  height: 50px;
-  border-radius: 12px;
+/* --- ESTILO DE LA CAJA DEL FILTRO --- */
+.section-header-right {
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-right: 1.5rem; 
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 0.3rem 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* AQUÍ ESTÁ LO QUE PEDÍAS: Borde y sombra VERDE al darle clic */
+.search-container:focus-within {
+  border-color: #2E7D32; /* Tu verde EcoNexus */
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.15); /* Sombra verde suave */
+}
+
+.search-icon {
+  color: #6c757d;
+  font-size: 1.1rem;
+  margin-right: 0.5rem;
+}
+
+.filter-select {
+  border: none !important;
+  background-color: transparent !important;
+  padding-left: 0.5rem;
+  color: #495057;
+  font-weight: 500;
+  box-shadow: none !important;
+  cursor: pointer;
+  min-width: 170px;
+}
+
+.filter-select:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* --- DISEÑO RESPONSIVE (Para que se vea bien en celulares) --- */
+@media (max-width: 992px) {
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .section-header-right,
+  .search-container {
+    width: 100%; /* Ocupa todo el ancho en móviles */
+  }
+
+  .filter-select {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .section-title {
+    font-size: 1.4rem;
+  }
 }
