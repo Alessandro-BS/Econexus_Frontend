@@ -51,6 +51,25 @@ const ServiciosPage = () => {
             </div>
           </div>
         </div>
+        {/* Sección de Certificaciones y Compromiso */}
+        <div className="mt-5 p-5 bg-light rounded-4 text-center border-top">
+          <h4 className="fw-bold mb-4 text-dark">Certificaciones y Cumplimiento Normativo</h4>
+          <p className="text-secondary mb-5 mx-auto" style={{ maxWidth: '800px' }}>
+            En Econexus operamos bajo los más altos estándares internacionales, garantizando que cada proceso 
+            respete el marco legal vigente y contribuya a la preservación del ecosistema.
+          </p>
+          <div className="d-flex justify-content-around flex-wrap gap-4">
+            <div className="badge bg-white text-success p-3 shadow-sm border border-success-subtle flex-grow-1" style={{ minWidth: '150px' }}>
+              <i className="bi bi-patch-check-fill me-2"></i> ISO 14001:2015
+            </div>
+            <div className="badge bg-white text-success p-3 shadow-sm border border-success-subtle flex-grow-1" style={{ minWidth: '150px' }}>
+              <i className="bi bi-patch-check-fill me-2"></i> ISO 9001:2015
+            </div>
+            <div className="badge bg-white text-success p-3 shadow-sm border border-success-subtle flex-grow-1" style={{ minWidth: '150px' }}>
+              <i className="bi bi-patch-check-fill me-2"></i> Ley N° 29783 (SST)
+            </div>
+          </div>
+        </div>
       </main>
     </div>
   );
