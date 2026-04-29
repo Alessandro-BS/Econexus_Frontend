@@ -46,7 +46,7 @@ const usuariosSeed = [
     email: 'fcampomanes@econexus.com.pe',
     telefono: '926577602',
     rol: 'OPERADOR',
-    estado: 'INACTIVO',
+    estado: 'ACTIVO',
     fecha_creacion: '2026-04-25',
     password: 'campomanes123'
   }
