@@ -1,287 +1,205 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import './LandingPage.css';
-import logo from '../../assets/econexus-sin-fondo.png';
+import './ServiciosPage.css';
 
-const LandingPage = () => {
+const ServiciosPage = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [enviado, setEnviado] = useState(false);
+
+  const handleEnviar = (e) => {
+    e.preventDefault();
+    setEnviado(true);
+    // Cierre rápido del modal para mejorar la experiencia
+    setTimeout(() => { 
+      setShowModal(false); 
+      setEnviado(false); 
+    }, 1800);
+  };
+
   return (
-    <div className="landing-page">
-      {/* Header & Navbar */}
-      <nav className="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
-        <div className="container">
-          <a className="navbar-brand d-flex align-items-center" href="#inicio">
-            <img src={logo} alt="Econexus Logo" height="50" className="me-2" />
-          </a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul className="navbar-nav align-items-center">
-              <li className="nav-item">
-                <a className="nav-link fw-medium px-3" href="#inicio">Inicio</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link fw-medium px-3" href="#nosotros">Nosotros</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link fw-medium px-3" href="#servicios">Servicios</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link fw-medium px-3" href="#galeria">Galería</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link fw-medium px-3" href="#contacto">Contáctanos</a>
-              </li>
-              <li className="nav-item ms-lg-3 mt-3 mt-lg-0">
-                <Link to="/login" className="btn btn-success px-4 rounded-pill fw-bold shadow-sm">
-                  Iniciar Sesión
-                </Link>
-              </li>
-            </ul>
-          </div>
+    <div className="servicios-page-master">
+      {/* Barra de Navegación - Ancho Completo */}
+      <nav className="custom-nav-servicios">
+        <div className="nav-content">
+          <Link to="/" className="back-link">
+            <i className="bi bi-arrow-left-circle-fill"></i> Volver al Inicio
+          </Link>
+          <div className="brand-tag">Econexus | División de Ingeniería</div>
         </div>
       </nav>
 
-      {/* Carousel (Hero) */}
-      <section id="inicio">
-        <div id="heroCarousel" className="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
-          <div className="carousel-inner">
-            {/* Slide 1 */}
-            <div className="carousel-item active">
-              <div className="carousel-bg-image" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')" }}></div>
-              <div className="carousel-overlay"></div>
-              <div className="carousel-caption d-flex flex-column justify-content-center align-items-center h-100">
-                <h1 className="display-3 fw-bold text-white mb-4 animate-slide-up">Soluciones Integrales de Saneamiento Ambiental</h1>
-                <p className="lead text-white mb-5 animate-slide-up delay-1">Protegiendo el medio ambiente y asegurando un futuro sostenible para tu empresa.</p>
-                <Link to="/servicios-detalle" className="btn btn-success btn-lg px-5 py-3 rounded-pill fw-bold">Descubre Más</Link>
-              </div>
-            </div>
-            {/* Slide 2 */}
-            <div className="carousel-item">
-              <div className="carousel-bg-image" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')" }}></div>
-              <div className="carousel-overlay"></div>
-              <div className="carousel-caption d-flex flex-column justify-content-center align-items-center h-100">
-                <h1 className="display-3 fw-bold text-white mb-4 animate-slide-up">Manejo Responsable de Residuos</h1>
-                <p className="lead text-white mb-5 animate-slide-up delay-1">Gestionamos de manera eficiente y segura los residuos de tu organización.</p>
-                <a href="#contacto" className="btn btn-lg btn-light rounded-pill px-5 py-3 fw-bold animate-slide-up delay-2 shadow">Contáctanos Hoy</a>
-              </div>
-            </div>
-          </div>
-          <button className="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span className="visually-hidden">Anterior</span>
-          </button>
-          <button className="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-            <span className="carousel-control-next-icon" aria-hidden="true"></span>
-            <span className="visually-hidden">Siguiente</span>
-          </button>
-        </div>
-      </section>
-
-      {/* Description / Nosotros */}
-      <section id="nosotros" className="py-5 bg-light">
-        <div className="container py-5">
-          <div className="row align-items-center">
-            <div className="col-lg-6 mb-4 mb-lg-0">
-              <div className="position-relative">
-                <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sobre Econexus" className="img-fluid rounded-4 shadow-lg" />
-                <div className="experience-badge bg-success text-white p-4 rounded-circle position-absolute d-flex flex-column justify-content-center align-items-center shadow" style={{ bottom: '-30px', right: '-30px', width: '150px', height: '150px' }}>
-                  <h3 className="fw-bold mb-0">15+</h3>
-                  <span className="text-center small">Años de<br />Experiencia</span>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-5 offset-lg-1">
-              <h6 className="text-success text-uppercase fw-bold tracking-wider mb-2">Sobre Nosotros</h6>
-              <h2 className="display-5 fw-bold mb-4 text-dark">Líderes en Saneamiento y Cuidado Ambiental</h2>
-              <p className="lead text-secondary mb-4">
-                En Econexus, nos dedicamos a ofrecer soluciones sostenibles y eficientes en saneamiento ambiental. Nuestro compromiso es garantizar un entorno limpio y seguro para empresas y comunidades.
-              </p>
-              <p className="text-secondary mb-4">
-                A través de la innovación constante y el uso de tecnologías amigables con el ecosistema, abordamos los desafíos medioambientales más complejos, asegurando el cumplimiento normativo y promoviendo el bienestar integral.
-              </p>
-              <ul className="list-unstyled mb-4">
-                <li className="d-flex align-items-center mb-3">
-                  <i className="bi bi-check-circle-fill text-success fs-5 me-3"></i>
-                  <span className="fw-medium text-dark">Personal altamente capacitado</span>
-                </li>
-                <li className="d-flex align-items-center mb-3">
-                  <i className="bi bi-check-circle-fill text-success fs-5 me-3"></i>
-                  <span className="fw-medium text-dark">Cumplimiento de normativas vigentes</span>
-                </li>
-                <li className="d-flex align-items-center">
-                  <i className="bi bi-check-circle-fill text-success fs-5 me-3"></i>
-                  <span className="fw-medium text-dark">Compromiso con la sostenibilidad</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Servicios */}
-      <section id="servicios" className="py-5">
-        <div className="container py-5">
-          <div className="text-center max-w-700 mx-auto mb-5">
-            <h6 className="text-success text-uppercase fw-bold tracking-wider mb-2">Nuestros Servicios</h6>
-            <h2 className="display-5 fw-bold mb-3 text-dark">Soluciones Especializadas</h2>
-            <p className="lead text-secondary">
-              Ofrecemos una gama completa de servicios diseñados para proteger el medio ambiente y asegurar el cumplimiento de las normativas de su empresa.
+      {/* Hero Industrial - Ocupa todo el ancho con degradado fuerte */}
+      <section className="hero-full-width">
+        <div className="container">
+          <div className="hero-text-box">
+            <span className="status-badge">Operación Nacional Certificada</span>
+            <h1>Soluciones Ambientales de Alto Impacto</h1>
+            <p>
+              Transformamos la gestión de residuos y efluentes en una ventaja competitiva para su empresa. 
+              Cumplimiento técnico, legal y operativo garantizado.
             </p>
+            <a href="#detalles" className="cta-scroll">Explorar Especialidades <i className="bi bi-chevron-down"></i></a>
+          </div>
+        </div>
+        <div className="floating-icon">
+          <i className="bi bi-cone-striped"></i>
+        </div>
+      </section>
+
+      {/* Grid de Servicios - Diseño Limpio */}
+      <main id="detalles" className="container py-5">
+        <div className="section-title text-center mb-5">
+          <h2>Nuestros Ejes Operativos</h2>
+          <div className="title-underline"></div>
+        </div>
+
+        <div className="row g-4">
+          {/* MATPEL */}
+          <div className="col-lg-4">
+            <div className="service-card shadow-lg">
+              <div className="card-icon bg-green-soft">
+                <i className="bi bi-recycle"></i>
+              </div>
+              <h4>Gestión de Residuos</h4>
+              <p>Manejo integral de materiales peligrosos y no peligrosos. Nos encargamos de la recolección, transporte y disposición final en rellenos de seguridad autorizados.</p>
+              <ul className="feature-list">
+                <li><i className="bi bi-check-circle"></i> Trazabilidad con GPS</li>
+                <li><i className="bi bi-check-circle"></i> Emisión de Manifiestos</li>
+                <li><i className="bi bi-check-circle"></i> Residuos MATPEL / Industriales</li>
+              </ul>
+            </div>
           </div>
 
-          <div className="row g-4">
-            {/* Service 1 */}
-            <div className="col-md-6 col-lg-4">
-              <div className="card h-100 border-0 shadow-sm service-card transition-all">
-                <div className="card-body p-5">
-                  <div className="icon-wrapper bg-success-subtle text-success mb-4 rounded-circle d-flex align-items-center justify-content-center" style={{ width: '80px', height: '80px' }}>
-                    <i className="bi bi-trash3 fs-1"></i>
-                  </div>
-                  <h4 className="fw-bold mb-3">Gestión de Residuos</h4>
-                  <p className="text-secondary mb-0">
-                    Recolección, transporte y disposición final de residuos sólidos, peligrosos y no peligrosos, siguiendo estrictos protocolos de seguridad y protección ambiental.
-                  </p>
+          {/* AGUAS */}
+          <div className="col-lg-4">
+            <div className="service-card featured-dark">
+              <div className="card-icon bg-blue-bright">
+                <i className="bi bi-droplet-fill"></i>
+              </div>
+              <h4 className="text-white">Ingeniería de Aguas</h4>
+              <p>Tratamiento de efluentes y lodos. Diseñamos y operamos plantas (PTAR) para asegurar que sus vertimientos cumplan con todos los Límites Máximos Permisibles.</p>
+              <ul className="feature-list list-white">
+                <li><i className="bi bi-check-circle text-primary"></i> Succión de Pozos Sépticos</li>
+                <li><i className="bi bi-check-circle text-primary"></i> Limpieza de Cisternas</li>
+                <li><i className="bi bi-check-circle text-primary"></i> Análisis de Calidad VMA</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* PLAGAS */}
+          <div className="col-lg-4">
+            <div className="service-card shadow-lg">
+              <div className="card-icon bg-green-soft">
+                <i className="bi bi-shield-lock"></i>
+              </div>
+              <h4>Sanidad e Higiene</h4>
+              <p>Control profesional de plagas y desinfección de ambientes críticos. Utilizamos productos biodegradables Grado III que cuidan a su personal y al entorno.</p>
+              <ul className="feature-list">
+                <li><i className="bi bi-check-circle"></i> Fumigación Certificada</li>
+                <li><i className="bi bi-check-circle"></i> Control de Roedores</li>
+                <li><i className="bi bi-check-circle"></i> Certificado DIGESA inmediato</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      {/* Sección de Metodología para dar "Floro" y confianza */}
+      <section className="metodologia-full">
+        <div className="container">
+          <div className="row align-items-center">
+            <div className="col-md-6">
+              <h2 className="fw-bold mb-4">¿Cómo aseguramos la excelencia?</h2>
+              <div className="step-item">
+                <div className="step-num">01</div>
+                <div>
+                  <h5>Diagnóstico Técnico</h5>
+                  <p className="text-muted">Analizamos sus procesos actuales para identificar brechas de cumplimiento.</p>
+                </div>
+              </div>
+              <div className="step-item">
+                <div className="step-num">02</div>
+                <div>
+                  <h5>Plan de Mitigación</h5>
+                  <p className="text-muted">Diseñamos una estrategia logística personalizada para reducir costos.</p>
+                </div>
+              </div>
+              <div className="step-item">
+                <div className="step-num">03</div>
+                <div>
+                  <h5>Certificación Total</h5>
+                  <p className="text-muted">Entregamos toda la documentación válida para auditorías de OEFA y SUNAFIL.</p>
                 </div>
               </div>
             </div>
-
-            {/* Service 2 */}
-            <div className="col-md-6 col-lg-4">
-              <div className="card h-100 border-0 shadow-sm service-card transition-all">
-                <div className="card-body p-5">
-                  <div className="icon-wrapper bg-success-subtle text-success mb-4 rounded-circle d-flex align-items-center justify-content-center" style={{ width: '80px', height: '80px' }}>
-                    <i className="bi bi-droplet fs-1"></i>
-                  </div>
-                  <h4 className="fw-bold mb-3">Tratamiento de Aguas</h4>
-                  <p className="text-secondary mb-0">
-                    Sistemas avanzados para el tratamiento y purificación de aguas residuales industriales y domésticas, garantizando su retorno seguro al medio ambiente.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Service 3 */}
-            <div className="col-md-6 col-lg-4">
-              <div className="card h-100 border-0 shadow-sm service-card transition-all">
-                <div className="card-body p-5">
-                  <div className="icon-wrapper bg-success-subtle text-success mb-4 rounded-circle d-flex align-items-center justify-content-center" style={{ width: '80px', height: '80px' }}>
-                    <i className="bi bi-bug fs-1"></i>
-                  </div>
-                  <h4 className="fw-bold mb-3">Control de Plagas</h4>
-                  <p className="text-secondary mb-0">
-                    Servicios de fumigación, desratización y desinsectación industrial utilizando productos biodegradables y seguros para el personal humano y el entorno.
-                  </p>
-                </div>
+            <div className="col-md-6 text-center">
+              <div className="experience-badge shadow-lg">
+                <span className="number">15+</span>
+                <span className="text">Años Liderando el Sector</span>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Galería (Placeholder for visual appeal) */}
-      <section id="galeria" className="py-5 bg-light">
-        <div className="container py-5">
-          <div className="text-center mb-5">
-            <h6 className="text-success text-uppercase fw-bold tracking-wider mb-2">Galería</h6>
-            <h2 className="display-5 fw-bold text-dark">Nuestro Trabajo en Acción</h2>
-          </div>
-          <div className="row g-3">
-            <div className="col-md-4">
-              <div className="gallery-item overflow-hidden rounded-3 shadow-sm">
-                <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Galería 1" className="img-fluid w-100 transition-transform" />
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="gallery-item overflow-hidden rounded-3 shadow-sm">
-                <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Galería 2" className="img-fluid w-100 transition-transform" />
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="gallery-item overflow-hidden rounded-3 shadow-sm">
-                <img src="https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Galería 3" className="img-fluid w-100 transition-transform" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer id="contacto" className="bg-dark text-white pt-5 pb-4">
-        <div className="container py-4">
-          <div className="row g-4">
-            <div className="col-lg-4 mb-4 mb-lg-0">
-              <img src={logo} alt="Econexus Logo" height="60" className="mb-4 bg-white p-2 rounded" />
-              <p className="text-white-50 mb-4 pe-lg-4">
-                Brindando soluciones de saneamiento ambiental de primer nivel. Comprometidos con el ecosistema y el desarrollo sostenible de tu empresa.
-              </p>
-              <div className="d-flex gap-3">
-                <a href="#" className="social-icon bg-white text-dark rounded-circle d-flex align-items-center justify-content-center transition-all" style={{ width: '40px', height: '40px' }}>
-                  <i className="bi bi-facebook"></i>
-                </a>
-                <a href="#" className="social-icon bg-white text-dark rounded-circle d-flex align-items-center justify-content-center transition-all" style={{ width: '40px', height: '40px' }}>
-                  <i className="bi bi-twitter-x"></i>
-                </a>
-                <a href="#" className="social-icon bg-white text-dark rounded-circle d-flex align-items-center justify-content-center transition-all" style={{ width: '40px', height: '40px' }}>
-                  <i className="bi bi-linkedin"></i>
-                </a>
-                <a href="#" className="social-icon bg-white text-dark rounded-circle d-flex align-items-center justify-content-center transition-all" style={{ width: '40px', height: '40px' }}>
-                  <i className="bi bi-instagram"></i>
-                </a>
-              </div>
-            </div>
-            <div className="col-lg-2 offset-lg-1 col-md-4 mb-4 mb-md-0">
-              <h5 className="text-white mb-4 fw-bold">Enlaces Rápidos</h5>
-              <ul className="list-unstyled mb-0">
-                <li className="mb-2"><a href="#inicio" className="text-white-50 text-decoration-none hover-white transition-all">Inicio</a></li>
-                <li className="mb-2"><a href="#nosotros" className="text-white-50 text-decoration-none hover-white transition-all">Nosotros</a></li>
-                <li className="mb-2"><a href="#servicios" className="text-white-50 text-decoration-none hover-white transition-all">Servicios</a></li>
-                <li className="mb-2"><a href="#galeria" className="text-white-50 text-decoration-none hover-white transition-all">Galería</a></li>
-              </ul>
-            </div>
-            <div className="col-lg-2 col-md-4 mb-4 mb-md-0">
-              <h5 className="text-white mb-4 fw-bold">Servicios</h5>
-              <ul className="list-unstyled mb-0">
-                <li className="mb-2"><a href="#servicios" className="text-white-50 text-decoration-none hover-white transition-all">Gestión de Residuos</a></li>
-                <li className="mb-2"><a href="#servicios" className="text-white-50 text-decoration-none hover-white transition-all">Tratamiento de Aguas</a></li>
-                <li className="mb-2"><a href="#servicios" className="text-white-50 text-decoration-none hover-white transition-all">Control de Plagas</a></li>
-                <li className="mb-2"><a href="#servicios" className="text-white-50 text-decoration-none hover-white transition-all">Consultoría</a></li>
-              </ul>
-            </div>
-            <div className="col-lg-3 col-md-4">
-              <h5 className="text-white mb-4 fw-bold">Contacto</h5>
-              <ul className="list-unstyled mb-0 text-white-50">
-                <li className="mb-3 d-flex align-items-start">
-                  <i className="bi bi-geo-alt-fill text-success me-3 mt-1"></i>
-                  <span>Mza. C Lote. 16 Santo Domingo Etapa 12</span>
-                </li>
-                <li className="mb-3 d-flex align-items-center">
-                  <i className="bi bi-telephone-fill text-success me-3"></i>
-                  <span>+51 984 654 112</span>
-                </li>
-                <li className="mb-3 d-flex align-items-center">
-                  <i className="bi bi-envelope-fill text-success me-3"></i>
-                  <span>contacto@econexus.com.pe</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <hr className="my-4 border-secondary" />
-          <div className="text-center text-white-50">
-            <small>&copy; {new Date().getFullYear()} Econexus. Todos los derechos reservados.</small>
-          </div>
+      {/* Footer CTA - Ancho Completo */}
+      <footer className="footer-cta-full">
+        <div className="container text-center">
+          <h2 className="display-5 fw-bold mb-4">Optimice su Gestión Ambiental Hoy</h2>
+          <p className="mb-5 fs-5">Solicite una inspección técnica sin compromiso en sus instalaciones.</p>
+          <button onClick={() => setShowModal(true)} className="btn-inspeccion shadow-lg">
+            Agendar Visita de Campo
+          </button>
         </div>
       </footer>
+
+      {/* Modal - Ventana Emergente */}
+      {showModal && (
+        <div className="custom-modal-overlay">
+          <div className="custom-modal-body shadow-2xl">
+            {!enviado ? (
+              <form onSubmit={handleEnviar} className="p-4">
+                <div className="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
+                  <h4 className="fw-bold m-0">Solicitud de Auditoría</h4>
+                  <button type="button" onClick={() => setShowModal(false)} className="btn-close-custom">✕</button>
+                </div>
+                <div className="row g-3">
+                  <div className="col-12">
+                    <label className="label-custom">Área de Interés</label>
+                    <select className="input-custom" required>
+                      <option value="">Seleccione...</option>
+                      <option>Gestión de Residuos</option>
+                      <option>Tratamiento de Aguas</option>
+                      <option>Saneamiento Ambiental</option>
+                    </select>
+                  </div>
+                  <div className="col-12">
+                    <label className="label-custom">Dirección de la Planta / Sede</label>
+                    <input type="text" className="input-custom" placeholder="Calle, Av, Distrito..." required />
+                  </div>
+                  <div className="col-md-6">
+                    <label className="label-custom">Fecha Sugerida</label>
+                    <input type="date" className="input-custom" required />
+                  </div>
+                  <div className="col-md-6">
+                    <label className="label-custom">Hora</label>
+                    <input type="time" className="input-custom" required />
+                  </div>
+                </div>
+                <button type="submit" className="btn-submit-modal mt-4">Confirmar e Iniciar Proceso</button>
+              </form>
+            ) : (
+              <div className="success-state p-5 text-center">
+                <i className="bi bi-check-circle-fill text-success display-1"></i>
+                <h3 className="fw-bold mt-3">¡Solicitud Enviada!</h3>
+                <p className="text-muted">Nuestro equipo de ingeniería revisará la disponibilidad y confirmará la visita en menos de 2 horas.</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default LandingPage;
+export default ServiciosPage;

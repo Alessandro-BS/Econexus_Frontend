@@ -1,99 +1,236 @@
-/* RESET PARA FULL WIDTH */
-.servicios-detalle-wrapper {
+/* RESET PARA QUE NADA LIMITE EL ANCHO */
+.servicios-page-master {
+  width: 100%;
   overflow-x: hidden;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', -apple-system, sans-serif;
+  color: #2d3436;
 }
 
-/* HERO FULL WIDTH SIN MÁRGENES */
-.hero-industrial-full {
-  background: linear-gradient(135deg, #121416 0%, #0c3e27 100%);
-  width: 100vw;
-  min-height: 60vh;
+/* NAVBAR FULL WIDTH */
+.custom-nav-servicios {
+  background: white;
+  padding: 1rem 5%;
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-content {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  margin-left: calc(-50vw + 50%); /* Truco mágico para centrar en ancho total */
-  margin-right: calc(-50vw + 50%);
-  padding: 80px 0;
 }
 
-.hero-overlay-icon {
+.back-link {
+  color: #198754;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.brand-tag {
+  font-weight: 800;
+  color: #2d3436;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* HERO SECTION - AQUÍ ESTÁ EL TRUCO DEL FULL WIDTH */
+.hero-full-width {
+  background: linear-gradient(135deg, #0b100d 0%, #146c43 100%);
+  width: 100%;
+  padding: 100px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-text-box {
+  max-width: 800px;
+  color: white;
+}
+
+.hero-text-box h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+
+.hero-text-box p {
+  font-size: 1.25rem;
+  opacity: 0.85;
+  margin-bottom: 2rem;
+}
+
+.status-badge {
+  background: #198754;
+  color: white;
+  padding: 6px 15px;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+
+.floating-icon {
   position: absolute;
-  top: 50%;
   right: -5%;
+  top: 50%;
   transform: translateY(-50%) rotate(-15deg);
-  font-size: 25rem;
-  color: rgba(255, 255, 255, 0.03); /* Icono muy sutil */
+  font-size: 30rem;
+  color: rgba(255, 255, 255, 0.03);
   pointer-events: none;
 }
 
-/* FOOTER FULL WIDTH */
-.footer-industrial-cta {
-  background: linear-gradient(to right, #198754, #146c43);
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
-  margin-right: calc(-50vw + 50%);
-  position: relative;
+/* CARDS DE SERVICIOS */
+.service-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 2rem;
+  height: 100%;
+  transition: all 0.3s ease;
+  border: 1px solid #f0f0f0;
 }
 
-/* TARJETAS MEJORADAS */
-.tech-card {
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  border-radius: 1.5rem !important;
+.service-card:hover {
+  transform: translateY(-10px);
+  border-color: #198754;
 }
 
-.tech-card:hover {
-  transform: translateY(-15px);
-  box-shadow: 0 25px 50px rgba(0,0,0,0.1) !important;
+.featured-dark {
+  background: #121416;
+  color: #a0a0a0;
+  border: none;
 }
 
-.icon-box {
+.card-icon {
   width: 70px;
   height: 70px;
+  border-radius: 1.2rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
 }
 
-/* MODAL FULL CUSTOM */
-.modal-custom-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(10px);
+.bg-green-soft { background: #e8f5e9; color: #198754; }
+.bg-blue-bright { background: #e3f2fd; color: #007bff; }
+
+.feature-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 1.5rem;
+}
+
+.feature-list li {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+/* METODOLOGÍA FULL WIDTH */
+.metodologia-full {
+  background: #f8f9fa;
+  width: 100%;
+  padding: 80px 0;
+  margin-top: 4rem;
+}
+
+.step-item {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 99999;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-.modal-custom-content {
+.step-num {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #198754;
+  opacity: 0.3;
+}
+
+.experience-badge {
   background: white;
-  width: 95%;
-  max-width: 550px;
-  box-shadow: 0 25px 100px rgba(0,0,0,0.5);
-  animation: modalScale 0.4s ease-out;
+  display: inline-flex;
+  flex-direction: column;
+  padding: 3rem;
+  border-radius: 50%;
+  border: 10px solid #198754;
 }
 
-@keyframes modalScale {
-  from { transform: scale(0.8); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+.experience-badge .number { font-size: 4rem; font-weight: 900; color: #198754; line-height: 1; }
+.experience-badge .text { font-weight: bold; color: #2d3436; max-width: 120px; }
+
+/* FOOTER CTA FULL WIDTH */
+.footer-cta-full {
+  background: #198754;
+  width: 100%;
+  padding: 100px 0;
+  color: white;
 }
 
-.hover-scale:hover {
-  transform: scale(1.05);
-  transition: 0.3s;
+.btn-inspeccion {
+  background: white;
+  color: #198754;
+  border: none;
+  padding: 1.2rem 3rem;
+  font-size: 1.3rem;
+  font-weight: 800;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: transform 0.3s;
 }
 
-/* RESPONSIVE AJUSTES */
+.btn-inspeccion:hover { transform: scale(1.05); }
+
+/* MODAL STYLES */
+.custom-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 10000;
+}
+
+.custom-modal-body {
+  background: white;
+  width: 95%; max-width: 500px;
+  border-radius: 2rem;
+  overflow: hidden;
+}
+
+.input-custom {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  margin-top: 5px;
+}
+
+.label-custom { font-weight: bold; font-size: 0.85rem; color: #636e72; }
+
+.btn-submit-modal {
+  width: 100%;
+  background: #198754;
+  color: white;
+  border: none;
+  padding: 15px;
+  font-weight: bold;
+  border-radius: 12px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.btn-close-custom {
+  background: none; border: none; font-size: 1.5rem; color: #aaa; cursor: pointer;
+}
+
+/* RESPONSIVE */
 @media (max-width: 768px) {
-  .hero-industrial-full {
-    padding: 50px 20px;
-    text-align: center;
-  }
-  .hero-industrial-full .lead {
-    width: 100% !important;
-  }
+  .hero-full-width { padding: 60px 0; }
+  .experience-badge { padding: 2rem; }
 }
