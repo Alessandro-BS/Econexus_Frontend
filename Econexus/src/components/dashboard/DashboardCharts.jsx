@@ -1,38 +1,66 @@
 import { useMemo } from 'react';
-import { 
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
-  Cell, PieChart, Pie, Legend 
-} from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, PieChart, Pie, Legend } from 'recharts';
 
-// Agregamos = [] por si acaso la variable llega vacía
-function DashboardCharts({ reportes = [], ventas = [] }) {
+// El mismo motor matemático de filtrado
+const filtrarPorTiempo = (datos, filtro) => {
+  if (filtro === 'todos') return datos;
+  const ahora = new Date();
+  
+  return datos.filter(item => {
+    // Busca la fecha dependiendo de si es reporte o venta
+    const fechaTexto = item.fecha_registro || item.fecha_emision;
+    if (!fechaTexto) return true; 
+    
+    const f = new Date(fechaTexto + 'T00:00:00');
+    
+    if (filtro === 'mes') {
+      return f.getMonth() === ahora.getMonth() && f.getFullYear() === ahora.getFullYear();
+    }
+    if (filtro === 'semestre') {
+      const seisAtras = new Date();
+      seisAtras.setMonth(ahora.getMonth() - 6);
+      return f >= seisAtras;
+    }
+    return true;
+  });
+};
+
+function DashboardCharts({ reportes = [], ventas = [], filtro = 'todos' }) {
   
   const datosReportesEstado = useMemo(() => {
-    const conteo = { 'PENDIENTE': 0, 'EN PROCESO': 0, 'CUMPLIDO': 0, 'OBSERVADO': 0 };
+    // 1. Filtramos los reportes primero
+    const reportesFiltrados = filtrarPorTiempo(reportes, filtro);
     
-    // Si reportes es válido, cuenta. Si no, no hace nada pero no explota.
-    reportes.forEach(r => {
-      const estado = r.estado ? r.estado.toUpperCase() : null;
-      if (estado && conteo[estado] !== undefined) {
-        conteo[estado]++;
+    const conteo = { 'PENDIENTE': 0, 'EN_PROCESO': 0, 'CUMPLIDO': 0, 'OBSERVADO': 0 };
+    
+    // 2. Contamos usando los reportes ya filtrados
+    reportesFiltrados.forEach(r => {
+      // Usamos r.estado porque en el seed nuevo se llama 'estado' y no 'estado_cumplimiento'
+      if (r && conteo[r.estado] !== undefined) {
+        conteo[r.estado]++;
+      } else if (r && conteo[r.estado_cumplimiento] !== undefined) {
+        // Mantenemos esto por si tienes datos viejos guardados en el local storage
+        conteo[r.estado_cumplimiento]++;
       }
     });
 
     return [
       { name: 'Pendientes', value: conteo['PENDIENTE'], color: '#FF8042' },
-      { name: 'En Proceso', value: conteo['EN PROCESO'], color: '#0088FE' },
+      { name: 'En Proceso', value: conteo['EN_PROCESO'], color: '#0088FE' },
       { name: 'Cumplidos', value: conteo['CUMPLIDO'], color: '#00C49F' },
       { name: 'Observados', value: conteo['OBSERVADO'], color: '#FFBB28' },
     ];
-  }, [reportes]);
+  }, [reportes, filtro]); // Es vital agregar 'filtro' aquí
 
   const datosServicios = useMemo(() => {
-    const nombresServicios = {
-      1: 'Fumigación', 2: 'Desinfección', 3: 'Líquidos', 4: 'Sólidos', 5: 'Desinsectación'
-    };
+    // 1. Filtramos las ventas primero
+    const ventasFiltradas = filtrarPorTiempo(ventas, filtro);
+    
+    const nombresServicios = { 1: 'Fumigación', 2: 'Desinfección', 3: 'Líquidos', 4: 'Sólidos', 5: 'Desinsectación' };
     const conteoServicios = {};
 
-    ventas.forEach(v => {
+    // 2. Contamos usando las ventas ya filtradas
+    ventasFiltradas.forEach(v => {
       if(v) {
         const idServicio = v.tipo_servicio_id || (v.id % 5) + 1; 
         const nombre = nombresServicios[idServicio] || 'Otros';
@@ -41,10 +69,9 @@ function DashboardCharts({ reportes = [], ventas = [] }) {
     });
 
     return Object.keys(conteoServicios).map(key => ({
-      nombre: key,
-      cantidad: conteoServicios[key]
+      nombre: key, cantidad: conteoServicios[key]
     })).sort((a, b) => b.cantidad - a.cantidad).slice(0, 5);
-  }, [ventas]);
+  }, [ventas, filtro]); // Es vital agregar 'filtro' aquí
 
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
 
@@ -56,12 +83,7 @@ function DashboardCharts({ reportes = [], ventas = [] }) {
           <div style={{ width: '100%', height: 300 }}>
             <ResponsiveContainer>
               <PieChart>
-                <Pie
-                  data={datosReportesEstado}
-                  cx="50%" cy="50%"
-                  innerRadius={60} outerRadius={80}
-                  paddingAngle={5} dataKey="value"
-                >
+                <Pie data={datosReportesEstado} cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value">
                   {datosReportesEstado.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
