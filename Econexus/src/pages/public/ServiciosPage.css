@@ -1,0 +1,56 @@
+.hero-industrial {
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #1a1d20 0%, #146c43 100%) !important;
+}
+
+.icon-bg-overlay {
+  position: absolute;
+  top: 50%;
+  right: -5%;
+  transform: translateY(-50%) rotate(-15deg);
+  font-size: 20rem;
+  color: rgba(255, 255, 255, 0.05); /* Muy tenue para que no moleste */
+  pointer-events: none;
+  z-index: 1;
+}
+
+.custom-card {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.custom-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(25, 135, 84, 0.15) !important;
+}
+
+.modal-custom-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(8px);
+}
+
+.modal-custom-content {
+  background: white;
+  width: 95%;
+  max-width: 500px;
+  animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.footer-cta {
+  background: linear-gradient(to right, #198754, #146c43);
+}
