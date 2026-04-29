@@ -12,6 +12,7 @@ import PlaceholderPage from './components/common/PlaceholderPage';
 import LoginPage from './components/auth/LoginPage';
 import DashboardPage from './components/dashboard/DashboardPage';
 import LandingPage from './pages/public/LandingPage';
+import ServiciosPage from './pages/public/ServiciosPage';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -36,7 +37,8 @@ function App() {
     <Routes>
       {/* Ruta pública */}
       <Route path="/" element={<LandingPage />} />
-      
+      {/* Ruta de los Servicios*/}
+      <Route path="/servicios-detalle" element={<ServiciosPage />} />
       {/* Ruta de Login (redirecciona si ya está autenticado) */}
       <Route 
         path="/login" 
