@@ -61,7 +61,7 @@ const LandingPage = () => {
               <div className="carousel-caption d-flex flex-column justify-content-center align-items-center h-100">
                 <h1 className="display-3 fw-bold text-white mb-4 animate-slide-up">Soluciones Integrales de Saneamiento Ambiental</h1>
                 <p className="lead text-white mb-5 animate-slide-up delay-1">Protegiendo el medio ambiente y asegurando un futuro sostenible para tu empresa.</p>
-                <a href="#servicios" className="btn btn-lg btn-success rounded-pill px-5 py-3 fw-bold animate-slide-up delay-2 shadow">Descubre Más</a>
+                <Link to="/servicios-detalle" className="btn btn-success btn-lg px-5 py-3 rounded-pill fw-bold">Descubre Más</Link>
               </div>
             </div>
             {/* Slide 2 */}
