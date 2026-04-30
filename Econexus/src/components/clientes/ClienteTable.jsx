@@ -8,6 +8,15 @@ function ClienteTable({ clientes, onEdit, onDelete }) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
+  const currentUserStr = localStorage.getItem('eco_current_user');
+  let userRole = 'OPERADOR';
+  try {
+    if (currentUserStr) {
+      const user = JSON.parse(currentUserStr);
+      if (user && user.rol) userRole = user.rol;
+    }
+  } catch (error) {}
+
   // Filtrar clientes por búsqueda
   const filteredClientes = useMemo(() => {
     if (!searchTerm.trim()) return clientes;
@@ -149,14 +158,16 @@ function ClienteTable({ clientes, onEdit, onDelete }) {
                       >
                         <i className="bi bi-pencil-square"></i>
                       </button>
-                      <button
-                        className="btn btn-sm btn-action btn-action-delete"
-                        onClick={() => onDelete(cliente)}
-                        title="Eliminar cliente"
-                        id={`btn-delete-${cliente.id}`}
-                      >
-                        <i className="bi bi-trash3-fill"></i>
-                      </button>
+                      {userRole !== 'OPERADOR' && (
+                        <button
+                          className="btn btn-sm btn-action btn-action-delete"
+                          onClick={() => onDelete(cliente)}
+                          title="Eliminar cliente"
+                          id={`btn-delete-${cliente.id}`}
+                        >
+                          <i className="bi bi-trash3-fill"></i>
+                        </button>
+                      )}
                     </div>
                   </td>
                 </tr>

@@ -322,12 +322,6 @@ function LoginPage({ onLogin }) {
               )}
             </button>
           </form>
-
-          {/* Links inferiores */}
-          <div className="login-footer-links">
-            <span className="login-footer-link">¿Olvidó su contraseña?</span>
-            <span className="login-footer-link">Solicitar Acceso</span>
-          </div>
         </div>
       </div>
     </div>
