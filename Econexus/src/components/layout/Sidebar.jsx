@@ -26,6 +26,21 @@ function Sidebar({ isOpen, onClose, onLogout }) {
     onLogout();
   };
 
+  const currentUserStr = localStorage.getItem('eco_current_user');
+  let userRole = 'OPERADOR';
+  try {
+    if (currentUserStr) {
+      const user = JSON.parse(currentUserStr);
+      if (user && user.rol) userRole = user.rol;
+    }
+  } catch (error) {}
+
+  const filteredNavItems = navItems.filter(item => {
+    if (item.path === '/usuarios') return userRole === 'ADMIN';
+    if (item.path === '/reportes' || item.path === '/normativas') return userRole === 'ADMIN' || userRole === 'SUPERVISOR';
+    return true; // Dashboard, Clientes, Proveedores, Ventas for everyone
+  });
+
   return (
     <>
       <aside className={`eco-sidebar ${isOpen ? 'sidebar-open' : ''}`} id="sidebar">
@@ -48,7 +63,7 @@ function Sidebar({ isOpen, onClose, onLogout }) {
         {/* Navegación */}
         <nav className="sidebar-nav">
           <ul className="sidebar-nav-list">
-            {navItems.map((item) => (
+            {filteredNavItems.map((item) => (
               <li key={item.path} className="sidebar-nav-item">
                 <NavLink
                   to={item.path}

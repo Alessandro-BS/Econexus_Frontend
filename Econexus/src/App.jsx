@@ -18,6 +18,7 @@ import NosotrosPage from './pages/public/NosotrosPage';
 import CatalogoServiciosPage from './pages/public/CatalogoServiciosPage';
 import GaleriaPage from './pages/public/GaleriaPage';
 import ContactoPage from './pages/public/ContactoPage';
+import ProtectedRoute from './components/auth/ProtectedRoute';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -52,48 +53,57 @@ function App() {
         </Route>
 
         {/* Ruta de Login (redirecciona si ya está autenticado) */}
-        <Route 
-          path="/login" 
-          element={!isAuthenticated ? <LoginPage onLogin={handleLogin} /> : <Navigate to="/dashboard" replace />} 
+        <Route
+          path="/login"
+          element={!isAuthenticated ? <LoginPage onLogin={handleLogin} /> : <Navigate to="/dashboard" replace />}
         />
 
-      {/* Rutas privadas */}
-      <Route 
-        path="/*" 
-        element={
-          isAuthenticated ? (
-            <div className="eco-app-layout">
-              {/* Overlay para cerrar sidebar en móvil */}
-              {sidebarOpen && (
-                <div className="sidebar-overlay" onClick={closeSidebar}></div>
-              )}
+        {/* Rutas privadas */}
+        <Route
+          path="/*"
+          element={
+            isAuthenticated ? (
+              <div className="eco-app-layout">
+                {/* Overlay para cerrar sidebar en móvil */}
+                {sidebarOpen && (
+                  <div className="sidebar-overlay" onClick={closeSidebar}></div>
+                )}
 
-              <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} onLogout={handleLogout} />
+                <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} onLogout={handleLogout} />
 
-              {/* Contenido principal */}
-              <div className="eco-main-wrapper">
-                <TopBar onToggleSidebar={toggleSidebar} onLogout={handleLogout} />
-                <main className="eco-main-content">
-                  <Routes>
-                    <Route path="/" element={<Navigate to="/dashboard" replace />} />
-                    <Route path="/dashboard" element={<DashboardPage />} />
-                    <Route path="/clientes" element={<ClientesPage />} />
-                    <Route path="/proveedores" element={<ProveedoresPage />} />
-                    <Route path="/reportes" element={<ReportesPage />} />
-                    <Route path="/normativas" element={<NormativasPage />} />
-                    <Route path="/usuarios" element={<UsuariosPage />} />
-                    <Route path="/ventas" element={<VentasPage />} />
-                    <Route path="*" element={<Navigate to="/clientes" replace />} />
-                  </Routes>
-                </main>
+                {/* Contenido principal */}
+                <div className="eco-main-wrapper">
+                  <TopBar onToggleSidebar={toggleSidebar} onLogout={handleLogout} />
+                  <main className="eco-main-content">
+                    <Routes>
+                      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                      <Route element={<ProtectedRoute allowedRoles={['ADMIN', 'SUPERVISOR', 'OPERADOR']} />}>
+                        <Route path="/dashboard" element={<DashboardPage />} />
+                        <Route path="/clientes" element={<ClientesPage />} />
+                        <Route path="/proveedores" element={<ProveedoresPage />} />
+                        <Route path="/ventas" element={<VentasPage />} />
+                      </Route>
+
+                      <Route element={<ProtectedRoute allowedRoles={['ADMIN', 'SUPERVISOR']} />}>
+                        <Route path="/reportes" element={<ReportesPage />} />
+                        <Route path="/normativas" element={<NormativasPage />} />
+                      </Route>
+
+                      <Route element={<ProtectedRoute allowedRoles={['ADMIN']} />}>
+                        <Route path="/usuarios" element={<UsuariosPage />} />
+                      </Route>
+
+                      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+                    </Routes>
+                  </main>
+                </div>
               </div>
-            </div>
-          ) : (
-            <Navigate to="/login" replace />
-          )
-        }
-      />
-            </Routes>
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+      </Routes>
     </>
   );
 }

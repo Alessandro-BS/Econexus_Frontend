@@ -9,6 +9,15 @@ function ProveedorTable({ proveedores, onEdit, onDelete, onReactivate }) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
+  const currentUserStr = localStorage.getItem('eco_current_user');
+  let userRole = 'OPERADOR';
+  try {
+    if (currentUserStr) {
+      const user = JSON.parse(currentUserStr);
+      if (user && user.rol) userRole = user.rol;
+    }
+  } catch (error) {}
+
   // Filtrar proveedores por búsqueda y estado
   const filteredProveedores = useMemo(() => {
     let filtered = proveedores;
@@ -207,24 +216,28 @@ function ProveedorTable({ proveedores, onEdit, onDelete, onReactivate }) {
                       >
                         <i className="bi bi-pencil-square"></i>
                       </button>
-                      {proveedor.estado === 'ACTIVO' ? (
-                        <button
-                          className="btn btn-sm btn-action btn-action-delete"
-                          onClick={() => onDelete(proveedor)}
-                          title="Desactivar proveedor"
-                          id={`btn-delete-prov-${proveedor.id}`}
-                        >
-                          <i className="bi bi-dash-circle-fill"></i>
-                        </button>
-                      ) : (
-                        <button
-                          className="btn btn-sm btn-action btn-action-reactivate"
-                          onClick={() => onReactivate(proveedor.id)}
-                          title="Reactivar proveedor"
-                          id={`btn-reactivate-prov-${proveedor.id}`}
-                        >
-                          <i className="bi bi-arrow-clockwise"></i>
-                        </button>
+                      {userRole !== 'OPERADOR' && (
+                        <>
+                          {proveedor.estado === 'ACTIVO' ? (
+                            <button
+                              className="btn btn-sm btn-action btn-action-delete"
+                              onClick={() => onDelete(proveedor)}
+                              title="Desactivar proveedor"
+                              id={`btn-delete-prov-${proveedor.id}`}
+                            >
+                              <i className="bi bi-dash-circle-fill"></i>
+                            </button>
+                          ) : (
+                            <button
+                              className="btn btn-sm btn-action btn-action-reactivate"
+                              onClick={() => onReactivate(proveedor.id)}
+                              title="Reactivar proveedor"
+                              id={`btn-reactivate-prov-${proveedor.id}`}
+                            >
+                              <i className="bi bi-arrow-clockwise"></i>
+                            </button>
+                          )}
+                        </>
                       )}
                     </div>
                   </td>
