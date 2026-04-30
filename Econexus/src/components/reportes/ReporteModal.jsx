@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import './ReportesPage.css';
 
 const initialState = {
@@ -38,26 +38,48 @@ const getInitialState = (reporteToEdit, clientes) => {
 
 function ReporteModal({ show, clientes = [], onClose, onSave, reporteToEdit }) {
   const [formData, setFormData] = useState(() => getInitialState(reporteToEdit, clientes));
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const isEditMode = !!reporteToEdit;
 
   if (!show) return null;
 
   const clientesDisponibles = clientes.filter((cliente) => cliente.estado !== 'INACTIVO');
 
+  const filteredClientes = useMemo(() => {
+    const term = formData.cliente_nombre.trim().toLowerCase();
+    if (!term) return clientesDisponibles.slice(0, 8);
+    return clientesDisponibles
+      .filter((cliente) => cliente.razon_social.toLowerCase().includes(term))
+      .slice(0, 8);
+  }, [clientesDisponibles, formData.cliente_nombre]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === 'cliente_id') {
-      const cliente = clientesDisponibles.find((item) => item.id === Number(value));
-      setFormData((prev) => ({
-        ...prev,
-        cliente_id: value,
-        cliente_nombre: cliente ? cliente.razon_social : '',
-      }));
+    if (name === 'cliente_nombre') {
+      setFormData((prev) => ({ ...prev, cliente_nombre: value }));
+      setShowSuggestions(true);
       return;
     }
 
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleClientSelect = (cliente) => {
+    setFormData((prev) => ({
+      ...prev,
+      cliente_id: String(cliente.id),
+      cliente_nombre: cliente.razon_social,
+    }));
+    setShowSuggestions(false);
+  };
+
+  const handleClientFocus = () => {
+    setShowSuggestions(true);
+  };
+
+  const handleClientBlur = () => {
+    window.setTimeout(() => setShowSuggestions(false), 150);
   };
 
   const handleSubmit = (e) => {
@@ -115,24 +137,51 @@ function ReporteModal({ show, clientes = [], onClose, onSave, reporteToEdit }) {
                   />
                 </div>
 
-                <div className="col-md-6">
+                <div className="col-md-6 position-relative">
                   <label className="form-label eco-label">
                     Cliente <span className="text-danger">*</span>
                   </label>
-                  <select
-                    name="cliente_id"
-                    className="form-select eco-input"
-                    value={formData.cliente_id}
+                  <input
+                    type="text"
+                    name="cliente_nombre"
+                    className="form-control eco-input"
+                    value={formData.cliente_nombre}
                     onChange={handleChange}
+                    onFocus={handleClientFocus}
+                    onBlur={handleClientBlur}
+                    placeholder="Escribe el nombre del cliente..."
                     required
-                  >
-                    <option value="">Seleccione un cliente...</option>
-                    {clientesDisponibles.map((cliente) => (
-                      <option key={cliente.id} value={cliente.id}>
-                        {cliente.razon_social}
-                      </option>
-                    ))}
-                  </select>
+                    autoComplete="off"
+                  />
+                  {showSuggestions && (
+                    <ul
+                      className="list-group position-absolute w-100 shadow-sm"
+                      style={{
+                        zIndex: 1100,
+                        maxHeight: '260px',
+                        overflowY: 'auto',
+                        background: '#fff',
+                        borderRadius: '0 0 .35rem .35rem',
+                        border: '1px solid rgba(0, 0, 0, 0.15)',
+                        marginTop: '0.12rem',
+                      }}
+                    >
+                      {filteredClientes.length > 0 ? (
+                        filteredClientes.map((cliente) => (
+                          <li
+                            key={cliente.id}
+                            className="list-group-item list-group-item-action"
+                            style={{ cursor: 'pointer' }}
+                            onMouseDown={() => handleClientSelect(cliente)}
+                          >
+                            {cliente.razon_social}
+                          </li>
+                        ))
+                      ) : (
+                        <li className="list-group-item text-muted">No se encontró cliente.</li>
+                      )}
+                    </ul>
+                  )}
                 </div>
 
                 <div className="col-md-6">
