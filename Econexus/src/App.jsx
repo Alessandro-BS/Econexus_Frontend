@@ -11,8 +11,13 @@ import ReportesPage from './components/reportes/ReportesPage';
 import PlaceholderPage from './components/common/PlaceholderPage';
 import LoginPage from './components/auth/LoginPage';
 import DashboardPage from './components/dashboard/DashboardPage';
-import LandingPage from './pages/public/LandingPage';
-import ServiciosPage from './pages/public/ServiciosPage';
+import ScrollToTop from './components/common/ScrollToTop';
+import PublicLayout from './components/layout/PublicLayout';
+import HomePage from './pages/public/HomePage';
+import NosotrosPage from './pages/public/NosotrosPage';
+import CatalogoServiciosPage from './pages/public/CatalogoServiciosPage';
+import GaleriaPage from './pages/public/GaleriaPage';
+import ContactoPage from './pages/public/ContactoPage';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -34,16 +39,23 @@ function App() {
   };
 
   return (
-    <Routes>
-      {/* Ruta pública */}
-      <Route path="/" element={<LandingPage />} />
-      {/* Ruta de los Servicios*/}
-      <Route path="/servicios-detalle" element={<ServiciosPage />} />
-      {/* Ruta de Login (redirecciona si ya está autenticado) */}
-      <Route 
-        path="/login" 
-        element={!isAuthenticated ? <LoginPage onLogin={handleLogin} /> : <Navigate to="/dashboard" replace />} 
-      />
+    <>
+      <ScrollToTop />
+      <Routes>
+        {/* Rutas públicas con Layout */}
+        <Route element={<PublicLayout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/nosotros" element={<NosotrosPage />} />
+          <Route path="/servicios" element={<CatalogoServiciosPage />} />
+          <Route path="/galeria" element={<GaleriaPage />} />
+          <Route path="/contacto" element={<ContactoPage />} />
+        </Route>
+
+        {/* Ruta de Login (redirecciona si ya está autenticado) */}
+        <Route 
+          path="/login" 
+          element={!isAuthenticated ? <LoginPage onLogin={handleLogin} /> : <Navigate to="/dashboard" replace />} 
+        />
 
       {/* Rutas privadas */}
       <Route 
@@ -81,9 +93,8 @@ function App() {
           )
         }
       />
-      
-
-    </Routes>
+            </Routes>
+    </>
   );
 }
 
