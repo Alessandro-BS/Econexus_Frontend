@@ -50,6 +50,8 @@ function TopBar({ onToggleSidebar, onLogout }) {
       const normativas = JSON.parse(localStorage.getItem('eco_normativas')) || [];
       const reportes = JSON.parse(localStorage.getItem('eco_reportes_v3')) || [];
       
+      const userRole = currentUser ? currentUser.rol : 'OPERADOR';
+
       // Filtrar resultados por coincidencias en varios campos
       const filteredClientes = clientes.filter(c => 
         (c.razon_social && c.razon_social.toLowerCase().includes(termLower)) ||
@@ -68,26 +70,26 @@ function TopBar({ onToggleSidebar, onLogout }) {
         (v.cliente_nombre && v.cliente_nombre.toLowerCase().includes(termLower))
       ).slice(0, 3);
 
-      const filteredUsuarios = usuarios.filter(u => 
+      const filteredUsuarios = userRole === 'ADMIN' ? usuarios.filter(u => 
         (u.nombre_completo && u.nombre_completo.toLowerCase().includes(termLower)) ||
         (u.email && u.email.toLowerCase().includes(termLower)) ||
         (u.rol && u.rol.toLowerCase().includes(termLower))
-      ).slice(0, 3);
+      ).slice(0, 3) : [];
 
-      const filteredNormativas = normativas.filter(n =>
+      const filteredNormativas = (userRole === 'ADMIN' || userRole === 'SUPERVISOR') ? normativas.filter(n =>
         (n.codigo && n.codigo.toLowerCase().includes(termLower)) ||
         (n.titulo && n.titulo.toLowerCase().includes(termLower)) ||
         (n.entidad_emisora && n.entidad_emisora.toLowerCase().includes(termLower)) ||
         (n.estado && n.estado.toLowerCase().includes(termLower))
-      ).slice(0, 3);
+      ).slice(0, 3) : [];
       
-      const filteredReportes = reportes.filter(r => 
+      const filteredReportes = (userRole === 'ADMIN' || userRole === 'SUPERVISOR') ? reportes.filter(r => 
         (r.cliente_nombre && r.cliente_nombre.toLowerCase().includes(termLower)) ||
         (r.tipo_servicio && r.tipo_servicio.toLowerCase().includes(termLower)) ||
         (r.descripcion && r.descripcion.toLowerCase().includes(termLower)) ||
         (r.estado && r.estado.toLowerCase().includes(termLower)) ||
         (r.fecha_registro && r.fecha_registro.includes(termLower))
-      ).slice(0, 3);
+      ).slice(0, 3) : [];
       
       setResults({
         clientes: filteredClientes,

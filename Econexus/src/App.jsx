@@ -13,6 +13,7 @@ import LoginPage from './components/auth/LoginPage';
 import DashboardPage from './components/dashboard/DashboardPage';
 import LandingPage from './pages/public/LandingPage';
 import ServiciosPage from './pages/public/ServiciosPage';
+import ProtectedRoute from './components/auth/ProtectedRoute';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -64,14 +65,23 @@ function App() {
                 <main className="eco-main-content">
                   <Routes>
                     <Route path="/" element={<Navigate to="/dashboard" replace />} />
-                    <Route path="/dashboard" element={<DashboardPage />} />
-                    <Route path="/clientes" element={<ClientesPage />} />
-                    <Route path="/proveedores" element={<ProveedoresPage />} />
-                    <Route path="/reportes" element={<ReportesPage />} />
-                    <Route path="/normativas" element={<NormativasPage />} />
-                    <Route path="/usuarios" element={<UsuariosPage />} />
-                    <Route path="/ventas" element={<VentasPage />} />
-                    <Route path="*" element={<Navigate to="/clientes" replace />} />
+                    <Route element={<ProtectedRoute allowedRoles={['ADMIN', 'SUPERVISOR', 'OPERADOR']} />}>
+                      <Route path="/dashboard" element={<DashboardPage />} />
+                      <Route path="/clientes" element={<ClientesPage />} />
+                      <Route path="/proveedores" element={<ProveedoresPage />} />
+                      <Route path="/ventas" element={<VentasPage />} />
+                    </Route>
+                    
+                    <Route element={<ProtectedRoute allowedRoles={['ADMIN', 'SUPERVISOR']} />}>
+                      <Route path="/reportes" element={<ReportesPage />} />
+                      <Route path="/normativas" element={<NormativasPage />} />
+                    </Route>
+                    
+                    <Route element={<ProtectedRoute allowedRoles={['ADMIN']} />}>
+                      <Route path="/usuarios" element={<UsuariosPage />} />
+                    </Route>
+
+                    <Route path="*" element={<Navigate to="/dashboard" replace />} />
                   </Routes>
                 </main>
               </div>
