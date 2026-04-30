@@ -11,6 +11,7 @@ import './ReportesPage.css';
 /**
  * Pagina principal de Gestion de Reportes.
  * CRUD completo con persistencia en localStorage.
+ * // agregar un comentario en cualquier archivo
  */
 function ReportesPage() {
   const [reportes, setReportes] = useLocalStorage('eco_reportes_v3', reportesSeed);
