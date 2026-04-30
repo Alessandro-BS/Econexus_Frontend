@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 /**
  * Modal para Crear nueva Orden de Servicio
@@ -6,25 +6,35 @@ import { useState, useEffect } from 'react';
 function VentaModal({ show, onClose, onSave, clientes }) {
   const [formData, setFormData] = useState({
     fecha_emision: new Date().toISOString().split('T')[0],
-    cliente_id: '',
+    cliente_nombre: '',
     monto_total: '',
     estado_pago: 'PENDIENTE',
     pdf_base64: null,
   });
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   const [pdfName, setPdfName] = useState('');
+
+  const filteredClientes = useMemo(() => {
+    const term = formData.cliente_nombre.trim().toLowerCase();
+    if (!term) return clientes.slice(0, 8);
+    return clientes
+      .filter((c) => c.razon_social.toLowerCase().includes(term))
+      .slice(0, 8);
+  }, [clientes, formData.cliente_nombre]);
 
   // Reset form when modal opens
   useEffect(() => {
     if (show) {
       setFormData({
         fecha_emision: new Date().toISOString().split('T')[0],
-        cliente_id: '',
+        cliente_nombre: '',
         monto_total: '',
         estado_pago: 'PENDIENTE',
         pdf_base64: null,
       });
       setPdfName('');
+      setShowSuggestions(false);
     }
   }, [show]);
 
@@ -36,6 +46,25 @@ function VentaModal({ show, onClose, onSave, clientes }) {
       ...prev,
       [name]: value,
     }));
+    if (name === 'cliente_nombre') {
+      setShowSuggestions(true);
+    }
+  };
+
+  const handleClientSelect = (cliente) => {
+    setFormData((prev) => ({
+      ...prev,
+      cliente_nombre: cliente.razon_social,
+    }));
+    setShowSuggestions(false);
+  };
+
+  const handleClientFocus = () => {
+    setShowSuggestions(true);
+  };
+
+  const handleClientBlur = () => {
+    window.setTimeout(() => setShowSuggestions(false), 150);
   };
 
   const handleFileChange = (e) => {
@@ -55,14 +84,21 @@ function VentaModal({ show, onClose, onSave, clientes }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.cliente_id || !formData.monto_total) return;
+    if (!formData.cliente_nombre.trim() || !formData.monto_total) return;
 
-    // Get client name for the record
-    const client = clientes.find(c => c.id === Number(formData.cliente_id));
+    const selectedClient = clientes.find(
+      (c) => c.razon_social.toLowerCase() === formData.cliente_nombre.trim().toLowerCase()
+    );
+
+    if (!selectedClient) {
+      alert('Selecciona un cliente válido desde la lista de sugerencias.');
+      return;
+    }
+
     const dataToSave = {
       ...formData,
-      cliente_id: Number(formData.cliente_id),
-      cliente_nombre: client ? client.razon_social : 'Desconocido',
+      cliente_id: selectedClient.id,
+      cliente_nombre: selectedClient.razon_social,
       monto_total: parseFloat(formData.monto_total),
     };
 
@@ -98,20 +134,49 @@ function VentaModal({ show, onClose, onSave, clientes }) {
                 </div>
 
                 {/* Cliente */}
-                <div className="col-md-6">
+                <div className="col-md-6 position-relative">
                   <label className="eco-label">Cliente <span className="text-danger">*</span></label>
-                  <select
-                    className="form-select eco-input"
-                    name="cliente_id"
-                    value={formData.cliente_id}
+                  <input
+                    type="text"
+                    className="form-control eco-input"
+                    name="cliente_nombre"
+                    value={formData.cliente_nombre}
                     onChange={handleChange}
+                    onFocus={handleClientFocus}
+                    onBlur={handleClientBlur}
+                    placeholder="Escribe el nombre del cliente..."
                     required
-                  >
-                    <option value="">Seleccione un cliente...</option>
-                    {clientes.map(c => (
-                      <option key={c.id} value={c.id}>{c.razon_social}</option>
-                    ))}
-                  </select>
+                    autoComplete="off"
+                  />
+                  {showSuggestions && (
+                    <ul
+                      className="list-group position-absolute w-100 shadow-sm"
+                      style={{
+                        zIndex: 1100,
+                        maxHeight: '260px',
+                        overflowY: 'auto',
+                        background: '#fff',
+                        borderRadius: '0 0 .35rem .35rem',
+                        border: '1px solid rgba(0, 0, 0, 0.15)',
+                        marginTop: '0.12rem',
+                      }}
+                    >
+                      {filteredClientes.length > 0 ? (
+                        filteredClientes.map((c) => (
+                          <li
+                            key={c.id}
+                            className="list-group-item list-group-item-action"
+                            style={{ cursor: 'pointer' }}
+                            onMouseDown={() => handleClientSelect(c)}
+                          >
+                            {c.razon_social}
+                          </li>
+                        ))
+                      ) : (
+                        <li className="list-group-item text-muted">No se encontró cliente.</li>
+                      )}
+                    </ul>
+                  )}
                 </div>
 
                 {/* Monto Total */}
