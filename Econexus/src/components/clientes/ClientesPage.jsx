@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import clientesSeed from '../../data/clientesSeed';
 import ClienteKPIs from './ClienteKPIs';
@@ -13,6 +13,13 @@ import './ClientesPage.css';
  */
 function ClientesPage() {
   const [clientes, setClientes] = useLocalStorage('eco_clientes_v2', clientesSeed);
+
+  // Asegurar que la lista predeterminada se muestre si el storage está vacío
+  useEffect(() => {
+    if (clientes && clientes.length === 0) {
+      setClientes(clientesSeed);
+    }
+  }, [clientes, setClientes]);
 
   // Estado de modales
   const [showModal, setShowModal] = useState(false);
