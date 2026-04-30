@@ -37,13 +37,6 @@
 }
 
 /* — Botón primario — */
-.section-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
 .eco-btn-primary {
   background: linear-gradient(135deg, var(--eco-green-700), var(--eco-green-800));
   color: #fff;
@@ -65,29 +58,6 @@
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(46, 125, 50, 0.4);
   color: #fff;
-}
-
-.eco-btn-secondary {
-  background: #fff;
-  color: var(--eco-green-800);
-  border: 2px solid var(--eco-green-100);
-  padding: 9px 22px;
-  font-size: 0.88rem;
-  font-weight: 700;
-  border-radius: var(--eco-radius-md);
-  box-shadow: var(--eco-shadow-sm);
-  transition: var(--eco-transition);
-  font-family: 'Inter', sans-serif;
-  display: inline-flex;
-  align-items: center;
-  white-space: nowrap;
-}
-
-.eco-btn-secondary:hover {
-  background: var(--eco-green-50);
-  border-color: var(--eco-green-500);
-  color: var(--eco-green-900);
-  transform: translateY(-2px);
 }
 
 /* — KPI Cards — */
@@ -201,6 +171,57 @@
   font-size: 0.82rem;
   font-weight: 500;
   white-space: nowrap;
+}
+
+.table-filters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(160px, 1fr)) repeat(2, minmax(140px, 0.8fr)) auto;
+  gap: 12px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--eco-gray-200);
+  background: var(--eco-gray-50);
+}
+
+.table-filter-input {
+  min-height: 40px;
+  border: 2px solid var(--eco-gray-200);
+  border-radius: var(--eco-radius-md);
+  background: var(--eco-white);
+  color: var(--eco-gray-800);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  padding: 8px 12px;
+  outline: none;
+  transition: var(--eco-transition-fast);
+}
+
+.table-filter-input:focus {
+  border-color: var(--eco-green-500);
+  box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.12);
+}
+
+.btn-filter-clear {
+  min-height: 40px;
+  border: 2px solid var(--eco-gray-200);
+  border-radius: var(--eco-radius-md);
+  background: var(--eco-white);
+  color: var(--eco-gray-700);
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 8px 16px;
+  transition: var(--eco-transition-fast);
+  white-space: nowrap;
+}
+
+.btn-filter-clear:hover:not(:disabled) {
+  border-color: var(--eco-green-500);
+  color: var(--eco-green-800);
+  background: var(--eco-green-50);
+}
+
+.btn-filter-clear:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
 .reportes-table {
@@ -487,17 +508,13 @@
 }
 
 @media (max-width: 768px) {
-  .section-actions {
-    width: 100%;
-  }
-
-  .section-actions .btn {
-    flex: 1 1 180px;
-    justify-content: center;
-  }
-
   .form-grid {
     grid-template-columns: 1fr;
+  }
+
+  .table-filters {
+    grid-template-columns: 1fr;
+    padding: 14px 18px;
   }
 
   .eco-modal-body {
