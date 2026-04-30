@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import reportesSeed from '../../data/reportesSeed';
+import clientesSeed from '../../data/clientesSeed';
 import ReporteKPIs from './ReporteKPIs';
 import ReporteTable from './ReporteTable';
 import ReporteModal from './ReporteModal';
@@ -8,11 +9,12 @@ import ReporteDeleteModal from './ReporteDeleteModal';
 import './ReportesPage.css';
 
 /**
- * Página principal de Gestión de Reportes.
+ * Pagina principal de Gestion de Reportes.
  * CRUD completo con persistencia en localStorage.
  */
 function ReportesPage() {
   const [reportes, setReportes] = useLocalStorage('eco_reportes_v3', reportesSeed);
+  const [clientes] = useLocalStorage('eco_clientes_v2', clientesSeed);
 
   // Estado de modales
   const [showModal, setShowModal] = useState(false);
@@ -35,14 +37,12 @@ function ReportesPage() {
   // Guardar (crear o editar)
   const handleSave = (formData) => {
     if (reporteToEdit) {
-      // Editar
       setReportes((prev) =>
         prev.map((r) =>
           r.id === reporteToEdit.id ? { ...r, ...formData } : r
         )
       );
     } else {
-      // Crear
       const newId =
         reportes.length > 0 ? Math.max(...reportes.map((r) => r.id)) + 1 : 1;
       const newReporte = { id: newId, ...formData };
@@ -52,13 +52,13 @@ function ReportesPage() {
     setReporteToEdit(null);
   };
 
-  // Abrir modal de eliminación
+  // Abrir modal de eliminacion
   const handleOpenDelete = useCallback((reporte) => {
     setReporteToDelete(reporte);
     setShowDeleteModal(true);
   }, []);
 
-  // Confirmar eliminación
+  // Confirmar eliminacion
   const handleConfirmDelete = (id) => {
     setReportes((prev) => prev.filter((r) => r.id !== id));
     setShowDeleteModal(false);
@@ -67,12 +67,12 @@ function ReportesPage() {
 
   return (
     <div className="reportes-page">
-      {/* Header de la sección */}
+      {/* Header de la seccion */}
       <div className="section-header animate-fade-in-up">
         <div className="section-header-left">
           <h1 className="section-title">
             <i className="bi bi-clipboard2-data-fill section-title-icon"></i>
-            Gestión de Reportes
+            Gestion de Reportes
           </h1>
           <p className="section-subtitle">
             Administra los reportes de saneamiento ambiental
@@ -99,15 +99,18 @@ function ReportesPage() {
       />
 
       {/* Modal Crear/Editar */}
-      <ReporteModal
-        show={showModal}
-        onClose={() => {
-          setShowModal(false);
-          setReporteToEdit(null);
-        }}
-        onSave={handleSave}
-        reporteToEdit={reporteToEdit}
-      />
+      {showModal && (
+        <ReporteModal
+          show={showModal}
+          clientes={clientes}
+          onClose={() => {
+            setShowModal(false);
+            setReporteToEdit(null);
+          }}
+          onSave={handleSave}
+          reporteToEdit={reporteToEdit}
+        />
+      )}
 
       {/* Modal Eliminar */}
       <ReporteDeleteModal

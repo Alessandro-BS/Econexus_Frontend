@@ -1,43 +1,75 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import './ReportesPage.css';
 
-function ReporteModal({ show, onClose, onSave, reporteToEdit }) {
-  const initialState = {
-    fecha_registro: '',
-    cliente_nombre: '',
-    tipo_servicio: '',
-    descripcion: '',
-    cantidad: '',
-    unidad_medida: '',
-    estado: 'PENDIENTE',
-  };
+const initialState = {
+  fecha_registro: '',
+  cliente_id: '',
+  cliente_nombre: '',
+  tipo_servicio: '',
+  descripcion: '',
+  cantidad: '',
+  unidad_medida: '',
+  estado: 'PENDIENTE',
+};
 
-  const [formData, setFormData] = useState(initialState);
+const getInitialState = (reporteToEdit, clientes) => {
+  if (!reporteToEdit) {
+    return {
+      ...initialState,
+      fecha_registro: new Date().toISOString().split('T')[0],
+    };
+  }
+
+  const clienteEncontrado = clientes.find(
+    (cliente) =>
+      cliente.id === Number(reporteToEdit.cliente_id) ||
+      cliente.razon_social === reporteToEdit.cliente_nombre
+  );
+
+  return {
+    ...initialState,
+    ...reporteToEdit,
+    cliente_id: clienteEncontrado ? String(clienteEncontrado.id) : '',
+    cliente_nombre: clienteEncontrado
+      ? clienteEncontrado.razon_social
+      : reporteToEdit.cliente_nombre || '',
+  };
+};
+
+function ReporteModal({ show, clientes = [], onClose, onSave, reporteToEdit }) {
+  const [formData, setFormData] = useState(() => getInitialState(reporteToEdit, clientes));
   const isEditMode = !!reporteToEdit;
 
-  useEffect(() => {
-    if (show) {
-      if (reporteToEdit) {
-        setFormData(reporteToEdit);
-      } else {
-        // Prellenar fecha actual al crear nuevo
-        const today = new Date().toISOString().split('T')[0];
-        setFormData({ ...initialState, fecha_registro: today });
-      }
-    }
-  }, [show, reporteToEdit]);
+  if (!show) return null;
+
+  const clientesDisponibles = clientes.filter((cliente) => cliente.estado !== 'INACTIVO');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === 'cliente_id') {
+      const cliente = clientesDisponibles.find((item) => item.id === Number(value));
+      setFormData((prev) => ({
+        ...prev,
+        cliente_id: value,
+        cliente_nombre: cliente ? cliente.razon_social : '',
+      }));
+      return;
+    }
+
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave(formData);
-  };
+    if (!formData.cliente_id) return;
 
-  if (!show) return null;
+    onSave({
+      ...formData,
+      cliente_id: Number(formData.cliente_id),
+      cantidad: Number(formData.cantidad),
+    });
+  };
 
   return (
     <div
@@ -64,6 +96,12 @@ function ReporteModal({ show, onClose, onSave, reporteToEdit }) {
 
           <form onSubmit={handleSubmit}>
             <div className="modal-body eco-modal-body">
+              {clientesDisponibles.length === 0 && (
+                <div className="alert alert-warning mb-3" role="alert">
+                  Primero registra un cliente activo para poder generar reportes.
+                </div>
+              )}
+
               <div className="row g-3">
                 <div className="col-md-6">
                   <label className="form-label eco-label">Fecha de Registro</label>
@@ -78,19 +116,26 @@ function ReporteModal({ show, onClose, onSave, reporteToEdit }) {
                 </div>
 
                 <div className="col-md-6">
-                  <label className="form-label eco-label">Cliente</label>
-                  <input
-                    type="text"
-                    name="cliente_nombre"
-                    className="form-control eco-input"
-                    value={formData.cliente_nombre}
+                  <label className="form-label eco-label">
+                    Cliente <span className="text-danger">*</span>
+                  </label>
+                  <select
+                    name="cliente_id"
+                    className="form-select eco-input"
+                    value={formData.cliente_id}
                     onChange={handleChange}
-                    placeholder="Ej. Minera Horizonte Dorado S.A."
                     required
-                  />
+                  >
+                    <option value="">Seleccione un cliente...</option>
+                    {clientesDisponibles.map((cliente) => (
+                      <option key={cliente.id} value={cliente.id}>
+                        {cliente.razon_social}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
-                <div className="col-12">
+                <div className="col-md-6">
                   <label className="form-label eco-label">Tipo de Servicio</label>
                   <input
                     type="text"
@@ -98,52 +143,12 @@ function ReporteModal({ show, onClose, onSave, reporteToEdit }) {
                     className="form-control eco-input"
                     value={formData.tipo_servicio}
                     onChange={handleChange}
-                    placeholder="Ej. Recolección de Residuos Peligrosos"
+                    placeholder="Ej. Recoleccion de residuos peligrosos"
                     required
                   />
                 </div>
 
-                <div className="col-12">
-                  <label className="form-label eco-label">Descripción del Residuo</label>
-                  <input
-                    type="text"
-                    name="descripcion"
-                    className="form-control eco-input"
-                    value={formData.descripcion}
-                    onChange={handleChange}
-                    placeholder="Ej. Aceite usado, Baterías..."
-                    required
-                  />
-                </div>
-
-                <div className="col-md-4">
-                  <label className="form-label eco-label">Cantidad</label>
-                  <input
-                    type="number"
-                    step="0.01"
-                    name="cantidad"
-                    className="form-control eco-input"
-                    value={formData.cantidad}
-                    onChange={handleChange}
-                    placeholder="Ej. 150"
-                    required
-                  />
-                </div>
-
-                <div className="col-md-4">
-                  <label className="form-label eco-label">Unidad de Medida</label>
-                  <input
-                    type="text"
-                    name="unidad_medida"
-                    className="form-control eco-input"
-                    value={formData.unidad_medida}
-                    onChange={handleChange}
-                    placeholder="Ej. Kg, Ton, Litros..."
-                    required
-                  />
-                </div>
-
-                <div className="col-md-4">
+                <div className="col-md-6">
                   <label className="form-label eco-label">Estado</label>
                   <select
                     name="estado"
@@ -158,6 +163,47 @@ function ReporteModal({ show, onClose, onSave, reporteToEdit }) {
                     <option value="OBSERVADO">OBSERVADO</option>
                   </select>
                 </div>
+
+                <div className="col-12">
+                  <label className="form-label eco-label">Descripcion del Servicio</label>
+                  <textarea
+                    name="descripcion"
+                    className="form-control eco-input"
+                    value={formData.descripcion}
+                    onChange={handleChange}
+                    placeholder="Detalle del servicio ambiental"
+                    rows="3"
+                    required
+                  ></textarea>
+                </div>
+
+                <div className="col-md-6">
+                  <label className="form-label eco-label">Cantidad</label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    name="cantidad"
+                    className="form-control eco-input"
+                    value={formData.cantidad}
+                    onChange={handleChange}
+                    placeholder="Ej. 150"
+                    required
+                  />
+                </div>
+
+                <div className="col-md-6">
+                  <label className="form-label eco-label">Unidad de Medida</label>
+                  <input
+                    type="text"
+                    name="unidad_medida"
+                    className="form-control eco-input"
+                    value={formData.unidad_medida}
+                    onChange={handleChange}
+                    placeholder="Kg, TN, Litros, Unidades..."
+                    required
+                  />
+                </div>
               </div>
             </div>
 
@@ -165,7 +211,7 @@ function ReporteModal({ show, onClose, onSave, reporteToEdit }) {
               <button type="button" className="btn btn-outline-secondary eco-btn-cancel" onClick={onClose}>
                 <i className="bi bi-x-lg me-1"></i>Cancelar
               </button>
-              <button type="submit" className="btn eco-btn-save">
+              <button type="submit" className="btn eco-btn-save" disabled={clientesDisponibles.length === 0}>
                 <i className="bi bi-save me-2"></i>Guardar Reporte
               </button>
             </div>

@@ -7,18 +7,9 @@ const emptyForm = {
   telefono: '',
   email: '',
   direccion: '',
-  tipoServicio: 'SOLIDO_PELIGROSO',
+  tipoServicio: '',
   estado: 'ACTIVO',
 };
-
-const tiposServicio = [
-  { value: 'SOLIDO_PELIGROSO', label: 'Sólido Peligroso' },
-  { value: 'SOLIDO_NO_PELIGROSO', label: 'Sólido No Peligroso' },
-  { value: 'LIQUIDO', label: 'Líquido' },
-  { value: 'FUMIGACION', label: 'Fumigación' },
-  { value: 'DESINFECCION', label: 'Desinfección' },
-  { value: 'DESINSECTACION', label: 'Desinsectación' },
-];
 
 /**
  * Modal para crear y editar proveedores.
@@ -44,7 +35,7 @@ function ProveedorModal({ show, onClose, onSave, proveedorToEdit }) {
         telefono: proveedorToEdit.telefono || '',
         email: proveedorToEdit.email || '',
         direccion: proveedorToEdit.direccion || '',
-        tipoServicio: proveedorToEdit.tipoServicio || 'SOLIDO_PELIGROSO',
+        tipoServicio: proveedorToEdit.tipoServicio || '',
         estado: proveedorToEdit.estado || 'ACTIVO',
       });
     } else {
@@ -96,8 +87,8 @@ function ProveedorModal({ show, onClose, onSave, proveedorToEdit }) {
       newErrors.email = 'Ingresa un email válido.';
     }
 
-    if (!formData.tipoServicio) {
-      newErrors.tipoServicio = 'Selecciona un tipo de servicio.';
+    if (!formData.tipoServicio.trim()) {
+      newErrors.tipoServicio = 'Ingresa el tipo de servicio.';
     }
 
     return newErrors;
@@ -111,7 +102,10 @@ function ProveedorModal({ show, onClose, onSave, proveedorToEdit }) {
       setErrors(validationErrors);
       return;
     }
-    onSave(formData);
+    onSave({
+      ...formData,
+      tipoServicio: formData.tipoServicio.trim(),
+    });
   };
 
   if (!show) return null;
@@ -258,20 +252,15 @@ function ProveedorModal({ show, onClose, onSave, proveedorToEdit }) {
                   <label className="form-label eco-label">
                     Tipo de Servicio <span className="text-danger">*</span>
                   </label>
-                  <select
+                  <input
+                    type="text"
                     className={`form-control eco-input ${submitted && errors.tipoServicio ? 'is-invalid' : ''}`}
                     name="tipoServicio"
                     value={formData.tipoServicio}
                     onChange={handleChange}
+                    placeholder="Ej: Transporte de residuos peligrosos"
                     id="input-tipo-servicio"
-                  >
-                    <option value="">Selecciona un tipo...</option>
-                    {tiposServicio.map((tipo) => (
-                      <option key={tipo.value} value={tipo.value}>
-                        {tipo.label}
-                      </option>
-                    ))}
-                  </select>
+                  />
                   {errors.tipoServicio && (
                     <div className="invalid-feedback">{errors.tipoServicio}</div>
                   )}
