@@ -3,40 +3,77 @@ import './ReportesPage.css';
 
 function ReporteTable({ reportes, onEdit, onDelete }) {
   const [searchTerm, setSearchTerm] = useState('');
+  const [estadoFilter, setEstadoFilter] = useState('');
+  const [clienteFilter, setClienteFilter] = useState('');
+  const [tipoFilter, setTipoFilter] = useState('');
+  const [fechaDesde, setFechaDesde] = useState('');
+  const [fechaHasta, setFechaHasta] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
-  // Filtrado de reportes
+  const clientesOptions = useMemo(() => {
+    return [...new Set(reportes.map((r) => r.cliente_nombre).filter(Boolean))].sort();
+  }, [reportes]);
+
+  const tiposOptions = useMemo(() => {
+    return [...new Set(reportes.map((r) => r.tipo_servicio).filter(Boolean))].sort();
+  }, [reportes]);
+
   const filteredReportes = useMemo(() => {
     return reportes.filter((r) => {
-      const term = searchTerm.toLowerCase();
-      return (
+      const term = searchTerm.trim().toLowerCase();
+      const matchesSearch =
+        !term ||
         (r.cliente_nombre && r.cliente_nombre.toLowerCase().includes(term)) ||
         (r.tipo_servicio && r.tipo_servicio.toLowerCase().includes(term)) ||
         (r.descripcion && r.descripcion.toLowerCase().includes(term)) ||
-        (r.monto && String(r.monto).includes(term)) ||
         (r.estado && r.estado.toLowerCase().includes(term)) ||
-        (r.fecha_registro && r.fecha_registro.includes(term))
+        (r.unidad_medida && r.unidad_medida.toLowerCase().includes(term)) ||
+        (r.fecha_registro && r.fecha_registro.includes(term)) ||
+        (r.cantidad && String(r.cantidad).includes(term));
+
+      const matchesEstado = !estadoFilter || r.estado === estadoFilter;
+      const matchesCliente = !clienteFilter || r.cliente_nombre === clienteFilter;
+      const matchesTipo = !tipoFilter || r.tipo_servicio === tipoFilter;
+      const matchesFechaDesde = !fechaDesde || r.fecha_registro >= fechaDesde;
+      const matchesFechaHasta = !fechaHasta || r.fecha_registro <= fechaHasta;
+
+      return (
+        matchesSearch &&
+        matchesEstado &&
+        matchesCliente &&
+        matchesTipo &&
+        matchesFechaDesde &&
+        matchesFechaHasta
       );
     });
-  }, [reportes, searchTerm]);
+  }, [reportes, searchTerm, estadoFilter, clienteFilter, tipoFilter, fechaDesde, fechaHasta]);
 
-  // Paginación
   const totalPages = Math.ceil(filteredReportes.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentReportes = filteredReportes.slice(indexOfFirstItem, indexOfLastItem);
 
-  // Cambiar página
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  // Manejar búsqueda
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-    setCurrentPage(1); // Volver a la página 1 al buscar
+  const updateFilter = (setter) => (e) => {
+    setter(e.target.value);
+    setCurrentPage(1);
   };
 
-  // Helper para color de estado
+  const clearFilters = () => {
+    setSearchTerm('');
+    setEstadoFilter('');
+    setClienteFilter('');
+    setTipoFilter('');
+    setFechaDesde('');
+    setFechaHasta('');
+    setCurrentPage(1);
+  };
+
+  const hasActiveFilters =
+    searchTerm || estadoFilter || clienteFilter || tipoFilter || fechaDesde || fechaHasta;
+
   const getEstadoClass = (estado) => {
     if (!estado) return 'estado-pendiente';
     const est = estado.toUpperCase();
@@ -48,16 +85,15 @@ function ReporteTable({ reportes, onEdit, onDelete }) {
 
   return (
     <div className="reportes-table-wrapper animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-      {/* Buscador de tabla */}
       <div className="table-search-bar">
         <div className="table-search-container">
           <i className="bi bi-search table-search-icon"></i>
           <input
             type="text"
             className="table-search-input"
-            placeholder="Buscar por cliente, tipo de servicio, descripción o estado..."
+            placeholder="Buscar por cliente, servicio, descripcion, cantidad o estado..."
             value={searchTerm}
-            onChange={handleSearchChange}
+            onChange={updateFilter(setSearchTerm)}
           />
         </div>
         <div className="table-actions">
@@ -67,7 +103,59 @@ function ReporteTable({ reportes, onEdit, onDelete }) {
         </div>
       </div>
 
-      {/* Contenedor responsivo para la tabla */}
+      <div className="table-filters">
+        <select className="table-filter-input" value={clienteFilter} onChange={updateFilter(setClienteFilter)}>
+          <option value="">Todos los clientes</option>
+          {clientesOptions.map((cliente) => (
+            <option key={cliente} value={cliente}>
+              {cliente}
+            </option>
+          ))}
+        </select>
+
+        <select className="table-filter-input" value={tipoFilter} onChange={updateFilter(setTipoFilter)}>
+          <option value="">Todos los servicios</option>
+          {tiposOptions.map((tipo) => (
+            <option key={tipo} value={tipo}>
+              {tipo}
+            </option>
+          ))}
+        </select>
+
+        <select className="table-filter-input" value={estadoFilter} onChange={updateFilter(setEstadoFilter)}>
+          <option value="">Todos los estados</option>
+          <option value="PENDIENTE">PENDIENTE</option>
+          <option value="EN PROCESO">EN PROCESO</option>
+          <option value="CUMPLIDO">CUMPLIDO</option>
+          <option value="OBSERVADO">OBSERVADO</option>
+        </select>
+
+        <input
+          type="date"
+          className="table-filter-input"
+          value={fechaDesde}
+          onChange={updateFilter(setFechaDesde)}
+          aria-label="Fecha desde"
+        />
+
+        <input
+          type="date"
+          className="table-filter-input"
+          value={fechaHasta}
+          onChange={updateFilter(setFechaHasta)}
+          aria-label="Fecha hasta"
+        />
+
+        <button
+          type="button"
+          className="btn-filter-clear"
+          onClick={clearFilters}
+          disabled={!hasActiveFilters}
+        >
+          Limpiar
+        </button>
+      </div>
+
       <div className="table-responsive">
         <table className="reportes-table">
           <thead>
@@ -76,10 +164,9 @@ function ReporteTable({ reportes, onEdit, onDelete }) {
               <th>FECHA</th>
               <th>CLIENTE</th>
               <th>TIPO SERVICIO</th>
-              <th>DESCRIPCIÓN</th>
+              <th>DESCRIPCION</th>
               <th>CANT.</th>
               <th>U.M.</th>
-              <th>MONTO</th>
               <th>ESTADO</th>
               <th className="text-center">ACCIONES</th>
             </tr>
@@ -99,7 +186,6 @@ function ReporteTable({ reportes, onEdit, onDelete }) {
                   </td>
                   <td>{reporte.cantidad}</td>
                   <td>{reporte.unidad_medida}</td>
-                  <td>{reporte.monto ? `S/. ${Number(reporte.monto).toFixed(2)}` : '-'}</td>
                   <td>
                     <span className={`estado-badge ${getEstadoClass(reporte.estado)}`}>
                       {reporte.estado}
@@ -127,7 +213,7 @@ function ReporteTable({ reportes, onEdit, onDelete }) {
               ))
             ) : (
               <tr>
-                <td colSpan="10" className="text-center py-4 text-muted">
+                <td colSpan="9" className="text-center py-4 text-muted">
                   No se encontraron reportes.
                 </td>
               </tr>
@@ -136,11 +222,10 @@ function ReporteTable({ reportes, onEdit, onDelete }) {
         </table>
       </div>
 
-      {/* Paginación */}
       {totalPages > 1 && (
         <div className="table-pagination">
           <span className="pagination-info">
-            Mostrando {indexOfFirstItem + 1}–
+            Mostrando {indexOfFirstItem + 1}-
             {Math.min(indexOfLastItem, filteredReportes.length)} de{' '}
             {filteredReportes.length}
           </span>
