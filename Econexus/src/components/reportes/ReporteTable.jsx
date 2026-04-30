@@ -14,6 +14,7 @@ function ReporteTable({ reportes, onEdit, onDelete }) {
         (r.cliente_nombre && r.cliente_nombre.toLowerCase().includes(term)) ||
         (r.tipo_servicio && r.tipo_servicio.toLowerCase().includes(term)) ||
         (r.descripcion && r.descripcion.toLowerCase().includes(term)) ||
+        (r.monto && String(r.monto).includes(term)) ||
         (r.estado && r.estado.toLowerCase().includes(term)) ||
         (r.fecha_registro && r.fecha_registro.includes(term))
       );
@@ -78,6 +79,7 @@ function ReporteTable({ reportes, onEdit, onDelete }) {
               <th>DESCRIPCIÓN</th>
               <th>CANT.</th>
               <th>U.M.</th>
+              <th>MONTO</th>
               <th>ESTADO</th>
               <th className="text-center">ACCIONES</th>
             </tr>
@@ -97,6 +99,7 @@ function ReporteTable({ reportes, onEdit, onDelete }) {
                   </td>
                   <td>{reporte.cantidad}</td>
                   <td>{reporte.unidad_medida}</td>
+                  <td>{reporte.monto ? `S/. ${Number(reporte.monto).toFixed(2)}` : '-'}</td>
                   <td>
                     <span className={`estado-badge ${getEstadoClass(reporte.estado)}`}>
                       {reporte.estado}
@@ -124,7 +127,7 @@ function ReporteTable({ reportes, onEdit, onDelete }) {
               ))
             ) : (
               <tr>
-                <td colSpan="9" className="text-center py-4 text-muted">
+                <td colSpan="10" className="text-center py-4 text-muted">
                   No se encontraron reportes.
                 </td>
               </tr>
