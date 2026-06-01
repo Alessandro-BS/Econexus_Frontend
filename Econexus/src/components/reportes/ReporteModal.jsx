@@ -5,11 +5,12 @@ const initialState = {
   fecha_registro: '',
   cliente_id: '',
   cliente_nombre: '',
-  tipo_servicio: '',
+  tipo_servicio_id: '',
+  orden_servicio_id: '',
   descripcion: '',
   cantidad: '',
   unidad_medida: '',
-  estado: 'PENDIENTE',
+  estado_cumplimiento: 'PENDIENTE',
 };
 
 const getInitialState = (reporteToEdit, clientes) => {
@@ -90,6 +91,9 @@ function ReporteModal({ show, clientes = [], onClose, onSave, reporteToEdit }) {
       ...formData,
       cliente_id: Number(formData.cliente_id),
       cantidad: Number(formData.cantidad),
+      estado_cumplimiento: formData.estado_cumplimiento,
+      tipo_servicio_id: Number(formData.tipo_servicio_id),
+      orden_servicio_id: formData.orden_servicio_id ? Number(formData.orden_servicio_id) : null
     });
   };
 
@@ -185,29 +189,41 @@ function ReporteModal({ show, clientes = [], onClose, onSave, reporteToEdit }) {
                 </div>
 
                 <div className="col-md-6">
-                  <label className="form-label eco-label">Tipo de Servicio</label>
+                  <label className="form-label eco-label">Tipo de Servicio (ID)</label>
                   <input
-                    type="text"
-                    name="tipo_servicio"
+                    type="number"
+                    name="tipo_servicio_id"
                     className="form-control eco-input"
-                    value={formData.tipo_servicio}
+                    value={formData.tipo_servicio_id}
                     onChange={handleChange}
-                    placeholder="Ej. Recoleccion de residuos peligrosos"
+                    placeholder="Ej. 1"
                     required
                   />
                 </div>
 
                 <div className="col-md-6">
-                  <label className="form-label eco-label">Estado</label>
+                  <label className="form-label eco-label">Orden de Servicio (Opcional)</label>
+                  <input
+                    type="number"
+                    name="orden_servicio_id"
+                    className="form-control eco-input"
+                    value={formData.orden_servicio_id}
+                    onChange={handleChange}
+                    placeholder="ID de Orden"
+                  />
+                </div>
+
+                <div className="col-md-6">
+                  <label className="form-label eco-label">Estado Cumplimiento</label>
                   <select
-                    name="estado"
+                    name="estado_cumplimiento"
                     className="form-select eco-input"
-                    value={formData.estado}
+                    value={formData.estado_cumplimiento}
                     onChange={handleChange}
                     required
                   >
                     <option value="PENDIENTE">PENDIENTE</option>
-                    <option value="EN PROCESO">EN PROCESO</option>
+                    <option value="EN_PROCESO">EN_PROCESO</option>
                     <option value="CUMPLIDO">CUMPLIDO</option>
                     <option value="OBSERVADO">OBSERVADO</option>
                   </select>

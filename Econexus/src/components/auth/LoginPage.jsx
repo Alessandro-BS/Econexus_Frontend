@@ -103,14 +103,14 @@ function LoginPage({ onLogin }) {
       });
 
       // Guardar el token devuelto
-      const { token, nombreCompleto, rol } = response.data;
+      const { token, nombre_completo, rol } = response.data;
       localStorage.setItem('eco_jwt_token', token);
       
       // Decodificar info básica del JWT
       try {
         localStorage.setItem('eco_current_user', JSON.stringify({
           email: usuario.trim(),
-          nombre_completo: nombreCompleto || 'Usuario',
+          nombre_completo: nombre_completo || 'Usuario',
           rol: rol || 'OPERADOR'
         }));
       } catch(e) {

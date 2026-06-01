@@ -5,6 +5,8 @@ import { useState, useEffect, useMemo } from 'react';
  */
 function VentaModal({ show, onClose, onSave, clientes }) {
   const [formData, setFormData] = useState({
+    numero_orden: '',
+    tipo_servicio_id: '',
     fecha_emision: new Date().toISOString().split('T')[0],
     cliente_nombre: '',
     monto_total: '',
@@ -27,6 +29,8 @@ function VentaModal({ show, onClose, onSave, clientes }) {
   useEffect(() => {
     if (show) {
       setFormData({
+        numero_orden: '',
+        tipo_servicio_id: '',
         fecha_emision: new Date().toISOString().split('T')[0],
         cliente_nombre: '',
         monto_total: '',
@@ -97,6 +101,8 @@ function VentaModal({ show, onClose, onSave, clientes }) {
 
     const dataToSave = {
       ...formData,
+      numero_orden: formData.numero_orden.trim(),
+      tipo_servicio_id: Number(formData.tipo_servicio_id),
       cliente_id: selectedClient.id,
       cliente_nombre: selectedClient.razon_social,
       monto_total: parseFloat(formData.monto_total),
@@ -120,7 +126,20 @@ function VentaModal({ show, onClose, onSave, clientes }) {
             <div className="modal-body eco-modal-body">
               <div className="row g-3">
 
-                {/* Fecha Emisión */}
+                {/* Número de Orden y Fecha Emisión */}
+                <div className="col-md-6">
+                  <label className="eco-label">Número de Orden <span className="text-danger">*</span></label>
+                  <input
+                    type="text"
+                    className="form-control eco-input"
+                    name="numero_orden"
+                    value={formData.numero_orden}
+                    onChange={handleChange}
+                    placeholder="Ej: OS-2026-001"
+                    required
+                  />
+                </div>
+
                 <div className="col-md-6">
                   <label className="eco-label">Fecha de Emisión <span className="text-danger">*</span></label>
                   <input
@@ -177,6 +196,20 @@ function VentaModal({ show, onClose, onSave, clientes }) {
                       )}
                     </ul>
                   )}
+                </div>
+
+                {/* Tipo de Servicio ID */}
+                <div className="col-md-6">
+                  <label className="eco-label">Tipo Servicio (ID) <span className="text-danger">*</span></label>
+                  <input
+                    type="number"
+                    className="form-control eco-input"
+                    name="tipo_servicio_id"
+                    value={formData.tipo_servicio_id}
+                    onChange={handleChange}
+                    placeholder="Ej: 1"
+                    required
+                  />
                 </div>
 
                 {/* Monto Total */}

@@ -32,11 +32,11 @@ function ProveedorTable({ proveedores, onEdit, onDelete, onReactivate }) {
       const term = searchTerm.toLowerCase();
       filtered = filtered.filter(
         (p) =>
-          p.razonSocial.toLowerCase().includes(term) ||
-          p.ruc.includes(term) ||
-          p.contactoPrincipal.toLowerCase().includes(term) ||
-          p.email.toLowerCase().includes(term) ||
-          (p.tipoServicio && p.tipoServicio.toLowerCase().includes(term))
+          (p.razon_social && p.razon_social.toLowerCase().includes(term)) ||
+          (p.ruc && p.ruc.includes(term)) ||
+          (p.contacto_principal && p.contacto_principal.toLowerCase().includes(term)) ||
+          (p.email && p.email.toLowerCase().includes(term)) ||
+          (p.tipo_servicio_nombre && p.tipo_servicio_nombre.toLowerCase().includes(term))
       );
     }
 
@@ -167,7 +167,7 @@ function ProveedorTable({ proveedores, onEdit, onDelete, onReactivate }) {
                     <span className="id-badge">{String(proveedor.id).padStart(2, '0')}</span>
                   </td>
                   <td className="td-razon-social">
-                    <div className="cell-main">{proveedor.razonSocial}</div>
+                    <div className="cell-main">{proveedor.razon_social}</div>
                     {proveedor.direccion && (
                       <div className="cell-sub text-truncate" style={{ maxWidth: '240px' }}>
                         <i className="bi bi-geo-alt me-1"></i>
@@ -178,7 +178,7 @@ function ProveedorTable({ proveedores, onEdit, onDelete, onReactivate }) {
                   <td>
                     <code className="ruc-code">{proveedor.ruc}</code>
                   </td>
-                  <td>{proveedor.contactoPrincipal}</td>
+                  <td>{proveedor.contacto_principal}</td>
                   <td>
                     <span className="phone-text">
                       <i className="bi bi-telephone me-1"></i>
@@ -191,8 +191,8 @@ function ProveedorTable({ proveedores, onEdit, onDelete, onReactivate }) {
                     </a>
                   </td>
                   <td>
-                    <span className={`eco-badge-servicio ${getTipoServicioBadgeClass(proveedor.tipoServicio)}`}>
-                      {getTipoServicioLabel(proveedor.tipoServicio)}
+                    <span className={`eco-badge-servicio ${getTipoServicioBadgeClass(proveedor.tipo_servicio_nombre)}`}>
+                      {getTipoServicioLabel(proveedor.tipo_servicio_nombre)}
                     </span>
                   </td>
                   <td>
