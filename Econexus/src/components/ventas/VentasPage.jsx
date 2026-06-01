@@ -11,7 +11,7 @@ import './VentasPage.css';
  * Página principal de Gestión de Ventas (Órdenes de Servicio)
  */
 function VentasPage() {
-  const { data: ventas, loading, error, create, update } = useApiCrud('/ordenes');
+  const { data: ventas, loading, error, create, update } = useApiCrud('/ordenes-servicio');
   const { data: clientes } = useApiCrud('/clientes');
 
   // Estados de modales

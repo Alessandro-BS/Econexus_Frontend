@@ -5,7 +5,7 @@ import DashboardCharts from './DashboardCharts';
 import './DashboardPage.css'; 
 
 function DashboardPage() {
-  const { data: ventas, loading: loadingVentas } = useApiCrud('/ordenes');
+  const { data: ventas, loading: loadingVentas } = useApiCrud('/ordenes-servicio');
   const { data: clientes, loading: loadingClientes } = useApiCrud('/clientes');
   const { data: reportes, loading: loadingReportes } = useApiCrud('/reportes');
   const isLoading = loadingVentas || loadingClientes || loadingReportes;
