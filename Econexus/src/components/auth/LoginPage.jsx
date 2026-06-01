@@ -103,17 +103,15 @@ function LoginPage({ onLogin }) {
       });
 
       // Guardar el token devuelto
-      const { token } = response.data;
+      const { token, nombreCompleto, rol } = response.data;
       localStorage.setItem('eco_jwt_token', token);
       
       // Decodificar info básica del JWT
       try {
-        const payloadBase64 = token.split('.')[1];
-        const decodedJson = atob(payloadBase64);
-        const payload = JSON.parse(decodedJson);
-        
         localStorage.setItem('eco_current_user', JSON.stringify({
-          email: payload.sub,
+          email: usuario.trim(),
+          nombre_completo: nombreCompleto || 'Usuario',
+          rol: rol || 'OPERADOR'
         }));
       } catch(e) {
         // Ignorar si no se puede parsear localmente
