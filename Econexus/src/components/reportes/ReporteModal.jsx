@@ -259,15 +259,19 @@ function ReporteModal({ show, clientes = [], onClose, onSave, reporteToEdit }) {
 
                 <div className="col-md-6">
                   <label className="form-label eco-label">Unidad de Medida</label>
-                  <input
-                    type="text"
+                  <select
                     name="unidad_medida"
-                    className="form-control eco-input"
+                    className="form-select eco-input"
                     value={formData.unidad_medida}
                     onChange={handleChange}
-                    placeholder="Kg, TN, Litros, Unidades..."
                     required
-                  />
+                  >
+                    <option value="">Seleccione...</option>
+                    <option value="KG">KG</option>
+                    <option value="LITROS">LITROS</option>
+                    <option value="M2">M2</option>
+                    <option value="UNIDAD">UNIDAD</option>
+                  </select>
                 </div>
               </div>
             </div>

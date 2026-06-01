@@ -7,7 +7,7 @@ const emptyForm = {
   fecha_publicacion: '',
   entidad_emisora: '',
   url_documento: '',
-  estado: 'ACTIVO',
+  estado: 'VIGENTE',
 };
 
 function NormativaModal({ show, onClose, onSave, normativaToEdit }) {
@@ -26,7 +26,7 @@ function NormativaModal({ show, onClose, onSave, normativaToEdit }) {
         fecha_publicacion: normativaToEdit.fecha_publicacion || '',
         entidad_emisora: normativaToEdit.entidad_emisora || '',
         url_documento: normativaToEdit.url_documento || '',
-        estado: normativaToEdit.estado || 'ACTIVO',
+        estado: normativaToEdit.estado || 'VIGENTE',
       });
     } else {
       setFormData(emptyForm);
@@ -169,9 +169,8 @@ function NormativaModal({ show, onClose, onSave, normativaToEdit }) {
                     value={formData.estado}
                     onChange={handleChange}
                   >
-                    <option value="ACTIVO">Activo</option>
-                    <option value="INACTIVO">Inactivo</option>
-                    <option value="DEROGADO">Derogado</option>
+                    <option value="VIGENTE">Vigente</option>
+                    <option value="DEROGADA">Derogada</option>
                   </select>
                 </div>
               </div>
