@@ -1,33 +1,7 @@
-import { useState, useEffect } from 'react';
-import usuariosSeed from '../../data/usuariosSeed';
+import { useState } from 'react';
+import api from '../../api/axiosConfig';
 import econexusLogo from '../../assets/econexus-sin-fondo.png';
 import './LoginPage.css';
-
-const LOCAL_STORAGE_USUARIOS_KEY = 'eco_usuarios';
-
-const isValidUsuariosData = (data) =>
-  Array.isArray(data) &&
-  data.length > 0 &&
-  data.every(
-    (u) =>
-      u &&
-      typeof u === 'object' &&
-      typeof u.email === 'string' &&
-      typeof u.password === 'string' &&
-      typeof u.nombre_completo === 'string' &&
-      typeof u.estado === 'string'
-  );
-
-if (typeof window !== 'undefined') {
-  try {
-    const storedUsuarios = JSON.parse(localStorage.getItem(LOCAL_STORAGE_USUARIOS_KEY) || 'null');
-    if (!isValidUsuariosData(storedUsuarios)) {
-      localStorage.setItem(LOCAL_STORAGE_USUARIOS_KEY, JSON.stringify(usuariosSeed));
-    }
-  } catch (error) {
-    localStorage.setItem(LOCAL_STORAGE_USUARIOS_KEY, JSON.stringify(usuariosSeed));
-  }
-}
 
 /* =====================================================
    SVG de hoja decorativa reutilizable
@@ -111,21 +85,7 @@ function LoginPage({ onLogin }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Inicializar usuarios en localStorage si no existen o si el valor es inválido.
-  useEffect(() => {
-    try {
-      const usuariosExistentes = localStorage.getItem(LOCAL_STORAGE_USUARIOS_KEY);
-      if (!usuariosExistentes) {
-        localStorage.setItem(LOCAL_STORAGE_USUARIOS_KEY, JSON.stringify(usuariosSeed));
-      } else {
-        JSON.parse(usuariosExistentes);
-      }
-    } catch (error) {
-      localStorage.setItem(LOCAL_STORAGE_USUARIOS_KEY, JSON.stringify(usuariosSeed));
-    }
-  }, []);
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
@@ -136,76 +96,39 @@ function LoginPage({ onLogin }) {
 
     setLoading(true);
 
-    setTimeout(() => {
-      let usuariosGuardados = [];
-      let usuariosGuardadosRaw = localStorage.getItem(LOCAL_STORAGE_USUARIOS_KEY);
-
-      if (!usuariosGuardadosRaw) {
-        localStorage.setItem(LOCAL_STORAGE_USUARIOS_KEY, JSON.stringify(usuariosSeed));
-        usuariosGuardadosRaw = localStorage.getItem(LOCAL_STORAGE_USUARIOS_KEY);
-      }
-
-      try {
-        usuariosGuardados = JSON.parse(usuariosGuardadosRaw || '[]');
-        if (!isValidUsuariosData(usuariosGuardados)) {
-          localStorage.setItem(LOCAL_STORAGE_USUARIOS_KEY, JSON.stringify(usuariosSeed));
-          usuariosGuardados = usuariosSeed;
-        }
-      } catch (error) {
-        localStorage.setItem(LOCAL_STORAGE_USUARIOS_KEY, JSON.stringify(usuariosSeed));
-        usuariosGuardados = usuariosSeed;
-      }
-
-      const terminoBusqueda = usuario.trim().toLowerCase();
-
-      let usuarioEncontrado = usuariosGuardados.find((u) => {
-        const emailMatch = u.email?.toLowerCase() === terminoBusqueda;
-        const usernameMatch = u.email?.split('@')[0].toLowerCase() === terminoBusqueda;
-        const nombreMatch = u.nombre_completo?.toLowerCase() === terminoBusqueda;
-        return emailMatch || usernameMatch || nombreMatch;
+    try {
+      const response = await api.post('/auth/login', {
+        email: usuario.trim(),
+        password: contrasena
       });
 
-      // Fallback: Si no está en localStorage (quizás fue borrado), buscamos en la semilla
-      if (!usuarioEncontrado) {
-        usuarioEncontrado = usuariosSeed.find((u) => {
-          const emailMatch = u.email?.toLowerCase() === terminoBusqueda;
-          const usernameMatch = u.email?.split('@')[0].toLowerCase() === terminoBusqueda;
-          const nombreMatch = u.nombre_completo?.toLowerCase() === terminoBusqueda;
-          return emailMatch || usernameMatch || nombreMatch;
-        });
-
-        // Si existe en la semilla pero fue borrado, lo restauramos
-        if (usuarioEncontrado) {
-          usuariosGuardados.push(usuarioEncontrado);
-          localStorage.setItem(LOCAL_STORAGE_USUARIOS_KEY, JSON.stringify(usuariosGuardados));
-        }
-      }
-
-      if (usuarioEncontrado) {
-        if (usuarioEncontrado.password !== contrasena) {
-          setError('Contraseña incorrecta. Intente nuevamente.');
-          setLoading(false);
-          return;
-        }
-
-        if (usuarioEncontrado.estado !== 'ACTIVO') {
-          setError('La cuenta está inactiva. Contacte al administrador.');
-          setLoading(false);
-          return;
-        }
-
+      // Guardar el token devuelto
+      const { token } = response.data;
+      localStorage.setItem('eco_jwt_token', token);
+      
+      // Decodificar info básica del JWT
+      try {
+        const payloadBase64 = token.split('.')[1];
+        const decodedJson = atob(payloadBase64);
+        const payload = JSON.parse(decodedJson);
+        
         localStorage.setItem('eco_current_user', JSON.stringify({
-          id: usuarioEncontrado.id,
-          nombre_completo: usuarioEncontrado.nombre_completo,
-          email: usuarioEncontrado.email,
-          rol: usuarioEncontrado.rol,
+          email: payload.sub,
         }));
-        onLogin(true);
-      } else {
-        setError('Usuario no encontrado. Compruebe su correo o nombre completo.');
-        setLoading(false);
+      } catch(e) {
+        // Ignorar si no se puede parsear localmente
       }
-    }, 800);
+      
+      onLogin(true);
+    } catch (err) {
+      if (err.response && err.response.status === 401) {
+        setError('Credenciales incorrectas o usuario inactivo.');
+      } else {
+        setError('Error al conectar con el servidor. Intente más tarde.');
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

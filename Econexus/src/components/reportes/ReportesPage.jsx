@@ -1,7 +1,5 @@
 import { useState, useCallback } from 'react';
-import useLocalStorage from '../../hooks/useLocalStorage';
-import reportesSeed from '../../data/reportesSeed';
-import clientesSeed from '../../data/clientesSeed';
+import useApiCrud from '../../hooks/useApiCrud';
 import ReporteKPIs from './ReporteKPIs';
 import ReporteTable from './ReporteTable';
 import ReporteModal from './ReporteModal';
@@ -14,8 +12,8 @@ import './ReportesPage.css';
  * // agregar un comentario en cualquier archivo
  */
 function ReportesPage() {
-  const [reportes, setReportes] = useLocalStorage('eco_reportes_v3', reportesSeed);
-  const [clientes] = useLocalStorage('eco_clientes_v2', clientesSeed);
+  const { data: reportes, loading, error, create, update, remove } = useApiCrud('/reportes');
+  const { data: clientes } = useApiCrud('/clientes');
 
   // Estado de modales
   const [showModal, setShowModal] = useState(false);
@@ -36,21 +34,18 @@ function ReportesPage() {
   }, []);
 
   // Guardar (crear o editar)
-  const handleSave = (formData) => {
-    if (reporteToEdit) {
-      setReportes((prev) =>
-        prev.map((r) =>
-          r.id === reporteToEdit.id ? { ...r, ...formData } : r
-        )
-      );
-    } else {
-      const newId =
-        reportes.length > 0 ? Math.max(...reportes.map((r) => r.id)) + 1 : 1;
-      const newReporte = { id: newId, ...formData };
-      setReportes((prev) => [...prev, newReporte]);
+  const handleSave = async (formData) => {
+    try {
+      if (reporteToEdit) {
+        await update(reporteToEdit.id, formData);
+      } else {
+        await create(formData);
+      }
+      setShowModal(false);
+      setReporteToEdit(null);
+    } catch (err) {
+      alert('Error al guardar el reporte');
     }
-    setShowModal(false);
-    setReporteToEdit(null);
   };
 
   // Abrir modal de eliminacion
@@ -60,10 +55,14 @@ function ReportesPage() {
   }, []);
 
   // Confirmar eliminacion
-  const handleConfirmDelete = (id) => {
-    setReportes((prev) => prev.filter((r) => r.id !== id));
-    setShowDeleteModal(false);
-    setReporteToDelete(null);
+  const handleConfirmDelete = async (id) => {
+    try {
+      await remove(id);
+      setShowDeleteModal(false);
+      setReporteToDelete(null);
+    } catch (err) {
+      alert('Error al eliminar');
+    }
   };
 
   return (
@@ -90,14 +89,20 @@ function ReportesPage() {
       </div>
 
       {/* KPIs */}
-      <ReporteKPIs reportes={reportes} />
+      {!loading && <ReporteKPIs reportes={reportes} />}
+
+      {/* Loading & Error */}
+      {loading && <div className="text-center my-5"><span className="spinner-border text-success"></span><p>Cargando reportes...</p></div>}
+      {error && <div className="alert alert-danger mx-4">{error}</div>}
 
       {/* Tabla */}
-      <ReporteTable
-        reportes={reportes}
-        onEdit={handleOpenEdit}
-        onDelete={handleOpenDelete}
-      />
+      {!loading && !error && (
+        <ReporteTable
+          reportes={reportes}
+          onEdit={handleOpenEdit}
+          onDelete={handleOpenDelete}
+        />
+      )}
 
       {/* Modal Crear/Editar */}
       {showModal && (

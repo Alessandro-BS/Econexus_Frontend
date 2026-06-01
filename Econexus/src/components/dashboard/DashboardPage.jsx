@@ -1,16 +1,14 @@
 import { useState } from 'react';
-import useLocalStorage from '../../hooks/useLocalStorage';
-import ventasSeed from '../../data/ventasSeed';
-import clientesSeed from '../../data/clientesSeed';
-import reportesSeed from '../../data/reportesSeed';
+import useApiCrud from '../../hooks/useApiCrud';
 import DashboardKPIs from './DashboardKPIs';
 import DashboardCharts from './DashboardCharts';
 import './DashboardPage.css'; 
 
 function DashboardPage() {
-  const [ventas] = useLocalStorage('eco_ventas', ventasSeed);
-  const [clientes] = useLocalStorage('eco_clientes', clientesSeed);
-  const [reportes] = useLocalStorage('eco_reportes', reportesSeed);
+  const { data: ventas, loading: loadingVentas } = useApiCrud('/ordenes');
+  const { data: clientes, loading: loadingClientes } = useApiCrud('/clientes');
+  const { data: reportes, loading: loadingReportes } = useApiCrud('/reportes');
+  const isLoading = loadingVentas || loadingClientes || loadingReportes;
 
   // Estado para el filtro 
   const [filtroTiempo, setFiltroTiempo] = useState('todos');
@@ -43,8 +41,13 @@ function DashboardPage() {
         </div>
       </div>
 
-      <DashboardKPIs ventas={ventas || []} clientes={clientes || []} filtro={filtroTiempo} />
-      <DashboardCharts reportes={reportes || []} ventas={ventas || []} filtro={filtroTiempo} />
+      {isLoading && <div className="text-center my-5"><span className="spinner-border text-success"></span><p>Cargando panel...</p></div>}
+      {!isLoading && (
+        <>
+          <DashboardKPIs ventas={ventas || []} clientes={clientes || []} filtro={filtroTiempo} />
+          <DashboardCharts reportes={reportes || []} ventas={ventas || []} filtro={filtroTiempo} />
+        </>
+      )}
     </div>
   );
 }

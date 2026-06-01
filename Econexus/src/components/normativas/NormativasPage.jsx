@@ -1,10 +1,9 @@
-import useLocalStorage from '../../hooks/useLocalStorage';
-import normativasSeed from '../../data/normativasSeed';
+import useApiCrud from '../../hooks/useApiCrud';
 import NormativaTable from './NormativaTable';
 import './NormativasPage.css';
 
 function NormativasPage() {
-  const [normativas] = useLocalStorage('eco_normativas', normativasSeed);
+  const { data: normativas, loading, error } = useApiCrud('/normativas');
 
   return (
     <div className="normativas-page">
@@ -20,7 +19,9 @@ function NormativasPage() {
         </div>
       </div>
 
-      <NormativaTable normativas={normativas} />
+      {loading && <div className="text-center my-5"><span className="spinner-border text-success"></span><p>Cargando normativas...</p></div>}
+      {error && <div className="alert alert-danger mx-4">{error}</div>}
+      {!loading && !error && <NormativaTable normativas={normativas} />}
     </div>
   );
 }
