@@ -16,6 +16,7 @@ function VentaTable({ ventas, onEdit, onViewPdf }) {
       (v) =>
         v.numero_orden.toLowerCase().includes(term) ||
         v.cliente_nombre.toLowerCase().includes(term) ||
+        (v.tipo_servicio_nombre && v.tipo_servicio_nombre.toLowerCase().includes(term)) ||
         v.estado_pago.toLowerCase().includes(term)
     );
   }, [ventas, searchTerm]);
@@ -107,6 +108,7 @@ function VentaTable({ ventas, onEdit, onViewPdf }) {
               <th>N° Orden</th>
               <th>Fecha Emisión</th>
               <th>Cliente</th>
+              <th>Tipo Servicio</th>
               <th>Monto Total</th>
               <th>Estado</th>
               <th className="text-center">Acciones</th>
@@ -126,6 +128,7 @@ function VentaTable({ ventas, onEdit, onViewPdf }) {
                   <td>
                     <div className="cell-main">{venta.cliente_nombre}</div>
                   </td>
+                  <td>{venta.tipo_servicio_nombre || 'Otros'}</td>
                   <td>
                     <span className="monto-text">{formatCurrency(venta.monto_total)}</span>
                   </td>
