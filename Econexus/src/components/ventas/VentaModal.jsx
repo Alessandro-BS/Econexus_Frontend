@@ -11,7 +11,7 @@ function VentaModal({ show, onClose, onSave, clientes }) {
     cliente_nombre: '',
     monto_total: '',
     estado_pago: 'PENDIENTE',
-    pdf_base64: null,
+    factura_url: null,
   });
   const [showSuggestions, setShowSuggestions] = useState(false);
 
@@ -35,7 +35,7 @@ function VentaModal({ show, onClose, onSave, clientes }) {
         cliente_nombre: '',
         monto_total: '',
         estado_pago: 'PENDIENTE',
-        pdf_base64: null,
+        factura_url: null,
       });
       setPdfName('');
       setShowSuggestions(false);
@@ -77,7 +77,7 @@ function VentaModal({ show, onClose, onSave, clientes }) {
       setPdfName(file.name);
       const reader = new FileReader();
       reader.onloadend = () => {
-        setFormData((prev) => ({ ...prev, pdf_base64: reader.result }));
+        setFormData((prev) => ({ ...prev, factura_url: reader.result }));
       };
       reader.readAsDataURL(file);
     } else {
