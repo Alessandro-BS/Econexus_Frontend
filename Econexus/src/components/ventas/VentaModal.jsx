@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import useApiCrud from '../../hooks/useApiCrud';
 
 /**
  * Modal para Crear nueva Orden de Servicio
@@ -14,6 +15,7 @@ function VentaModal({ show, onClose, onSave, clientes }) {
     factura_url: null,
   });
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const { data: tiposServicio, loading: loadingTipos } = useApiCrud('/tipos-servicio');
 
   const [pdfName, setPdfName] = useState('');
 
@@ -188,8 +190,24 @@ function VentaModal({ show, onClose, onSave, clientes }) {
                   )}
                 </div>
 
-                {/* Tipo de Servicio ID oculto ya que se enviará por defecto */}
-                <input type="hidden" name="tipo_servicio_id" value={formData.tipo_servicio_id} />
+                {/* Tipo de Servicio */}
+                <div className="col-md-6">
+                  <label className="eco-label">Tipo de Servicio <span className="text-danger">*</span></label>
+                  <select
+                    className="form-select eco-input"
+                    name="tipo_servicio_id"
+                    value={formData.tipo_servicio_id}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="" disabled>{loadingTipos ? 'Cargando...' : 'Seleccione un servicio'}</option>
+                    {tiposServicio && tiposServicio.map(tipo => (
+                      <option key={tipo.id} value={tipo.id}>
+                        {tipo.nombre}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
                 {/* Monto Total */}
                 <div className="col-md-6">
