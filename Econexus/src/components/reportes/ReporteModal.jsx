@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import useApiCrud from '../../hooks/useApiCrud';
 import './ReportesPage.css';
 
 const initialState = {

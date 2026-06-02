@@ -150,7 +150,7 @@ function VentaTable({ ventas, onEdit, onViewPdf }) {
                         className="btn btn-sm btn-action btn-action-pdf"
                         onClick={() => onViewPdf(venta)}
                         title="Ver PDF adjunto"
-                        disabled={!venta.pdf_base64 && venta.id <= 5} // Seed might not have PDF
+                        disabled={!venta.factura_url && !venta.pdf_base64}
                       >
                         <i className="bi bi-file-earmark-pdf-fill"></i>
                       </button>
