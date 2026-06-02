@@ -3,8 +3,14 @@ import './ReportesPage.css';
 
 function ReporteKPIs({ reportes }) {
   const total = reportes.length;
-  const cumplidos = reportes.filter((r) => r.estado && r.estado.toUpperCase() === 'CUMPLIDO').length;
-  const pendientesProceso = reportes.filter((r) => r.estado && ['PENDIENTE', 'EN PROCESO'].includes(r.estado.toUpperCase())).length;
+  const cumplidos = reportes.filter((r) => {
+    const estado = r.estado_cumplimiento || r.estado;
+    return estado && estado.toUpperCase() === 'CUMPLIDO';
+  }).length;
+  const pendientesProceso = reportes.filter((r) => {
+    const estado = r.estado_cumplimiento || r.estado;
+    return estado && ['PENDIENTE', 'EN PROCESO', 'EN_PROCESO'].includes(estado.toUpperCase());
+  }).length;
 
   const kpis = [
     {

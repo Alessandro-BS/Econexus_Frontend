@@ -136,10 +136,10 @@ function ReporteModal({ show, clientes = [], onClose, onSave, reporteToEdit }) {
                   <input
                     type="date"
                     name="fecha_registro"
-                    className="form-control eco-input"
+                    className="form-control eco-input bg-light"
                     value={formData.fecha_registro}
                     onChange={handleChange}
-                    required
+                    readOnly
                   />
                 </div>
 
