@@ -41,6 +41,7 @@ function ReporteModal({ show, clientes = [], onClose, onSave, reporteToEdit }) {
   const [formData, setFormData] = useState(() => getInitialState(reporteToEdit, clientes));
   const [showSuggestions, setShowSuggestions] = useState(false);
   const isEditMode = !!reporteToEdit;
+  const { data: tiposServicio, loading: loadingTipos } = useApiCrud('/tipos-servicio');
 
   if (!show) return null;
 
@@ -189,29 +190,24 @@ function ReporteModal({ show, clientes = [], onClose, onSave, reporteToEdit }) {
                 </div>
 
                 <div className="col-md-6">
-                  <label className="form-label eco-label">Tipo de Servicio (ID)</label>
-                  <input
-                    type="number"
+                  <label className="form-label eco-label">Tipo de Servicio <span className="text-danger">*</span></label>
+                  <select
                     name="tipo_servicio_id"
-                    className="form-control eco-input"
+                    className="form-select eco-input"
                     value={formData.tipo_servicio_id}
                     onChange={handleChange}
-                    placeholder="Ej. 1"
                     required
-                  />
+                    disabled={loadingTipos}
+                  >
+                    <option value="">Seleccione un servicio</option>
+                    {tiposServicio && tiposServicio.map(tipo => (
+                      <option key={tipo.id} value={tipo.id}>{tipo.nombre}</option>
+                    ))}
+                  </select>
                 </div>
 
-                <div className="col-md-6">
-                  <label className="form-label eco-label">Orden de Servicio (Opcional)</label>
-                  <input
-                    type="number"
-                    name="orden_servicio_id"
-                    className="form-control eco-input"
-                    value={formData.orden_servicio_id}
-                    onChange={handleChange}
-                    placeholder="ID de Orden"
-                  />
-                </div>
+                {/* Orden de Servicio Oculta */}
+                <input type="hidden" name="orden_servicio_id" value={formData.orden_servicio_id || ''} />
 
                 <div className="col-md-6">
                   <label className="form-label eco-label">Estado Cumplimiento</label>
