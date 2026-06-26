@@ -32,6 +32,28 @@ Econexus es una plataforma integral desarrollada en **React + Vite** diseñada p
    - Animaciones fluidas (`animate-fade-in-up`), modales superpuestos, diseño de tarjetas con sombras suaves y una paleta de colores curada y profesional.
    - 100% adaptable a dispositivos móviles, tablets y escritorios.
 
+## 📋 Requerimientos Funcionales
+| # | Requerimiento |
+|---|---------------|
+| 1 | Gestión de clientes con creación, edición, búsqueda, eliminación y KPIs propios. |
+| 2 | Gestión de proveedores con CRUD completo y métricas de abastecimiento. |
+| 3 | Gestión de ventas/órdenes de servicio con seguimiento de pagos y estados. |
+| 4 | Gestión de reportes y normativas ambientales con registro de cumplimiento. |
+| 5 | Administración de usuarios y roles para acceso seguro a los módulos. |
+| 6 | Dashboard interactivo con KPIs globales y gráficos dinámicos. |
+| 7 | Búsqueda global en los distintos módulos para acceso rápido a la información. |
+| 8 | Páginas públicas informativas: Landing, servicios, contacto, galería y catálogo. |
+
+## ⚙️ Requerimientos No Funcionales
+| # | Requerimiento |
+|---|---------------|
+| 1 | Interfaz responsiva y usable en dispositivos móviles, tablets y escritorios. |
+| 2 | Rendimiento optimizado mediante React + Vite. |
+| 3 | Persistencia local de datos usando `localStorage` como mock de base de datos. |
+| 4 | Arquitectura modular y mantenible con componentes reutilizables. |
+| 5 | Experiencia de usuario intuitiva con navegación clara y modales consistentes. |
+| 6 | Diseño visual profesional con foco en legibilidad y usabilidad. |
+
 ## 📂 Estructura del Proyecto
 
 ```text

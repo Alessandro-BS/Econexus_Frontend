@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'react';
-import useLocalStorage from '../../hooks/useLocalStorage';
-import clientesSeed from '../../data/clientesSeed';
+import useApiCrud from '../../hooks/useApiCrud';
 import ClienteKPIs from './ClienteKPIs';
 import ClienteTable from './ClienteTable';
 import ClienteModal from './ClienteModal';
@@ -9,10 +8,10 @@ import './ClientesPage.css';
 
 /**
  * Página principal de Gestión de Clientes.
- * CRUD completo con persistencia en localStorage.
+ * Consumiendo API REST de Spring Boot.
  */
 function ClientesPage() {
-  const [clientes, setClientes] = useLocalStorage('eco_clientes_v2', clientesSeed);
+  const { data: clientes, loading, error, create, update, remove } = useApiCrud('/clientes');
 
   // Estado de modales
   const [showModal, setShowModal] = useState(false);
@@ -33,23 +32,20 @@ function ClientesPage() {
   }, []);
 
   // Guardar (crear o editar)
-  const handleSave = (formData) => {
-    if (clienteToEdit) {
-      // Editar
-      setClientes((prev) =>
-        prev.map((c) =>
-          c.id === clienteToEdit.id ? { ...c, ...formData } : c
-        )
-      );
-    } else {
-      // Crear
-      const newId =
-        clientes.length > 0 ? Math.max(...clientes.map((c) => c.id)) + 1 : 1;
-      const newCliente = { id: newId, ...formData };
-      setClientes((prev) => [...prev, newCliente]);
+  const handleSave = async (formData) => {
+    try {
+      if (clienteToEdit) {
+        // Editar
+        await update(clienteToEdit.id, formData);
+      } else {
+        // Crear
+        await create(formData);
+      }
+      setShowModal(false);
+      setClienteToEdit(null);
+    } catch (err) {
+      alert('Ocurrió un error al guardar el cliente');
     }
-    setShowModal(false);
-    setClienteToEdit(null);
   };
 
   // Abrir modal de eliminación
@@ -59,10 +55,14 @@ function ClientesPage() {
   }, []);
 
   // Confirmar eliminación
-  const handleConfirmDelete = (id) => {
-    setClientes((prev) => prev.filter((c) => c.id !== id));
-    setShowDeleteModal(false);
-    setClienteToDelete(null);
+  const handleConfirmDelete = async (id) => {
+    try {
+      await remove(id);
+      setShowDeleteModal(false);
+      setClienteToDelete(null);
+    } catch (err) {
+      alert('Ocurrió un error al eliminar el cliente');
+    }
   };
 
   return (
@@ -89,14 +89,20 @@ function ClientesPage() {
       </div>
 
       {/* KPIs */}
-      <ClienteKPIs clientes={clientes} />
+      {!loading && <ClienteKPIs clientes={clientes} />}
+
+      {/* Loading & Error */}
+      {loading && <div className="text-center my-5"><span className="spinner-border text-success"></span><p>Cargando clientes...</p></div>}
+      {error && <div className="alert alert-danger mx-4">{error}</div>}
 
       {/* Tabla */}
-      <ClienteTable
-        clientes={clientes}
-        onEdit={handleOpenEdit}
-        onDelete={handleOpenDelete}
-      />
+      {!loading && !error && (
+        <ClienteTable
+          clientes={clientes}
+          onEdit={handleOpenEdit}
+          onDelete={handleOpenDelete}
+        />
+      )}
 
       {/* Modal Crear/Editar */}
       <ClienteModal

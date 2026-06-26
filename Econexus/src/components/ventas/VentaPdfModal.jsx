@@ -16,10 +16,10 @@ function VentaPdfModal({ show, venta, onClose }) {
             <button type="button" className="btn-close btn-close-white" onClick={onClose} aria-label="Close"></button>
           </div>
           <div className="modal-body p-0">
-            {venta.pdf_base64 ? (
+            {(venta.factura_url || venta.pdf_base64) ? (
               <div className="pdf-viewer-container">
                 <iframe 
-                  src={venta.pdf_base64} 
+                  src={venta.factura_url || venta.pdf_base64} 
                   title={`PDF ${venta.numero_orden}`}
                   width="100%"
                   height="100%"

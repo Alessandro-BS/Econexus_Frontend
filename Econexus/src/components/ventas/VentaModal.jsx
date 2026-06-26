@@ -1,17 +1,21 @@
 import { useState, useEffect, useMemo } from 'react';
+import useApiCrud from '../../hooks/useApiCrud';
 
 /**
  * Modal para Crear nueva Orden de Servicio
  */
 function VentaModal({ show, onClose, onSave, clientes }) {
   const [formData, setFormData] = useState({
+    numero_orden: '',
+    tipo_servicio_id: '',
     fecha_emision: new Date().toISOString().split('T')[0],
     cliente_nombre: '',
     monto_total: '',
     estado_pago: 'PENDIENTE',
-    pdf_base64: null,
+    factura_url: null,
   });
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const { data: tiposServicio, loading: loadingTipos } = useApiCrud('/tipos-servicio');
 
   const [pdfName, setPdfName] = useState('');
 
@@ -27,11 +31,13 @@ function VentaModal({ show, onClose, onSave, clientes }) {
   useEffect(() => {
     if (show) {
       setFormData({
+        numero_orden: 'AUTO',
+        tipo_servicio_id: '1', // Default to 1 as requested
         fecha_emision: new Date().toISOString().split('T')[0],
         cliente_nombre: '',
         monto_total: '',
         estado_pago: 'PENDIENTE',
-        pdf_base64: null,
+        factura_url: null,
       });
       setPdfName('');
       setShowSuggestions(false);
@@ -73,7 +79,7 @@ function VentaModal({ show, onClose, onSave, clientes }) {
       setPdfName(file.name);
       const reader = new FileReader();
       reader.onloadend = () => {
-        setFormData((prev) => ({ ...prev, pdf_base64: reader.result }));
+        setFormData((prev) => ({ ...prev, factura_url: reader.result }));
       };
       reader.readAsDataURL(file);
     } else {
@@ -97,6 +103,8 @@ function VentaModal({ show, onClose, onSave, clientes }) {
 
     const dataToSave = {
       ...formData,
+      numero_orden: formData.numero_orden.trim(),
+      tipo_servicio_id: Number(formData.tipo_servicio_id),
       cliente_id: selectedClient.id,
       cliente_nombre: selectedClient.razon_social,
       monto_total: parseFloat(formData.monto_total),
@@ -119,6 +127,9 @@ function VentaModal({ show, onClose, onSave, clientes }) {
           <form onSubmit={handleSubmit}>
             <div className="modal-body eco-modal-body">
               <div className="row g-3">
+
+                {/* Numero de Orden Oculto */}
+                <input type="hidden" name="numero_orden" value={formData.numero_orden} />
 
                 {/* Fecha Emisión */}
                 <div className="col-md-6">
@@ -177,6 +188,25 @@ function VentaModal({ show, onClose, onSave, clientes }) {
                       )}
                     </ul>
                   )}
+                </div>
+
+                {/* Tipo de Servicio */}
+                <div className="col-md-6">
+                  <label className="eco-label">Tipo de Servicio <span className="text-danger">*</span></label>
+                  <select
+                    className="form-select eco-input"
+                    name="tipo_servicio_id"
+                    value={formData.tipo_servicio_id}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="" disabled>{loadingTipos ? 'Cargando...' : 'Seleccione un servicio'}</option>
+                    {tiposServicio && tiposServicio.map(tipo => (
+                      <option key={tipo.id} value={tipo.id}>
+                        {tipo.nombre}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 {/* Monto Total */}

@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
+import useApiCrud from '../../hooks/useApiCrud';
 
 const emptyForm = {
-  razonSocial: '',
+  razon_social: '',
   ruc: '',
-  contactoPrincipal: '',
+  contacto_principal: '',
   telefono: '',
   email: '',
   direccion: '',
-  tipoServicio: '',
+  tipo_servicio_id: '',
   estado: 'ACTIVO',
 };
 
@@ -22,6 +23,7 @@ function ProveedorModal({ show, onClose, onSave, proveedorToEdit }) {
   const [formData, setFormData] = useState(emptyForm);
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const { data: tiposServicio, loading: loadingTipos } = useApiCrud('/tipos-servicio');
 
   const isEditMode = !!proveedorToEdit;
 
@@ -29,13 +31,13 @@ function ProveedorModal({ show, onClose, onSave, proveedorToEdit }) {
   useEffect(() => {
     if (proveedorToEdit) {
       setFormData({
-        razonSocial: proveedorToEdit.razonSocial || '',
+        razon_social: proveedorToEdit.razon_social || '',
         ruc: proveedorToEdit.ruc || '',
-        contactoPrincipal: proveedorToEdit.contactoPrincipal || '',
+        contacto_principal: proveedorToEdit.contacto_principal || '',
         telefono: proveedorToEdit.telefono || '',
         email: proveedorToEdit.email || '',
         direccion: proveedorToEdit.direccion || '',
-        tipoServicio: proveedorToEdit.tipoServicio || '',
+        tipo_servicio_id: proveedorToEdit.tipo_servicio_id || '',
         estado: proveedorToEdit.estado || 'ACTIVO',
       });
     } else {
@@ -61,10 +63,10 @@ function ProveedorModal({ show, onClose, onSave, proveedorToEdit }) {
   const validate = () => {
     const newErrors = {};
 
-    if (!formData.razonSocial.trim()) {
-      newErrors.razonSocial = 'La razón social es obligatoria.';
-    } else if (formData.razonSocial.trim().length < 3) {
-      newErrors.razonSocial = 'La razón social debe tener al menos 3 caracteres.';
+    if (!formData.razon_social.trim()) {
+      newErrors.razon_social = 'La razón social es obligatoria.';
+    } else if (formData.razon_social.trim().length < 3) {
+      newErrors.razon_social = 'La razón social debe tener al menos 3 caracteres.';
     }
 
     if (!formData.ruc.trim()) {
@@ -73,8 +75,8 @@ function ProveedorModal({ show, onClose, onSave, proveedorToEdit }) {
       newErrors.ruc = 'El RUC debe tener exactamente 11 dígitos.';
     }
 
-    if (!formData.contactoPrincipal.trim()) {
-      newErrors.contactoPrincipal = 'El contacto principal es obligatorio.';
+    if (!formData.contacto_principal.trim()) {
+      newErrors.contacto_principal = 'El contacto principal es obligatorio.';
     }
 
     if (!formData.telefono.trim()) {
@@ -87,8 +89,8 @@ function ProveedorModal({ show, onClose, onSave, proveedorToEdit }) {
       newErrors.email = 'Ingresa un email válido.';
     }
 
-    if (!formData.tipoServicio.trim()) {
-      newErrors.tipoServicio = 'Ingresa el tipo de servicio.';
+    if (!formData.tipo_servicio_id) {
+      newErrors.tipo_servicio_id = 'Selecciona el tipo de servicio.';
     }
 
     return newErrors;
@@ -102,10 +104,7 @@ function ProveedorModal({ show, onClose, onSave, proveedorToEdit }) {
       setErrors(validationErrors);
       return;
     }
-    onSave({
-      ...formData,
-      tipoServicio: formData.tipoServicio.trim(),
-    });
+    onSave(formData);
   };
 
   if (!show) return null;
@@ -146,15 +145,15 @@ function ProveedorModal({ show, onClose, onSave, proveedorToEdit }) {
                   </label>
                   <input
                     type="text"
-                    className={`form-control eco-input ${submitted && errors.razonSocial ? 'is-invalid' : ''}`}
-                    name="razonSocial"
-                    value={formData.razonSocial}
+                    className={`form-control eco-input ${submitted && errors.razon_social ? 'is-invalid' : ''}`}
+                    name="razon_social"
+                    value={formData.razon_social}
                     onChange={handleChange}
                     placeholder="Ej: Quimitek Perú S.A.C."
                     id="input-razon-social-prov"
                   />
-                  {errors.razonSocial && (
-                    <div className="invalid-feedback">{errors.razonSocial}</div>
+                  {errors.razon_social && (
+                    <div className="invalid-feedback">{errors.razon_social}</div>
                   )}
                 </div>
 
@@ -184,15 +183,15 @@ function ProveedorModal({ show, onClose, onSave, proveedorToEdit }) {
                   </label>
                   <input
                     type="text"
-                    className={`form-control eco-input ${submitted && errors.contactoPrincipal ? 'is-invalid' : ''}`}
-                    name="contactoPrincipal"
-                    value={formData.contactoPrincipal}
+                    className={`form-control eco-input ${submitted && errors.contacto_principal ? 'is-invalid' : ''}`}
+                    name="contacto_principal"
+                    value={formData.contacto_principal}
                     onChange={handleChange}
                     placeholder="Nombre del contacto"
                     id="input-contacto-prov"
                   />
-                  {errors.contactoPrincipal && (
-                    <div className="invalid-feedback">{errors.contactoPrincipal}</div>
+                  {errors.contacto_principal && (
+                    <div className="invalid-feedback">{errors.contacto_principal}</div>
                   )}
                 </div>
 
@@ -252,17 +251,21 @@ function ProveedorModal({ show, onClose, onSave, proveedorToEdit }) {
                   <label className="form-label eco-label">
                     Tipo de Servicio <span className="text-danger">*</span>
                   </label>
-                  <input
-                    type="text"
-                    className={`form-control eco-input ${submitted && errors.tipoServicio ? 'is-invalid' : ''}`}
-                    name="tipoServicio"
-                    value={formData.tipoServicio}
+                  <select
+                    className={`form-select eco-input ${submitted && errors.tipo_servicio_id ? 'is-invalid' : ''}`}
+                    name="tipo_servicio_id"
+                    value={formData.tipo_servicio_id}
                     onChange={handleChange}
-                    placeholder="Ej: Transporte de residuos peligrosos"
                     id="input-tipo-servicio"
-                  />
-                  {errors.tipoServicio && (
-                    <div className="invalid-feedback">{errors.tipoServicio}</div>
+                    disabled={loadingTipos}
+                  >
+                    <option value="">Seleccione un servicio</option>
+                    {tiposServicio && tiposServicio.map(tipo => (
+                      <option key={tipo.id} value={tipo.id}>{tipo.nombre}</option>
+                    ))}
+                  </select>
+                  {errors.tipo_servicio_id && (
+                    <div className="invalid-feedback">{errors.tipo_servicio_id}</div>
                   )}
                 </div>
 

@@ -1,15 +1,17 @@
 import { useState, useMemo } from 'react';
+import useApiCrud from '../../hooks/useApiCrud';
 import './ReportesPage.css';
 
 const initialState = {
   fecha_registro: '',
   cliente_id: '',
   cliente_nombre: '',
-  tipo_servicio: '',
+  tipo_servicio_id: '',
+  orden_servicio_id: '',
   descripcion: '',
   cantidad: '',
   unidad_medida: '',
-  estado: 'PENDIENTE',
+  estado_cumplimiento: 'PENDIENTE',
 };
 
 const getInitialState = (reporteToEdit, clientes) => {
@@ -40,6 +42,7 @@ function ReporteModal({ show, clientes = [], onClose, onSave, reporteToEdit }) {
   const [formData, setFormData] = useState(() => getInitialState(reporteToEdit, clientes));
   const [showSuggestions, setShowSuggestions] = useState(false);
   const isEditMode = !!reporteToEdit;
+  const { data: tiposServicio, loading: loadingTipos } = useApiCrud('/tipos-servicio');
 
   if (!show) return null;
 
@@ -90,6 +93,9 @@ function ReporteModal({ show, clientes = [], onClose, onSave, reporteToEdit }) {
       ...formData,
       cliente_id: Number(formData.cliente_id),
       cantidad: Number(formData.cantidad),
+      estado_cumplimiento: formData.estado_cumplimiento,
+      tipo_servicio_id: Number(formData.tipo_servicio_id),
+      orden_servicio_id: formData.orden_servicio_id ? Number(formData.orden_servicio_id) : null
     });
   };
 
@@ -130,10 +136,10 @@ function ReporteModal({ show, clientes = [], onClose, onSave, reporteToEdit }) {
                   <input
                     type="date"
                     name="fecha_registro"
-                    className="form-control eco-input"
+                    className="form-control eco-input bg-light"
                     value={formData.fecha_registro}
                     onChange={handleChange}
-                    required
+                    readOnly
                   />
                 </div>
 
@@ -185,29 +191,36 @@ function ReporteModal({ show, clientes = [], onClose, onSave, reporteToEdit }) {
                 </div>
 
                 <div className="col-md-6">
-                  <label className="form-label eco-label">Tipo de Servicio</label>
-                  <input
-                    type="text"
-                    name="tipo_servicio"
-                    className="form-control eco-input"
-                    value={formData.tipo_servicio}
+                  <label className="form-label eco-label">Tipo de Servicio <span className="text-danger">*</span></label>
+                  <select
+                    name="tipo_servicio_id"
+                    className="form-select eco-input"
+                    value={formData.tipo_servicio_id}
                     onChange={handleChange}
-                    placeholder="Ej. Recoleccion de residuos peligrosos"
                     required
-                  />
+                    disabled={loadingTipos}
+                  >
+                    <option value="">Seleccione un servicio</option>
+                    {tiposServicio && tiposServicio.map(tipo => (
+                      <option key={tipo.id} value={tipo.id}>{tipo.nombre}</option>
+                    ))}
+                  </select>
                 </div>
 
+                {/* Orden de Servicio Oculta */}
+                <input type="hidden" name="orden_servicio_id" value={formData.orden_servicio_id || ''} />
+
                 <div className="col-md-6">
-                  <label className="form-label eco-label">Estado</label>
+                  <label className="form-label eco-label">Estado Cumplimiento</label>
                   <select
-                    name="estado"
+                    name="estado_cumplimiento"
                     className="form-select eco-input"
-                    value={formData.estado}
+                    value={formData.estado_cumplimiento}
                     onChange={handleChange}
                     required
                   >
                     <option value="PENDIENTE">PENDIENTE</option>
-                    <option value="EN PROCESO">EN PROCESO</option>
+                    <option value="EN_PROCESO">EN_PROCESO</option>
                     <option value="CUMPLIDO">CUMPLIDO</option>
                     <option value="OBSERVADO">OBSERVADO</option>
                   </select>
@@ -243,15 +256,19 @@ function ReporteModal({ show, clientes = [], onClose, onSave, reporteToEdit }) {
 
                 <div className="col-md-6">
                   <label className="form-label eco-label">Unidad de Medida</label>
-                  <input
-                    type="text"
+                  <select
                     name="unidad_medida"
-                    className="form-control eco-input"
+                    className="form-select eco-input"
                     value={formData.unidad_medida}
                     onChange={handleChange}
-                    placeholder="Kg, TN, Litros, Unidades..."
                     required
-                  />
+                  >
+                    <option value="">Seleccione...</option>
+                    <option value="KG">KG</option>
+                    <option value="LITROS">LITROS</option>
+                    <option value="M2">M2</option>
+                    <option value="UNIDAD">UNIDAD</option>
+                  </select>
                 </div>
               </div>
             </div>
