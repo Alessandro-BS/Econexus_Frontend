@@ -236,15 +236,16 @@ function ProveedorModal({ show, onClose, onSave, proveedorToEdit }) {
                 {/* Dirección */}
                 <div className="col-12">
                   <label className="form-label eco-label">Dirección</label>
-                  <input
-                    type="text"
+                  <textarea
                     className="form-control eco-input"
                     name="direccion"
                     value={formData.direccion}
                     onChange={handleChange}
-                    placeholder="Dirección completa (opcional)"
+                    rows={3}
+                    maxLength={255}
+                    placeholder="Dirección completa (opcional, máx. 255 caracteres)"
                     id="input-direccion-prov"
-                  />
+                  ></textarea>
                 </div>
 
                 {/* Tipo de Servicio */}
