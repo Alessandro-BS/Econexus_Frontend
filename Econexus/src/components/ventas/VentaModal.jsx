@@ -86,6 +86,11 @@ function VentaModal({ show, onClose, onSave, clientes }) {
     e.preventDefault();
     if (!formData.cliente_nombre.trim() || !formData.monto_total) return;
 
+    if (!formData.pdf_base64) {
+      alert('Es obligatorio adjuntar el archivo PDF de la Orden de Servicio.');
+      return;
+    }
+
     const selectedClient = clientes.find(
       (c) => c.razon_social.toLowerCase() === formData.cliente_nombre.trim().toLowerCase()
     );
@@ -216,12 +221,13 @@ function VentaModal({ show, onClose, onSave, clientes }) {
 
                 {/* Adjuntar PDF */}
                 <div className="col-12">
-                  <label className="eco-label">Adjuntar PDF de Orden</label>
+                  <label className="eco-label">Adjuntar PDF de Orden <span className="text-danger">*</span></label>
                   <input
                     type="file"
                     className="form-control eco-input"
                     accept=".pdf"
                     onChange={handleFileChange}
+                    required
                   />
                   {pdfName && <small className="text-success mt-1 d-block"><i className="bi bi-check-circle me-1"></i> Archivo seleccionado: {pdfName}</small>}
                 </div>
