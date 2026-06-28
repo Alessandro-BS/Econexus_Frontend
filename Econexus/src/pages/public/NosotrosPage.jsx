@@ -17,25 +17,25 @@ const NosotrosPage = () => {
             </div>
             <div className="col-lg-5 offset-lg-1 mt-5 mt-lg-0">
               <h6 className="text-success text-uppercase fw-bold tracking-wider mb-2">Sobre Nosotros</h6>
-              <h2 className="display-5 fw-bold mb-4 text-dark">Líderes en Saneamiento y Cuidado Ambiental</h2>
-              <p className="lead text-secondary mb-4">
+              <h2 className="display-5 fw-bold mb-4 text-eco-dark">Líderes en Saneamiento y Cuidado Ambiental</h2>
+              <p className="lead text-eco-gray mb-4">
                 En Econexus, nos dedicamos a ofrecer soluciones sostenibles y eficientes en saneamiento ambiental. Nuestro compromiso es garantizar un entorno limpio y seguro para empresas y comunidades.
               </p>
-              <p className="text-secondary mb-4">
+              <p className="text-eco-gray mb-4">
                 A través de la innovación constante y el uso de tecnologías amigables con el ecosistema, abordamos los desafíos medioambientales más complejos, asegurando el cumplimiento normativo y promoviendo el bienestar integral.
               </p>
               <ul className="list-unstyled mb-4">
                 <li className="d-flex align-items-center mb-3">
                   <i className="bi bi-check-circle-fill text-success fs-5 me-3"></i>
-                  <span className="fw-medium text-dark">Personal altamente capacitado</span>
+                  <span className="fw-medium text-eco-dark">Personal altamente capacitado</span>
                 </li>
                 <li className="d-flex align-items-center mb-3">
                   <i className="bi bi-check-circle-fill text-success fs-5 me-3"></i>
-                  <span className="fw-medium text-dark">Cumplimiento de normativas vigentes</span>
+                  <span className="fw-medium text-eco-dark">Cumplimiento de normativas vigentes</span>
                 </li>
                 <li className="d-flex align-items-center">
                   <i className="bi bi-check-circle-fill text-success fs-5 me-3"></i>
-                  <span className="fw-medium text-dark">Compromiso con la sostenibilidad</span>
+                  <span className="fw-medium text-eco-dark">Compromiso con la sostenibilidad</span>
                 </li>
               </ul>
             </div>

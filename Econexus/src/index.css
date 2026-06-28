@@ -268,3 +268,35 @@ a {
   font-size: 2rem;
   color: var(--eco-green-700);
 }
+
+/* Utilidades de contraste añadidas para la HomePage */
+.text-eco-amber {
+  color: var(--eco-amber) !important;
+}
+.bg-eco-amber-light {
+  background-color: var(--eco-amber-light) !important;
+}
+.text-eco-gray {
+  color: var(--eco-gray-700) !important;
+}
+.text-eco-dark {
+  color: var(--eco-green-900) !important;
+}
+
+/* Mejoras de usabilidad y feedback visual */
+.form-control:focus, .form-select:focus {
+  border-color: var(--eco-green-500) !important;
+  box-shadow: 0 0 0 0.25rem rgba(76, 175, 80, 0.25) !important;
+}
+.card {
+  transition: var(--eco-transition);
+}
+
+/* --- Mejoras Premium --- */
+.btn-success, .btn-outline-success {
+  transition: var(--eco-transition);
+}
+.btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3) !important;
+}
