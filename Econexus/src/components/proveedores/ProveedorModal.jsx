@@ -242,8 +242,8 @@ function ProveedorModal({ show, onClose, onSave, proveedorToEdit }) {
                     value={formData.direccion}
                     onChange={handleChange}
                     rows={3}
-                    maxLength={255}
-                    placeholder="Dirección completa (opcional, máx. 255 caracteres)"
+                    maxLength={100}
+                    placeholder="Dirección completa (opcional, máx. 100 caracteres)"
                     id="input-direccion-prov"
                   ></textarea>
                 </div>
