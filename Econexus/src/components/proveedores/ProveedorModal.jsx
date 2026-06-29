@@ -49,7 +49,18 @@ function ProveedorModal({ show, onClose, onSave, proveedorToEdit }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    
+    let finalValue = value;
+    if (name === 'contacto_principal') {
+      // Elimina cualquier carácter que no sea letra o espacio
+      finalValue = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+    }
+    if (name === 'ruc') {
+      // Elimina cualquier carácter que no sea número
+      finalValue = value.replace(/[^0-9]/g, '');
+    }
+
+    setFormData((prev) => ({ ...prev, [name]: finalValue }));
     // Limpiar error del campo al modificarlo
     if (errors[name]) {
       setErrors((prev) => {
