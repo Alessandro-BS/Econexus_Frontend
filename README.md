@@ -42,6 +42,28 @@ El sistema consta de interfaces CRUD avanzadas e interactivas, diseñadas con un
 
 ---
 
+## 📋 Requerimientos del Sistema
+
+### Requerimientos Funcionales (RF)
+- **RF01** - **Seguridad** - Autenticación de usuarios y protección de rutas según roles (Administrador, Supervisor, Operador).
+- **RF02** - **Dashboard** - Visualización en tiempo real de métricas clave (montos cobrados, órdenes, clientes) mediante gráficos interactivos.
+- **RF03** - **Clientes** - Creación, lectura, actualización y eliminación (CRUD) de clientes corporativos mediante modales interactivos.
+- **RF04** - **Proveedores** - Creación, lectura, actualización y eliminación (CRUD) de empresas proveedoras.
+- **RF05** - **Usuarios** - Creación, lectura, actualización y eliminación (CRUD) de cuentas de usuario y asignación de accesos al sistema.
+- **RF06** - **Órdenes de Servicio** - Creación, lectura, actualización y eliminación (CRUD) de órdenes, seguimiento de pagos y trazabilidad de facturación.
+- **RF07** - **Búsqueda Global** - Indexación y recuperación instantánea de registros desde cualquier módulo del sistema.
+- **RF08** - **Integración** - Consumo de servicios RESTful (Spring Boot) para persistencia y fallback a `localStorage` en entornos de prueba.
+
+### Requerimientos No Funcionales (RNF)
+- **RNF01** - **UX/UI** - Interfaz premium y moderna utilizando Glassmorphism, micro-interacciones fluidas y diseño *Mobile-First*.
+- **RNF02** - **Rendimiento** - Tiempos de carga mínimos y renderizado eficiente gracias a React 18 y Vite.
+- **RNF03** - **Responsividad** - Adaptabilidad total a móviles, tablets y escritorio (Sidebar tipo Offcanvas, tablas colapsables).
+- **RNF04** - **Arquitectura** - Código estructurado por dominios/features (modular) y estilos organizados con CSS Vanilla (BEM).
+- **RNF05** - **Seguridad Frontend** - Manejo seguro de sesión, ocultamiento de componentes por permisos y bloqueo de rutas no autorizadas (`ProtectedRoutes`).
+- **RNF06** - **Compatibilidad** - Soporte garantizado para los navegadores web modernos estándar (Chrome, Edge, Safari, Firefox).
+
+---
+
 ## 📂 Estructura del Proyecto
 
 El código fuente sigue una arquitectura por dominios/features para facilitar la escalabilidad.
