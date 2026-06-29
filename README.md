@@ -1,105 +1,121 @@
-# Econexus - Sistema de Gestión de Saneamiento Ambiental 🌱
+# Econexus Frontend - Saneamiento Ambiental 🌱
 
-Econexus es una plataforma integral desarrollada en **React + Vite** diseñada para administrar, monitorear y optimizar los procesos de una empresa enfocada en servicios de saneamiento ambiental (Fumigación, Desinsectación, Manejo de Residuos Sólidos y Líquidos).
+![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![Vite](https://img.shields.io/badge/Vite-5-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![React Router](https://img.shields.io/badge/React_Router-6-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-Deploy-black?style=for-the-badge&logo=vercel&logoColor=white)
 
-## 🚀 Tecnologías y Stack
+Econexus es una plataforma web (Single Page Application) corporativa desarrollada en **React + Vite** para la administración, monitoreo y optimización operativa de servicios de saneamiento ambiental (Fumigación, Desinsectación, Manejo de Residuos Sólidos y Líquidos).
 
-- **Frontend Core:** React 18, Vite
-- **Enrutamiento:** React Router DOM v6
-- **Estilos y UI:** CSS Vanilla (Custom Properties, BEM-like), Bootstrap 5 (Grid & Modals), Bootstrap Icons
-- **Visualización de Datos:** Recharts (Gráficos interactivos)
-- **Persistencia de Datos:** `localStorage` (Implementado vía custom hook `useLocalStorage` como Mock BD)
+> 🔗 **Frontend (App):** [Live Demo en Vercel](https://econexus-frontend.vercel.app)
+> 🔗 **Backend (API):** [Repositorio de la API Spring Boot](https://github.com/Alessandro-BS/Econexus-Backend)
 
-## ✨ Características Principales
+---
 
-1. **Dashboard Interactivo:**
-   - Panel de control general con KPIs dinámicos (Montos Cobrados, Órdenes Generadas/Pendientes, Total de Clientes).
-   - Gráficos en tiempo real (BarChart, PieChart) que reaccionan al estado global del sistema.
+## 🚀 Arquitectura y Tecnologías Core
 
-2. **Buscador Global Inteligente:**
-   - Barra de búsqueda superior (`TopBar`) que indexa y busca simultáneamente en todos los módulos (Clientes, Proveedores, Ventas, Reportes).
+El frontend está construido con enfoque en componentes modulares, alto rendimiento y una interfaz de usuario fluida sin depender de librerías UI pesadas.
 
-3. **Módulos CRUD Completos:**
-   Cada módulo incluye una tabla responsiva con paginación local, barra de búsqueda en tiempo real, KPIs propios de la sección y modales interactivos para las acciones de creación, edición y eliminación.
-   - 👥 **Clientes:** Gestión de hospitales, mineras y empresas generadoras de residuos.
-   - 🏭 **Proveedores:** Gestión de empresas que proveen EPPs, químicos, maquinaria y servicios logísticos.
-   - 💼 **Ventas (Órdenes):** Control de ingresos, generación de órdenes de servicio y seguimiento de pagos.
-   - 📊 **Reportes:** Trazabilidad de los servicios ejecutados, unidades de medida y estados de cumplimiento (Pendiente, En Proceso, Cumplido, Observado).
-   - 🛡️ **Usuarios:** Administración de accesos y roles del sistema.
-   - ⚖️ **Normativas:** Registro y verificación del cumplimiento legal ambiental.
+- **Framework:** React 18 (Hooks funcionales, Context API)
+- **Build Tool:** Vite (HMR ultra-rápido, build optimizado)
+- **Enrutamiento:** React Router DOM v6 (Rutas protegidas y anidadas)
+- **Estilos:** CSS Vanilla (Metodología BEM, Custom Properties, CSS Modules) + Bootstrap 5 (Exclusivo para Grid System y utilidades)
+- **Visualización de Datos:** Recharts (SVG Charts dinámicos e interactivos)
+- **Gestión de Estado/Datos:** Integración con REST API (o persistencia en `localStorage` como fallback/mock para desarrollo)
 
-4. **Diseño Premium y Responsivo:**
-   - Animaciones fluidas (`animate-fade-in-up`), modales superpuestos, diseño de tarjetas con sombras suaves y una paleta de colores curada y profesional.
-   - 100% adaptable a dispositivos móviles, tablets y escritorios.
+---
 
-## 📋 Requerimientos Funcionales
-| # | Requerimiento |
-|---|---------------|
-| 1 | Gestión de clientes con creación, edición, búsqueda, eliminación y KPIs propios. |
-| 2 | Gestión de proveedores con CRUD completo y métricas de abastecimiento. |
-| 3 | Gestión de ventas/órdenes de servicio con seguimiento de pagos y estados. |
-| 4 | Gestión de reportes y normativas ambientales con registro de cumplimiento. |
-| 5 | Administración de usuarios y roles para acceso seguro a los módulos. |
-| 6 | Dashboard interactivo con KPIs globales y gráficos dinámicos. |
-| 7 | Búsqueda global en los distintos módulos para acceso rápido a la información. |
-| 8 | Páginas públicas informativas: Landing, servicios, contacto, galería y catálogo. |
+## ✨ Módulos y Características
 
-## ⚙️ Requerimientos No Funcionales
-| # | Requerimiento |
-|---|---------------|
-| 1 | Interfaz responsiva y usable en dispositivos móviles, tablets y escritorios. |
-| 2 | Rendimiento optimizado mediante React + Vite. |
-| 3 | Persistencia local de datos usando `localStorage` como mock de base de datos. |
-| 4 | Arquitectura modular y mantenible con componentes reutilizables. |
-| 5 | Experiencia de usuario intuitiva con navegación clara y modales consistentes. |
-| 6 | Diseño visual profesional con foco en legibilidad y usabilidad. |
+El sistema consta de interfaces CRUD avanzadas e interactivas, diseñadas con un alto estándar de usabilidad (UX/UI):
+
+1. **📊 Dashboard Analítico:** 
+   Panel de control global con métricas clave (Montos Cobrados, Órdenes, Clientes). Incluye gráficos (BarChart, PieChart) renderizados en tiempo real mediante `Recharts`.
+2. **🔍 Motor de Búsqueda Global:** 
+   Un componente de búsqueda unificado capaz de indexar y recuperar registros de cualquier módulo de forma instantánea.
+3. **👥 Clientes & 🏭 Proveedores:** 
+   Gestión del ciclo de vida de entidades corporativas (hospitales, mineras). Modales interactivos para inserción y actualización de datos.
+4. **💼 Órdenes de Servicio (Ventas):** 
+   Trazabilidad de la facturación y seguimiento de pagos según tipo de residuo/servicio.
+5. **🛡️ Seguridad & Accesos (Usuarios):** 
+   Vistas protegidas (`ProtectedRoutes`), manejo de sesión y roles (Administrador, Supervisor, Operador).
+
+---
 
 ## 📂 Estructura del Proyecto
 
+El código fuente sigue una arquitectura por dominios/features para facilitar la escalabilidad.
+
 ```text
 src/
-├── assets/            # Imágenes, SVGs y recursos estáticos
-├── components/        # Componentes agrupados por dominio
-│   ├── auth/          # Login y flujos de autenticación
-│   ├── clientes/      # Página, Tabla, Modal y KPIs de Clientes
-│   ├── dashboard/     # Página principal, Gráficos y KPIs globales
-│   ├── layout/        # Sidebar, TopBar y estructura maestra (Layout.jsx)
-│   ├── normativas/    # Gestión legal
-│   ├── proveedores/   # Gestión de suministros
-│   ├── public/        # Landing Page pública
-│   ├── reportes/      # Operaciones y trazabilidad
-│   ├── usuarios/      # Roles y accesos
-│   └── ventas/        # Órdenes de servicio
-├── data/              # Archivos "Seed" con datos iniciales (Mock Data)
-├── hooks/             # Custom hooks (ej. useLocalStorage)
-├── App.jsx            # Enrutador principal y definición de rutas (Públicas/Privadas)
-├── index.css          # Estilos globales, variables CSS y animaciones base
-└── main.jsx           # Punto de entrada de React
+├── assets/            # Recursos estáticos optimizados (SVGs, WebP)
+├── components/        # Componentes funcionales aislados
+│   ├── auth/          # Login, AuthProvider, Contextos de seguridad
+│   ├── layout/        # Estructura maestra: Sidebar, TopBar, Wrapper
+│   ├── dashboard/     # Tarjetas de KPIs, Contenedores de Gráficos
+│   ├── clientes/      # Vistas, Tablas y Modales de empresas contratantes
+│   ├── ventas/        # Gestión de órdenes y facturación
+│   ├── proveedores/   # Módulo de empresas proveedoras
+│   ├── reportes/      # Trazabilidad de cumplimiento
+│   ├── normativas/    # Marco legal aplicable
+│   ├── usuarios/      # Roles y acceso al sistema
+│   └── common/        # Componentes compartidos y utilidades
+├── hooks/             # Custom Hooks (ej. useFetch, useAuth, useLocalStorage)
+├── data/              # Constantes y mocks de desarrollo
+├── index.css          # Variables globales (Design System), animaciones (Keyframes)
+├── App.jsx            # Configuración de Router y Providers
+└── main.jsx           # Entry point (createRoot)
 ```
 
-## 🛠️ Instalación y Uso
+---
 
-1. **Clonar el repositorio:**
-   ```bash
-   git clone [URL_DEL_REPOSITORIO]
-   cd Econexus
-   ```
+## 🛠️ Despliegue y Desarrollo Local
 
-2. **Instalar dependencias:**
-   ```bash
-   npm install
-   ```
+### Prerrequisitos
+- **Node.js** (v18 o superior)
+- **NPM** o **Yarn**
 
-3. **Ejecutar servidor de desarrollo:**
-   ```bash
-   npm run dev
-   ```
-   *El proyecto estará disponible por defecto en `http://localhost:5173/`.*
+### 1. Clonar el repositorio
+```bash
+git clone https://github.com/Alessandro-BS/Econexus_Frontend.git
+cd Econexus_Frontend
+```
 
-## 💾 Sobre la Base de Datos (Persistencia Local)
-Actualmente, el proyecto funciona sin un backend externo. Toda la información se persiste en la memoria del navegador usando `localStorage`. Si deseas reiniciar la base de datos a su estado original (10 registros por módulo), simplemente limpia la caché de tu navegador (Application -> Local Storage) o elimina las llaves que empiezan con `eco_` y recarga la página.
+### 2. Configurar Variables de Entorno
+Crea un archivo `.env` en la raíz del proyecto para apuntar al backend:
+```env
+VITE_API_URL=http://localhost:8080/api
+```
+*(Si no se detecta backend, la app cuenta con un sistema de fallback a `localStorage` para demostraciones).*
 
-## 👥 Próximos Pasos
-- Integración de los servicios y vistas con un backend real (Spring Boot).
-- Migración de `useLocalStorage` a funciones `fetch` nativas o `axios`.
-- Implementación de autenticación real basada en JWT.
+### 3. Instalar Dependencias
+```bash
+npm install
+```
+
+### 4. Levantar Servidor de Desarrollo
+```bash
+npm run dev
+```
+La aplicación estará disponible en `http://localhost:5173`. 
+Gracias a Vite, cualquier cambio en el código se reflejará instantáneamente (HMR).
+
+### 5. Compilar para Producción
+```bash
+npm run build
+```
+Generará un bundle optimizado, minificado y listo para producción en la carpeta `/dist`.
+
+---
+
+## 💎 Diseño UI / UX Premium
+
+- **Micro-interacciones:** Animaciones fluidas al renderizar listas (`animate-fade-in-up`), estados `:hover` pulidos en botones y tarjetas.
+- **Accesibilidad y Responsividad:** Diseño *Mobile-First*. El `Sidebar` se convierte en un menú *Offcanvas* en dispositivos móviles, y las tablas colapsan inteligentemente.
+- **Glassmorphism & Sombras:** Uso moderno de paletas de color, desenfoques (`backdrop-filter`) y sombras profundas para elevar el nivel visual corporativo.
+
+---
+
+## 👥 Equipo de Desarrollo
+
+Proyecto desarrollado como parte de la infraestructura integral para gestión ambiental, conectado a su contraparte backend.
