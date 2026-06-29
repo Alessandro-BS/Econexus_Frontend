@@ -45,7 +45,14 @@ function ClienteModal({ show, onClose, onSave, clienteToEdit }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    
+    let finalValue = value;
+    if (name === 'contacto_principal') {
+      // Elimina cualquier carácter que no sea letra o espacio
+      finalValue = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+    }
+
+    setFormData((prev) => ({ ...prev, [name]: finalValue }));
     // Limpiar error del campo al modificarlo
     if (errors[name]) {
       setErrors((prev) => {
@@ -71,6 +78,8 @@ function ClienteModal({ show, onClose, onSave, clienteToEdit }) {
 
     if (!formData.contacto_principal.trim()) {
       newErrors.contacto_principal = 'El contacto principal es obligatorio.';
+    } else if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(formData.contacto_principal)) {
+      newErrors.contacto_principal = 'El contacto principal solo puede contener letras y espacios.';
     }
 
     if (!formData.telefono.trim()) {

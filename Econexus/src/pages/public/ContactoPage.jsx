@@ -18,14 +18,14 @@ const ContactoPage = () => {
         <div className="container py-5">
           <div className="text-center mb-5">
             <h6 className="text-success text-uppercase fw-bold tracking-wider mb-2">Contacto</h6>
-            <h2 className="display-5 fw-bold text-dark">Estamos aquí para ayudarte</h2>
+            <h2 className="display-5 fw-bold text-eco-dark">Estamos aquí para ayudarte</h2>
             <p className="text-muted fs-5 mt-3">Comunícate con nosotros para cualquier consulta o para solicitar una evaluación de tus requerimientos ambientales.</p>
           </div>
           
           <div className="row g-5 mt-3">
             {/* Formulario */}
             <div className="col-lg-6">
-              <div className="card border-0 shadow-sm rounded-4 p-4 p-md-5 h-100">
+              <div className="card border-0 shadow rounded-4 p-4 p-md-5 h-100">
                 <h3 className="fw-bold mb-4">Envíanos un mensaje</h3>
                 {!enviado ? (
                   <form onSubmit={handleSubmit}>
@@ -55,7 +55,7 @@ const ContactoPage = () => {
             
             {/* Información y Mapa */}
             <div className="col-lg-6">
-              <div className="card border-0 shadow-sm rounded-4 p-4 p-md-5 h-100 bg-success text-white">
+              <div className="card border-0 shadow-lg rounded-4 p-4 p-md-5 h-100 bg-success text-white">
                 <h3 className="fw-bold mb-4">Información de Contacto</h3>
                 <ul className="list-unstyled mb-5 fs-5">
                   <li className="mb-4 d-flex align-items-start">
