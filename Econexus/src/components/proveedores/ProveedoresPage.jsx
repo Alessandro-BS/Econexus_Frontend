@@ -58,11 +58,14 @@ function ProveedoresPage() {
   // Confirmar desactivación
   const handleConfirmDelete = async (id) => {
     try {
-      await remove(id);
+      const proveedorActual = proveedores.find(p => p.id === id);
+      if (proveedorActual) {
+        await update(id, { ...proveedorActual, estado: 'INACTIVO' });
+      }
       setShowDeleteModal(false);
       setProveedorToDelete(null);
     } catch (err) {
-      alert('Error al eliminar el proveedor');
+      alert('Error al desactivar el proveedor');
     }
   };
 
