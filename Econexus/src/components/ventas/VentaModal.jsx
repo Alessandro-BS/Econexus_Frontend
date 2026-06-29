@@ -92,7 +92,7 @@ function VentaModal({ show, onClose, onSave, clientes }) {
     e.preventDefault();
     if (!formData.cliente_nombre.trim() || !formData.monto_total) return;
 
-    if (!formData.pdf_base64) {
+    if (!formData.factura_url) {
       alert('Es obligatorio adjuntar el archivo PDF de la Orden de Servicio.');
       return;
     }
