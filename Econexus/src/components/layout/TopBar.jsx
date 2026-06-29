@@ -127,7 +127,9 @@ function TopBar({ onToggleSidebar, onLogout }) {
         <h2 className="topbar-greeting">
           <span className="topbar-greeting-hi">Bienvenido,</span>{' '}
           <span className="topbar-greeting-name">
-            {currentUser ? currentUser.nombre_completo.split(' ')[0] : 'Usuario'}
+            {currentUser && currentUser.nombre_completo 
+              ? currentUser.nombre_completo.split(' ')[0] 
+              : (currentUser && currentUser.email ? currentUser.email.split('@')[0] : 'Usuario')}
           </span>
         </h2>
       </div>
@@ -264,7 +266,7 @@ function TopBar({ onToggleSidebar, onLogout }) {
                 </div>
                 <div className="profile-dropdown-info">
                   <span className="profile-name">
-                    {currentUser ? currentUser.nombre_completo : 'Usuario'}
+                    {currentUser && currentUser.nombre_completo ? currentUser.nombre_completo : (currentUser && currentUser.email ? currentUser.email.split('@')[0] : 'Usuario')}
                   </span>
                   <span className="profile-role">
                     {currentUser ? currentUser.rol : 'VISITANTE'}

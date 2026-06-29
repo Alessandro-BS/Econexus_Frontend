@@ -179,7 +179,7 @@ function UsuarioTable({ usuarios, onEdit, onDelete }) {
                     </span>
                   </td>
                   <td>
-                    <span className="table-date">{formatDate(usuario.fecha_creacion)}</span>
+                    <span className="table-date">{formatDate(usuario.created_at)}</span>
                   </td>
                   <td className="text-center">
                     <div className="action-buttons">

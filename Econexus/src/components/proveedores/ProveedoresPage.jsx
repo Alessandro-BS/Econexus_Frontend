@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import useLocalStorage from '../../hooks/useLocalStorage';
+import useApiCrud from '../../hooks/useApiCrud';
 import proveedoresSeed from '../../data/proveedoresSeed';
 import ProveedorKPIs from './ProveedorKPIs';
 import ProveedorTable from './ProveedorTable';
@@ -9,10 +9,10 @@ import './ProveedoresPage.css';
 
 /**
  * Página principal de Gestión de Proveedores.
- * CRUD completo con persistencia en localStorage.
+ * Consumiendo API REST
  */
 function ProveedoresPage() {
-  const [proveedores, setProveedores] = useLocalStorage('eco_proveedores_v2', proveedoresSeed);
+  const { data: proveedores, loading, error, create, update, remove } = useApiCrud('/proveedores');
 
   // Estado de modales
   const [showModal, setShowModal] = useState(false);
@@ -33,24 +33,20 @@ function ProveedoresPage() {
   }, []);
 
   // Guardar (crear o editar)
-  const handleSave = (formData) => {
-    if (proveedorToEdit) {
-      // Editar
-      setProveedores((prev) =>
-        prev.map((p) =>
-          p.id === proveedorToEdit.id ? { ...p, ...formData } : p
-        )
-      );
-    } else {
-      // Crear
-      const newId =
-        proveedores.length > 0 ? Math.max(...proveedores.map((p) => p.id)) + 1 : 1;
-      const fechaRegistro = new Date().toISOString().split('T')[0];
-      const newProveedor = { id: newId, ...formData, fechaRegistro };
-      setProveedores((prev) => [...prev, newProveedor]);
+  const handleSave = async (formData) => {
+    try {
+      if (proveedorToEdit) {
+        // Editar
+        await update(proveedorToEdit.id, formData);
+      } else {
+        // Crear
+        await create(formData);
+      }
+      setShowModal(false);
+      setProveedorToEdit(null);
+    } catch (err) {
+      alert('Error al guardar el proveedor');
     }
-    setShowModal(false);
-    setProveedorToEdit(null);
   };
 
   // Abrir modal de desactivación
@@ -60,19 +56,26 @@ function ProveedoresPage() {
   }, []);
 
   // Confirmar desactivación
-  const handleConfirmDelete = (id) => {
-    setProveedores((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, estado: 'INACTIVO' } : p))
-    );
-    setShowDeleteModal(false);
-    setProveedorToDelete(null);
+  const handleConfirmDelete = async (id) => {
+    try {
+      await remove(id);
+      setShowDeleteModal(false);
+      setProveedorToDelete(null);
+    } catch (err) {
+      alert('Error al eliminar el proveedor');
+    }
   };
 
-  // Reactivar proveedor
-  const handleReactivate = (id) => {
-    setProveedores((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, estado: 'ACTIVO' } : p))
-    );
+  // Reactivar proveedor (opcional, en backend debería haber un endpoint o se usa update)
+  const handleReactivate = async (id) => {
+    try {
+      const proveedorActual = proveedores.find(p => p.id === id);
+      if (proveedorActual) {
+        await update(id, { ...proveedorActual, estado: 'ACTIVO' });
+      }
+    } catch (err) {
+      alert('Error al reactivar');
+    }
   };
 
   return (
@@ -99,15 +102,21 @@ function ProveedoresPage() {
       </div>
 
       {/* KPIs */}
-      <ProveedorKPIs proveedores={proveedores} />
+      {!loading && <ProveedorKPIs proveedores={proveedores} />}
+
+      {/* Loading & Error */}
+      {loading && <div className="text-center my-5"><span className="spinner-border text-success"></span><p>Cargando proveedores...</p></div>}
+      {error && <div className="alert alert-danger mx-4">{error}</div>}
 
       {/* Tabla */}
-      <ProveedorTable
-        proveedores={proveedores}
-        onEdit={handleOpenEdit}
-        onDelete={handleOpenDelete}
-        onReactivate={handleReactivate}
-      />
+      {!loading && !error && (
+        <ProveedorTable
+          proveedores={proveedores}
+          onEdit={handleOpenEdit}
+          onDelete={handleOpenDelete}
+          onReactivate={handleReactivate}
+        />
+      )}
 
       {/* Modal Crear/Editar */}
       <ProveedorModal

@@ -62,8 +62,7 @@ function DashboardCharts({ reportes = [], ventas = [], filtro = 'todos' }) {
     // 2. Contamos usando las ventas ya filtradas
     ventasFiltradas.forEach(v => {
       if(v) {
-        const idServicio = v.tipo_servicio_id || (v.id % 5) + 1; 
-        const nombre = nombresServicios[idServicio] || 'Otros';
+        const nombre = v.tipo_servicio_nombre || v.tipo_servicio || 'Otros';
         conteoServicios[nombre] = (conteoServicios[nombre] || 0) + 1;
       }
     });

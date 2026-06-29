@@ -16,27 +16,31 @@ function ReporteTable({ reportes, onEdit, onDelete }) {
   }, [reportes]);
 
   const tiposOptions = useMemo(() => {
-    return [...new Set(reportes.map((r) => r.tipo_servicio).filter(Boolean))].sort();
+    return [...new Set(reportes.map((r) => r.tipo_servicio_nombre || r.tipo_servicio).filter(Boolean))].sort();
   }, [reportes]);
 
   const filteredReportes = useMemo(() => {
     return reportes.filter((r) => {
       const term = searchTerm.trim().toLowerCase();
+      const rEstado = r.estado_cumplimiento || r.estado || '';
+      const rTipo = r.tipo_servicio_nombre || r.tipo_servicio || '';
+      const rFecha = r.created_at ? r.created_at.substring(0, 10) : (r.fecha_registro || '');
+
       const matchesSearch =
         !term ||
         (r.cliente_nombre && r.cliente_nombre.toLowerCase().includes(term)) ||
-        (r.tipo_servicio && r.tipo_servicio.toLowerCase().includes(term)) ||
+        (rTipo.toLowerCase().includes(term)) ||
         (r.descripcion && r.descripcion.toLowerCase().includes(term)) ||
-        (r.estado && r.estado.toLowerCase().includes(term)) ||
+        (rEstado.toLowerCase().includes(term)) ||
         (r.unidad_medida && r.unidad_medida.toLowerCase().includes(term)) ||
-        (r.fecha_registro && r.fecha_registro.includes(term)) ||
+        (rFecha.includes(term)) ||
         (r.cantidad && String(r.cantidad).includes(term));
 
-      const matchesEstado = !estadoFilter || r.estado === estadoFilter;
+      const matchesEstado = !estadoFilter || rEstado === estadoFilter;
       const matchesCliente = !clienteFilter || r.cliente_nombre === clienteFilter;
-      const matchesTipo = !tipoFilter || r.tipo_servicio === tipoFilter;
-      const matchesFechaDesde = !fechaDesde || r.fecha_registro >= fechaDesde;
-      const matchesFechaHasta = !fechaHasta || r.fecha_registro <= fechaHasta;
+      const matchesTipo = !tipoFilter || rTipo === tipoFilter;
+      const matchesFechaDesde = !fechaDesde || rFecha >= fechaDesde;
+      const matchesFechaHasta = !fechaHasta || rFecha <= fechaHasta;
 
       return (
         matchesSearch &&
@@ -178,17 +182,17 @@ function ReporteTable({ reportes, onEdit, onDelete }) {
                   <td className="fw-medium text-muted">
                     {String(reporte.id).padStart(2, '0')}
                   </td>
-                  <td>{reporte.fecha_registro}</td>
+                  <td>{reporte.created_at ? reporte.created_at.substring(0, 10) : reporte.fecha_registro}</td>
                   <td className="fw-semibold text-dark">{reporte.cliente_nombre}</td>
-                  <td>{reporte.tipo_servicio}</td>
+                  <td>{reporte.tipo_servicio_nombre || reporte.tipo_servicio}</td>
                   <td className="text-truncate" style={{ maxWidth: '150px' }} title={reporte.descripcion}>
                     {reporte.descripcion}
                   </td>
                   <td>{reporte.cantidad}</td>
                   <td>{reporte.unidad_medida}</td>
                   <td>
-                    <span className={`estado-badge ${getEstadoClass(reporte.estado)}`}>
-                      {reporte.estado}
+                    <span className={`estado-badge ${getEstadoClass(reporte.estado_cumplimiento || reporte.estado)}`}>
+                      {reporte.estado_cumplimiento || reporte.estado}
                     </span>
                   </td>
                   <td>

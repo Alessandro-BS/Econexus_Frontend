@@ -6,7 +6,7 @@ const emptyForm = {
   telefono: '',
   rol: 'OPERADOR',
   estado: 'ACTIVO',
-  fecha_creacion: new Date().toISOString().split('T')[0],
+  created_at: new Date().toISOString().split('T')[0],
   password: '123456',
 };
 
@@ -32,7 +32,7 @@ function UsuarioModal({ show, onClose, onSave, usuarioToEdit }) {
         telefono: usuarioToEdit.telefono || '',
         rol: usuarioToEdit.rol || 'OPERADOR',
         estado: usuarioToEdit.estado || 'ACTIVO',
-        fecha_creacion: usuarioToEdit.fecha_creacion || new Date().toISOString().split('T')[0],
+        created_at: usuarioToEdit.created_at || new Date().toISOString().split('T')[0],
         password: usuarioToEdit.password || '123456',
       });
     } else {
@@ -202,8 +202,8 @@ function UsuarioModal({ show, onClose, onSave, usuarioToEdit }) {
                     <label className="form-label-custom">Fecha Creación</label>
                     <input
                       type="date"
-                      name="fecha_creacion"
-                      value={formData.fecha_creacion}
+                      name="created_at"
+                      value={formData.created_at}
                       onChange={handleChange}
                       className="form-control form-control-custom"
                       disabled={isEditMode}

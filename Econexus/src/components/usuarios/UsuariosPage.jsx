@@ -1,5 +1,5 @@
-import { useState, useCallback, useEffect } from 'react';
-import useLocalStorage from '../../hooks/useLocalStorage';
+import { useState, useCallback } from 'react';
+import useApiCrud from '../../hooks/useApiCrud';
 import usuariosSeed from '../../data/usuariosSeed';
 import UsuarioKPIs from './UsuarioKPIs';
 import UsuarioTable from './UsuarioTable';
@@ -9,26 +9,10 @@ import './UsuariosPage.css';
 
 /**
  * Página principal de Gestión de Usuarios.
- * CRUD completo con persistencia en localStorage.
+ * Consumiendo API REST
  */
 function UsuariosPage() {
-  const [usuarios, setUsuarios] = useLocalStorage('eco_usuarios', usuariosSeed);
-
-  // Restaurar automáticamente los usuarios semilla si faltan
-  useEffect(() => {
-    if (usuarios) {
-      const missingUsers = usuariosSeed.filter(
-        (seedUser) => !usuarios.some((u) => u.id === seedUser.id || u.email === seedUser.email)
-      );
-      if (missingUsers.length > 0) {
-        setUsuarios((prev) => {
-          const newUsers = [...prev, ...missingUsers];
-          // Ordenamos por id para que se vean bien
-          return newUsers.sort((a, b) => a.id - b.id);
-        });
-      }
-    }
-  }, []);
+  const { data: usuarios, loading, error, create, update, remove } = useApiCrud('/usuarios');
 
   // Estado de modales
   const [showModal, setShowModal] = useState(false);
@@ -49,23 +33,20 @@ function UsuariosPage() {
   }, []);
 
   // Guardar (crear o editar)
-  const handleSave = (formData) => {
-    if (usuarioToEdit) {
-      // Editar
-      setUsuarios((prev) =>
-        prev.map((u) =>
-          u.id === usuarioToEdit.id ? { ...u, ...formData } : u
-        )
-      );
-    } else {
-      // Crear
-      const newId =
-        usuarios.length > 0 ? Math.max(...usuarios.map((u) => u.id)) + 1 : 1;
-      const newUsuario = { id: newId, ...formData };
-      setUsuarios((prev) => [...prev, newUsuario]);
+  const handleSave = async (formData) => {
+    try {
+      if (usuarioToEdit) {
+        // Editar
+        await update(usuarioToEdit.id, formData);
+      } else {
+        // Crear
+        await create(formData);
+      }
+      setShowModal(false);
+      setUsuarioToEdit(null);
+    } catch (err) {
+      alert('Error al guardar el usuario');
     }
-    setShowModal(false);
-    setUsuarioToEdit(null);
   };
 
   // Abrir modal de eliminación
@@ -75,10 +56,14 @@ function UsuariosPage() {
   }, []);
 
   // Confirmar eliminación
-  const handleConfirmDelete = (id) => {
-    setUsuarios((prev) => prev.filter((u) => u.id !== id));
-    setShowDeleteModal(false);
-    setUsuarioToDelete(null);
+  const handleConfirmDelete = async (id) => {
+    try {
+      await remove(id);
+      setShowDeleteModal(false);
+      setUsuarioToDelete(null);
+    } catch (err) {
+      alert('Error al eliminar el usuario');
+    }
   };
 
   return (
@@ -105,14 +90,20 @@ function UsuariosPage() {
       </div>
 
       {/* KPIs */}
-      <UsuarioKPIs usuarios={usuarios} />
+      {!loading && <UsuarioKPIs usuarios={usuarios} />}
+
+      {/* Loading & Error */}
+      {loading && <div className="text-center my-5"><span className="spinner-border text-success"></span><p>Cargando usuarios...</p></div>}
+      {error && <div className="alert alert-danger mx-4">{error}</div>}
 
       {/* Tabla */}
-      <UsuarioTable
-        usuarios={usuarios}
-        onEdit={handleOpenEdit}
-        onDelete={handleOpenDelete}
-      />
+      {!loading && !error && (
+        <UsuarioTable
+          usuarios={usuarios}
+          onEdit={handleOpenEdit}
+          onDelete={handleOpenDelete}
+        />
+      )}
 
       {/* Modales */}
       <UsuarioModal

@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 
-function NormativaTable({ normativas }) {
+function NormativaTable({ normativas, onEdit, onDelete }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
@@ -83,6 +83,7 @@ function NormativaTable({ normativas }) {
               <th>Fecha publicación</th>
               <th>Estado</th>
               <th>Documento</th>
+              <th className="text-center">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -123,6 +124,24 @@ function NormativaTable({ normativas }) {
                     ) : (
                       <span className="table-link-disabled">Sin enlace</span>
                     )}
+                  </td>
+                  <td className="text-center">
+                    <div className="action-buttons">
+                      <button
+                        className="btn btn-sm btn-action btn-action-edit"
+                        onClick={() => onEdit(normativa)}
+                        title="Editar normativa"
+                      >
+                        <i className="bi bi-pencil-square"></i>
+                      </button>
+                      <button
+                        className="btn btn-sm btn-action btn-action-delete"
+                        onClick={() => onDelete(normativa)}
+                        title="Desactivar normativa"
+                      >
+                        <i className="bi bi-dash-circle-fill"></i>
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))

@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'react';
-import useLocalStorage from '../../hooks/useLocalStorage';
-import ventasSeed from '../../data/ventasSeed';
+import useApiCrud from '../../hooks/useApiCrud';
 import VentaKPIs from './VentaKPIs';
 import VentaTable from './VentaTable';
 import VentaModal from './VentaModal';
@@ -12,8 +11,8 @@ import './VentasPage.css';
  * Página principal de Gestión de Ventas (Órdenes de Servicio)
  */
 function VentasPage() {
-  const [ventas, setVentas] = useLocalStorage('eco_ventas_v2', ventasSeed);
-  const [clientes] = useLocalStorage('eco_clientes_v2', []);
+  const { data: ventas, loading, error, create, update } = useApiCrud('/ordenes-servicio');
+  const { data: clientes } = useApiCrud('/clientes');
 
   // Estados de modales
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -30,21 +29,14 @@ function VentasPage() {
   };
 
   // Guardar nueva orden
-  const handleSaveCreate = (formData) => {
-    // Generar nuevo ID y código OS-2026-NNNN
-    const currentYear = 2026; // Fijo a 2026 como se solicitó
-    const newId = ventas.length > 0 ? Math.max(...ventas.map((v) => v.id)) + 1 : 1;
-    const seq = String(newId).padStart(4, '0');
-    const numero_orden = `OS-${currentYear}-${seq}`;
-
-    const newVenta = {
-      id: newId,
-      numero_orden,
-      ...formData,
-    };
-
-    setVentas((prev) => [...prev, newVenta]);
-    setShowCreateModal(false);
+  const handleSaveCreate = async (formData) => {
+    try {
+      // El backend debería generar el ID y el código OS automáticamente
+      await create(formData);
+      setShowCreateModal(false);
+    } catch (err) {
+      alert('Error al crear la orden de servicio');
+    }
   };
 
   // Abrir modal de edición / vista
@@ -55,14 +47,14 @@ function VentasPage() {
   }, []);
 
   // Guardar edición (solo estado)
-  const handleSaveEdit = (updatedData) => {
-    setVentas((prev) =>
-      prev.map((v) =>
-        v.id === selectedVenta.id ? { ...v, estado_pago: updatedData.estado_pago } : v
-      )
-    );
-    setShowEditModal(false);
-    setSelectedVenta(null);
+  const handleSaveEdit = async (updatedData) => {
+    try {
+      await update(selectedVenta.id, { ...selectedVenta, estado_pago: updatedData.estado_pago });
+      setShowEditModal(false);
+      setSelectedVenta(null);
+    } catch (err) {
+      alert('Error al actualizar la orden de servicio');
+    }
   };
 
   // Abrir modal de PDF
@@ -94,14 +86,20 @@ function VentasPage() {
       </div>
 
       {/* KPIs */}
-      <VentaKPIs ventas={ventas} />
+      {!loading && <VentaKPIs ventas={ventas} />}
+
+      {/* Loading & Error */}
+      {loading && <div className="text-center my-5"><span className="spinner-border text-success"></span><p>Cargando ventas...</p></div>}
+      {error && <div className="alert alert-danger mx-4">{error}</div>}
 
       {/* Tabla */}
-      <VentaTable
-        ventas={ventas}
-        onEdit={handleOpenEdit}
-        onViewPdf={handleOpenPdf}
-      />
+      {!loading && !error && (
+        <VentaTable
+          ventas={ventas}
+          onEdit={handleOpenEdit}
+          onViewPdf={handleOpenPdf}
+        />
+      )}
 
       {/* Modal Crear */}
       <VentaModal
