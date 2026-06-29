@@ -55,7 +55,7 @@ function ProveedorModal({ show, onClose, onSave, proveedorToEdit }) {
       // Elimina cualquier carácter que no sea letra o espacio
       finalValue = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
     }
-    if (name === 'ruc') {
+    if (name === 'ruc' || name === 'telefono') {
       // Elimina cualquier carácter que no sea número
       finalValue = value.replace(/[^0-9]/g, '');
     }

@@ -45,55 +45,57 @@ function VentaEditModal({ show, isViewOnly, venta, onClose, onSave }) {
           </div>
           <form onSubmit={handleSubmit}>
             <div className="modal-body eco-modal-body">
-              <div className="mb-3">
-                <label className="eco-label mb-1">N° Orden</label>
-                <div className="fw-bold fs-5 text-primary">{venta.numero_orden}</div>
-              </div>
               <div className="row mb-3">
+                <div className="col-6">
+                  <label className="eco-label mb-1">N° Orden</label>
+                  <div className="fw-bold text-dark fs-6">{venta.numero_orden}</div>
+                </div>
                 <div className="col-6">
                   <label className="eco-label mb-1">Fecha Emisión</label>
                   <div>{venta.fecha_emision}</div>
                 </div>
-                <div className="col-6">
-                  <label className="eco-label mb-1">Monto Total</label>
-                  <div className="fw-bold">{formatCurrency(venta.monto_total)}</div>
-                </div>
               </div>
+              
               <div className="mb-3">
                 <label className="eco-label mb-1">Cliente</label>
                 <div>{venta.cliente_nombre}</div>
               </div>
-              
-              {/* Campo editable (Estado) */}
-              <div className="mb-3">
-                <label className="eco-label">Estado de Pago</label>
-                {isViewOnly ? (
-                  <div>
-                    <span className={`eco-badge-${venta.estado_pago.toLowerCase()}`}>
-                      {venta.estado_pago}
-                    </span>
-                  </div>
-                ) : (
-                  <select
-                    className="form-select eco-input"
-                    value={estadoPago}
-                    onChange={(e) => setEstadoPago(e.target.value)}
-                  >
-                    <option value="PENDIENTE">PENDIENTE</option>
-                    <option value="PAGADO">PAGADO</option>
-                    <option value="ANULADO">ANULADO</option>
-                  </select>
-                )}
+
+              <div className="row mb-3">
+                <div className="col-6">
+                  <label className="eco-label mb-1">Monto Total</label>
+                  <div className="fw-bold text-success fs-5">{formatCurrency(venta.monto_total)}</div>
+                </div>
+                <div className="col-6">
+                  <label className="eco-label mb-1">Estado de Pago</label>
+                  {isViewOnly ? (
+                    <div>
+                      <span className={`eco-badge-${venta.estado_pago.toLowerCase()}`}>
+                        {venta.estado_pago}
+                      </span>
+                    </div>
+                  ) : (
+                    <select
+                      className="form-select eco-input"
+                      value={estadoPago}
+                      onChange={(e) => setEstadoPago(e.target.value)}
+                    >
+                      <option value="PENDIENTE">PENDIENTE</option>
+                      <option value="PAGADO">PAGADO</option>
+                      <option value="ANULADO">ANULADO</option>
+                    </select>
+                  )}
+                </div>
               </div>
             </div>
             <div className="modal-footer eco-modal-footer">
               {isViewOnly ? (
-                <button type="button" className="btn btn-secondary eco-btn-cancel px-4" onClick={onClose}>
+                <button type="button" className="btn btn-outline-secondary px-4" onClick={onClose}>
                   Cerrar
                 </button>
               ) : (
                 <>
-                  <button type="button" className="btn btn-outline-secondary eco-btn-cancel px-4" onClick={onClose}>
+                  <button type="button" className="btn btn-outline-secondary px-4" onClick={onClose}>
                     Cancelar
                   </button>
                   <button type="submit" className="btn eco-btn-save px-4">
