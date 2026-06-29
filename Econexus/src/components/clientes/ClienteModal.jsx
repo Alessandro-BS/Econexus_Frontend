@@ -51,6 +51,10 @@ function ClienteModal({ show, onClose, onSave, clienteToEdit }) {
       // Elimina cualquier carácter que no sea letra o espacio
       finalValue = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
     }
+    if (name === 'ruc' || name === 'telefono') {
+      // Elimina cualquier carácter que no sea número
+      finalValue = value.replace(/[^0-9]/g, '');
+    }
 
     setFormData((prev) => ({ ...prev, [name]: finalValue }));
     // Limpiar error del campo al modificarlo
