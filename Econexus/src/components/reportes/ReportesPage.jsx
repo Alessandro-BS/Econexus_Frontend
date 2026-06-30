@@ -13,7 +13,7 @@ import './ReportesPage.css';
  */
 function ReportesPage() {
   const { data: reportes, loading, error, create, update, remove } = useApiCrud('/reportes');
-  const { data: clientes } = useApiCrud('/clientes');
+  const { data: clientes, fetchAll: fetchClientes } = useApiCrud('/clientes');
 
   // Estado de modales
   const [showModal, setShowModal] = useState(false);
@@ -23,15 +23,17 @@ function ReportesPage() {
 
   // Abrir modal para crear
   const handleOpenCreate = () => {
+    fetchClientes();
     setReporteToEdit(null);
     setShowModal(true);
   };
 
   // Abrir modal para editar
   const handleOpenEdit = useCallback((reporte) => {
+    fetchClientes();
     setReporteToEdit(reporte);
     setShowModal(true);
-  }, []);
+  }, [fetchClientes]);
 
   // Guardar (crear o editar)
   const handleSave = async (formData) => {
