@@ -227,7 +227,7 @@ function ReporteModal({ show, clientes = [], onClose, onSave, reporteToEdit }) {
                 </div>
 
                 <div className="col-12">
-                  <label className="form-label eco-label">Descripcion del Servicio</label>
+                  <label className="form-label eco-label">Descripción del Servicio</label>
                   <textarea
                     name="descripcion"
                     className="form-control eco-input"

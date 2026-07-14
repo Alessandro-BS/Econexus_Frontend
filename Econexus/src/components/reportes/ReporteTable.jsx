@@ -95,7 +95,7 @@ function ReporteTable({ reportes, onEdit, onDelete }) {
           <input
             type="text"
             className="table-search-input"
-            placeholder="Buscar por cliente, servicio, descripcion, cantidad o estado..."
+            placeholder="Buscar por cliente, servicio, descripción, cantidad o estado..."
             value={searchTerm}
             onChange={updateFilter(setSearchTerm)}
           />
@@ -168,7 +168,7 @@ function ReporteTable({ reportes, onEdit, onDelete }) {
               <th>FECHA</th>
               <th>CLIENTE</th>
               <th>TIPO SERVICIO</th>
-              <th>DESCRIPCION</th>
+              <th>DESCRIPCIÓN</th>
               <th>CANT.</th>
               <th>U.M.</th>
               <th>ESTADO</th>
