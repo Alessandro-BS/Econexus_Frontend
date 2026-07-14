@@ -74,7 +74,7 @@ function ReportesPage() {
         <div className="section-header-left">
           <h1 className="section-title">
             <i className="bi bi-clipboard2-data-fill section-title-icon"></i>
-            Gestion de Reportes
+            Gestión de Reportes
           </h1>
           <p className="section-subtitle">
             Administra los reportes de saneamiento ambiental
